@@ -1,0 +1,14 @@
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/model/InventoryItem.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/Swagger2SpringBoot.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/model/Manufacturer.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/ApiException.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/ApiOriginFilter.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/RFC3339DateFormat.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/NotFoundException.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/InventoryApi.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/configuration/JacksonConfiguration.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/configuration/HomeController.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/configuration/SwaggerDocumentationConfig.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/ApiResponseMessage.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/configuration/CustomInstantDeserializer.java
+/home/eric/Desktop/projects/DijkstrasPizza/PizzaDeliveryAPI/src/main/java/io/swagger/api/InventoryApiController.java
