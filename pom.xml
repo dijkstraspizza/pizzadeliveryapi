@@ -34,7 +34,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>io.swagger.configuration.HomeController</mainClass>
+                    <mainClass>io.swagger.Swagger2SpringBoot</mainClass>
                 </configuration>
                 <executions>
                     <execution>
