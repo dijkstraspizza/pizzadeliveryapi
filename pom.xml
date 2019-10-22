@@ -10,7 +10,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springfox-version>2.7.0</springfox-version>
-<!--        <start-class>src.main.java.io.swagger.Swagger2SpringBoot</start-class>-->
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
