@@ -20,11 +20,8 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         }
     }
 
-//    public static void main(String[] args) throws Exception {
-//        new SpringApplication(Swagger2SpringBoot.class).run(args);
-//    }
-    public static void main(String[] args) {
-        SpringApplication.run(Swagger2SpringBoot.class, args);
+    public static void main(String[] args) throws Exception {
+        new SpringApplication(Swagger2SpringBoot.class).run(args);
     }
 
     class ExitException extends RuntimeException implements ExitCodeGenerator {
