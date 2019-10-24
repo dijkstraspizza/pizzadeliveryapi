@@ -1,20 +1,25 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Error
+ * Error class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Error   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Error {
+
   @JsonProperty("code")
   private String code = null;
 
@@ -27,9 +32,10 @@ public class Error   {
   }
 
   /**
-   * Get code
+   * Get code.
+   *
    * @return code
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -47,9 +53,10 @@ public class Error   {
   }
 
   /**
-   * Get message
+   * Get message.
+   *
    * @return message
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -71,8 +78,8 @@ public class Error   {
       return false;
     }
     Error error = (Error) o;
-    return Objects.equals(this.code, error.code) &&
-        Objects.equals(this.message, error.message);
+    return Objects.equals(this.code, error.code)
+        && Objects.equals(this.message, error.message);
   }
 
   @Override
@@ -84,7 +91,7 @@ public class Error   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Error {\n");
-    
+
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
@@ -92,8 +99,8 @@ public class Error   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

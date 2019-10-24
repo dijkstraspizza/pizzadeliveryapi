@@ -1,24 +1,26 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Ingredient;
 import io.swagger.model.Menu;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Pizza
+ * Pizza class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Pizza   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Pizza {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -45,9 +47,10 @@ public class Pizza   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -64,9 +67,10 @@ public class Pizza   {
   }
 
   /**
-   * Get sizeInches
+   * Get sizeInches.
+   *
    * @return sizeInches
-  **/
+   **/
   @ApiModelProperty(example = "11", required = true, value = "")
   @NotNull
 
@@ -84,9 +88,10 @@ public class Pizza   {
   }
 
   /**
-   * Get sizeDesc
+   * Get sizeDesc.
+   *
    * @return sizeDesc
-  **/
+   **/
   @ApiModelProperty(example = "Small", required = true, value = "")
   @NotNull
 
@@ -109,9 +114,10 @@ public class Pizza   {
   }
 
   /**
-   * Get ingredients
+   * Get ingredients.
+   *
    * @return ingredients
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -129,9 +135,10 @@ public class Pizza   {
   }
 
   /**
-   * Get price
+   * Get price.
+   *
    * @return price
-  **/
+   **/
   @ApiModelProperty(example = "19.99", required = true, value = "")
   @NotNull
 
@@ -154,9 +161,10 @@ public class Pizza   {
   }
 
   /**
-   * Get menusOn
+   * Get menusOn.
+   *
    * @return menusOn
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -178,12 +186,12 @@ public class Pizza   {
       return false;
     }
     Pizza pizza = (Pizza) o;
-    return Objects.equals(this.id, pizza.id) &&
-        Objects.equals(this.sizeInches, pizza.sizeInches) &&
-        Objects.equals(this.sizeDesc, pizza.sizeDesc) &&
-        Objects.equals(this.ingredients, pizza.ingredients) &&
-        Objects.equals(this.price, pizza.price) &&
-        Objects.equals(this.menusOn, pizza.menusOn);
+    return Objects.equals(this.id, pizza.id)
+        && Objects.equals(this.sizeInches, pizza.sizeInches)
+        && Objects.equals(this.sizeDesc, pizza.sizeDesc)
+        && Objects.equals(this.ingredients, pizza.ingredients)
+        && Objects.equals(this.price, pizza.price)
+        && Objects.equals(this.menusOn, pizza.menusOn);
   }
 
   @Override
@@ -195,7 +203,7 @@ public class Pizza   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pizza {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    sizeInches: ").append(toIndentedString(sizeInches)).append("\n");
     sb.append("    sizeDesc: ").append(toIndentedString(sizeDesc)).append("\n");
@@ -207,8 +215,8 @@ public class Pizza   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

@@ -1,8 +1,7 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Ingredient;
@@ -10,16 +9,19 @@ import io.swagger.model.Pizza;
 import io.swagger.model.PizzaStore;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Menu
+ * Menu class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Menu   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Menu {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -41,9 +43,10 @@ public class Menu   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -65,9 +68,10 @@ public class Menu   {
   }
 
   /**
-   * Get storesOffering
+   * Get storesOffering.
+   *
    * @return storesOffering
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -90,9 +94,10 @@ public class Menu   {
   }
 
   /**
-   * Get pizzas
+   * Get pizzas.
+   *
    * @return pizzas
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -115,9 +120,10 @@ public class Menu   {
   }
 
   /**
-   * Get ingredients
+   * Get ingredients.
+   *
    * @return ingredients
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -139,10 +145,10 @@ public class Menu   {
       return false;
     }
     Menu menu = (Menu) o;
-    return Objects.equals(this.id, menu.id) &&
-        Objects.equals(this.storesOffering, menu.storesOffering) &&
-        Objects.equals(this.pizzas, menu.pizzas) &&
-        Objects.equals(this.ingredients, menu.ingredients);
+    return Objects.equals(this.id, menu.id)
+        && Objects.equals(this.storesOffering, menu.storesOffering)
+        && Objects.equals(this.pizzas, menu.pizzas)
+        && Objects.equals(this.ingredients, menu.ingredients);
   }
 
   @Override
@@ -154,7 +160,7 @@ public class Menu   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Menu {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    storesOffering: ").append(toIndentedString(storesOffering)).append("\n");
     sb.append("    pizzas: ").append(toIndentedString(pizzas)).append("\n");
@@ -164,8 +170,8 @@ public class Menu   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: io.swagger.api.MenuApiControllerIntegrationTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 sec - in io.swagger.api.MenuApiControllerIntegrationTest
