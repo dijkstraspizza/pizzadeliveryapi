@@ -1,20 +1,26 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
+
+import java.util.Objects;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Ingredient
+ * Ingredient class represents an ingredient that goes into a pizza. The type of ingredient
+ * is determined by the category attribute.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Ingredient   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Ingredient {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -33,9 +39,10 @@ public class Ingredient   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -52,9 +59,10 @@ public class Ingredient   {
   }
 
   /**
-   * Get name
+   * Get name.
+   *
    * @return name
-  **/
+   **/
   @ApiModelProperty(example = "Sausage", required = true, value = "")
   @NotNull
 
@@ -72,9 +80,10 @@ public class Ingredient   {
   }
 
   /**
-   * Get category
+   * Get category.
+   *
    * @return category
-  **/
+   **/
   @ApiModelProperty(example = "Meat", required = true, value = "")
   @NotNull
 
@@ -92,9 +101,10 @@ public class Ingredient   {
   }
 
   /**
-   * Get isGlutenFree
+   * Get isGlutenFree.
+   *
    * @return isGlutenFree
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -116,10 +126,10 @@ public class Ingredient   {
       return false;
     }
     Ingredient ingredient = (Ingredient) o;
-    return Objects.equals(this.id, ingredient.id) &&
-        Objects.equals(this.name, ingredient.name) &&
-        Objects.equals(this.category, ingredient.category) &&
-        Objects.equals(this.isGlutenFree, ingredient.isGlutenFree);
+    return Objects.equals(this.id, ingredient.id)
+        && Objects.equals(this.name, ingredient.name)
+        && Objects.equals(this.category, ingredient.category)
+        && Objects.equals(this.isGlutenFree, ingredient.isGlutenFree);
   }
 
   @Override
@@ -131,7 +141,7 @@ public class Ingredient   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Ingredient {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
@@ -141,8 +151,8 @@ public class Ingredient   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

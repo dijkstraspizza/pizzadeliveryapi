@@ -1,0 +1,6 @@
+# folders
+.idea/
+target/
+
+# files
+swagger-spring.iml
