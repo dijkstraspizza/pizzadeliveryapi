@@ -1,8 +1,7 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
@@ -10,16 +9,19 @@ import io.swagger.model.Menu;
 import io.swagger.model.Special;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * PizzaStore
+ * PizzaStore class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class PizzaStore   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class PizzaStore {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -39,9 +41,10 @@ public class PizzaStore   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -58,9 +61,10 @@ public class PizzaStore   {
   }
 
   /**
-   * Get address
+   * Get address.
+   *
    * @return address
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -79,9 +83,10 @@ public class PizzaStore   {
   }
 
   /**
-   * Get menu
+   * Get menu.
+   *
    * @return menu
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -105,9 +110,10 @@ public class PizzaStore   {
   }
 
   /**
-   * Get specials
+   * Get specials.
+   *
    * @return specials
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -129,10 +135,10 @@ public class PizzaStore   {
       return false;
     }
     PizzaStore pizzaStore = (PizzaStore) o;
-    return Objects.equals(this.id, pizzaStore.id) &&
-        Objects.equals(this.address, pizzaStore.address) &&
-        Objects.equals(this.menu, pizzaStore.menu) &&
-        Objects.equals(this.specials, pizzaStore.specials);
+    return Objects.equals(this.id, pizzaStore.id)
+        && Objects.equals(this.address, pizzaStore.address)
+        && Objects.equals(this.menu, pizzaStore.menu)
+        && Objects.equals(this.specials, pizzaStore.specials);
   }
 
   @Override
@@ -144,7 +150,7 @@ public class PizzaStore   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PizzaStore {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    menu: ").append(toIndentedString(menu)).append("\n");
@@ -154,8 +160,8 @@ public class PizzaStore   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

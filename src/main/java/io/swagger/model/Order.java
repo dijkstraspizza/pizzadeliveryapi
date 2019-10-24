@@ -1,8 +1,7 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Address;
@@ -10,16 +9,19 @@ import io.swagger.model.Pizza;
 import io.swagger.model.Special;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Order
+ * Order class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Order   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Order {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -45,9 +47,10 @@ public class Order   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -64,9 +67,10 @@ public class Order   {
   }
 
   /**
-   * Get storeAddr
+   * Get storeAddr.
+   *
    * @return storeAddr
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -85,9 +89,10 @@ public class Order   {
   }
 
   /**
-   * Get custAddr
+   * Get custAddr.
+   *
    * @return custAddr
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -111,9 +116,10 @@ public class Order   {
   }
 
   /**
-   * Get order
+   * Get order.
+   *
    * @return order
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
@@ -131,9 +137,10 @@ public class Order   {
   }
 
   /**
-   * Get special
+   * Get special.
+   *
    * @return special
-  **/
+   **/
   @ApiModelProperty(value = "")
 
   @Valid
@@ -151,9 +158,10 @@ public class Order   {
   }
 
   /**
-   * Get price
+   * Get price.
+   *
    * @return price
-  **/
+   **/
   @ApiModelProperty(example = "19.99", required = true, value = "")
   @NotNull
 
@@ -175,12 +183,12 @@ public class Order   {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(this.id, order.id) &&
-        Objects.equals(this.storeAddr, order.storeAddr) &&
-        Objects.equals(this.custAddr, order.custAddr) &&
-        Objects.equals(this.order, order.order) &&
-        Objects.equals(this.special, order.special) &&
-        Objects.equals(this.price, order.price);
+    return Objects.equals(this.id, order.id)
+        && Objects.equals(this.storeAddr, order.storeAddr)
+        && Objects.equals(this.custAddr, order.custAddr)
+        && Objects.equals(this.order, order.order)
+        && Objects.equals(this.special, order.special)
+        && Objects.equals(this.price, order.price);
   }
 
   @Override
@@ -192,7 +200,7 @@ public class Order   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    storeAddr: ").append(toIndentedString(storeAddr)).append("\n");
     sb.append("    custAddr: ").append(toIndentedString(custAddr)).append("\n");
@@ -204,8 +212,8 @@ public class Order   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

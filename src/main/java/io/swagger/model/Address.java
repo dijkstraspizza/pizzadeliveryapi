@@ -1,20 +1,22 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * Address
+ * Address class.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
-public class Address   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
+public class Address {
+
   @JsonProperty("id")
   private Integer id = null;
 
@@ -36,9 +38,10 @@ public class Address   {
   }
 
   /**
-   * Get id
+   * Get id.
+   *
    * @return id
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
 
   public Integer getId() {
@@ -55,9 +58,10 @@ public class Address   {
   }
 
   /**
-   * Get streetAddr
+   * Get streetAddr.
+   *
    * @return streetAddr
-  **/
+   **/
   @ApiModelProperty(example = "1234 56th St. SW", required = true, value = "")
   @NotNull
 
@@ -75,9 +79,10 @@ public class Address   {
   }
 
   /**
-   * Get city
+   * Get city.
+   *
    * @return city
-  **/
+   **/
   @ApiModelProperty(example = "Seattle", required = true, value = "")
   @NotNull
 
@@ -95,9 +100,10 @@ public class Address   {
   }
 
   /**
-   * Get state
+   * Get state.
+   *
    * @return state
-  **/
+   **/
   @ApiModelProperty(example = "WA", required = true, value = "")
   @NotNull
 
@@ -115,9 +121,10 @@ public class Address   {
   }
 
   /**
-   * Get zip
+   * Get zip.
+   *
    * @return zip
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -139,11 +146,11 @@ public class Address   {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(this.id, address.id) &&
-        Objects.equals(this.streetAddr, address.streetAddr) &&
-        Objects.equals(this.city, address.city) &&
-        Objects.equals(this.state, address.state) &&
-        Objects.equals(this.zip, address.zip);
+    return Objects.equals(this.id, address.id)
+        && Objects.equals(this.streetAddr, address.streetAddr)
+        && Objects.equals(this.city, address.city)
+        && Objects.equals(this.state, address.state)
+        && Objects.equals(this.zip, address.zip);
   }
 
   @Override
@@ -155,7 +162,7 @@ public class Address   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Address {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    streetAddr: ").append(toIndentedString(streetAddr)).append("\n");
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
@@ -166,8 +173,8 @@ public class Address   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {
