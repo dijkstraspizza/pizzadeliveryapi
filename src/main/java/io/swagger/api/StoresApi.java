@@ -7,23 +7,17 @@ package io.swagger.api;
 
 import io.swagger.model.Error;
 import io.swagger.model.PizzaStore;
-import io.swagger.model.Special;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-import java.util.Map;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T13:23:56.479615-07:00[America/Los_Angeles]")
 @Api(value = "stores", description = "the stores API")
 public interface StoresApi {
@@ -37,18 +31,6 @@ public interface StoresApi {
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteStoreById(@Min(0)@ApiParam(value = "a store's unique ID",required=true, allowableValues="") @PathVariable("storeId") Integer storeId);
-
-
-    @ApiOperation(value = "gets all the specials available at a specific store", nickname = "getAllSpecialsByStore", notes = "", response = Special.class, responseContainer = "List", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "ingredient found", response = Special.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad data in request", response = Error.class),
-        @ApiResponse(code = 404, message = "The specified resource was not found", response = Error.class) })
-    @RequestMapping(value = "/stores/{storeId}/specials",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Special>> getAllSpecialsByStore(@Min(0)@ApiParam(value = "a store's unique ID",required=true, allowableValues="") @PathVariable("storeId") Integer storeId);
-
 
     @ApiOperation(value = "returns a store object with a given ID", nickname = "getStoreById", notes = "By passing in a valid ID, you can find a store in the database.", response = PizzaStore.class, tags={  })
     @ApiResponses(value = { 
