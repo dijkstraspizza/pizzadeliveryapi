@@ -26,9 +26,6 @@ public class PizzaStore {
   @JsonProperty("menu")
   private Menu menu = null;
 
-  @JsonProperty("specials")
-  @Valid
-
   public PizzaStore id(Integer id) {
     this.id = id;
     return this;
