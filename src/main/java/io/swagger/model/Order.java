@@ -1,12 +1,7 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Address;
-import io.swagger.model.Pizza;
-import io.swagger.model.Special;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +29,6 @@ public class Order {
   @JsonProperty("order")
   @Valid
   private List<Pizza> order = new ArrayList<Pizza>();
-
-  @JsonProperty("special")
-  private Special special = null;
 
   @JsonProperty("price")
   private Double price = null;
@@ -131,26 +123,6 @@ public class Order {
     this.order = order;
   }
 
-  public Order special(Special special) {
-    this.special = special;
-    return this;
-  }
-
-  /**
-   * Get special.
-   *
-   * @return special
-   **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-  public Special getSpecial() {
-    return special;
-  }
-
-  public void setSpecial(Special special) {
-    this.special = special;
-  }
 
   public Order price(Double price) {
     this.price = price;
@@ -187,13 +159,12 @@ public class Order {
         && Objects.equals(this.storeAddr, order.storeAddr)
         && Objects.equals(this.custAddr, order.custAddr)
         && Objects.equals(this.order, order.order)
-        && Objects.equals(this.special, order.special)
         && Objects.equals(this.price, order.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, storeAddr, custAddr, order, special, price);
+    return Objects.hash(id, storeAddr, custAddr, order, price);
   }
 
   @Override
@@ -205,7 +176,6 @@ public class Order {
     sb.append("    storeAddr: ").append(toIndentedString(storeAddr)).append("\n");
     sb.append("    custAddr: ").append(toIndentedString(custAddr)).append("\n");
     sb.append("    order: ").append(toIndentedString(order)).append("\n");
-    sb.append("    special: ").append(toIndentedString(special)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("}");
     return sb.toString();

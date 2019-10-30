@@ -1,8 +1,6 @@
 package io.swagger.api;
 
-import io.swagger.model.Error;
 import io.swagger.model.PizzaStore;
-import io.swagger.model.Special;
 
 import java.util.*;
 
@@ -27,13 +25,6 @@ public class StoresApiControllerIntegrationTest {
     public void deleteStoreByIdTest() throws Exception {
         Integer storeId = 56;
         ResponseEntity<Void> responseEntity = api.deleteStoreById(storeId);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
-    }
-
-    @Test
-    public void getAllSpecialsByStoreTest() throws Exception {
-        Integer storeId = 56;
-        ResponseEntity<List<Special>> responseEntity = api.getAllSpecialsByStore(storeId);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
