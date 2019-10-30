@@ -1,12 +1,7 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Address;
-import io.swagger.model.Menu;
-import io.swagger.model.Special;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +25,6 @@ public class PizzaStore {
 
   @JsonProperty("menu")
   private Menu menu = null;
-
-  @JsonProperty("specials")
-  @Valid
-  private List<Special> specials = new ArrayList<Special>();
 
   public PizzaStore id(Integer id) {
     this.id = id;
@@ -99,33 +90,6 @@ public class PizzaStore {
     this.menu = menu;
   }
 
-  public PizzaStore specials(List<Special> specials) {
-    this.specials = specials;
-    return this;
-  }
-
-  public PizzaStore addSpecialsItem(Special specialsItem) {
-    this.specials.add(specialsItem);
-    return this;
-  }
-
-  /**
-   * Get specials.
-   *
-   * @return specials
-   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-  @Valid
-  public List<Special> getSpecials() {
-    return specials;
-  }
-
-  public void setSpecials(List<Special> specials) {
-    this.specials = specials;
-  }
-
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -137,24 +101,21 @@ public class PizzaStore {
     PizzaStore pizzaStore = (PizzaStore) o;
     return Objects.equals(this.id, pizzaStore.id)
         && Objects.equals(this.address, pizzaStore.address)
-        && Objects.equals(this.menu, pizzaStore.menu)
-        && Objects.equals(this.specials, pizzaStore.specials);
+        && Objects.equals(this.menu, pizzaStore.menu);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, address, menu, specials);
+    return Objects.hash(id, address, menu);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PizzaStore {\n");
-
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    menu: ").append(toIndentedString(menu)).append("\n");
-    sb.append("    specials: ").append(toIndentedString(specials)).append("\n");
     sb.append("}");
     return sb.toString();
   }
