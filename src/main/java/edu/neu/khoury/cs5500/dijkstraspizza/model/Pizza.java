@@ -1,5 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,6 @@ public class Pizza {
   private String id;
   private int sizeInches;
   private String sizeDesc;
-  private Set<Ingredient> ingredients;
+  private Set<String> ingredientIds = new HashSet<>();
   private double price;
 }
