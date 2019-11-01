@@ -52,6 +52,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<<<<<<< HEAD
         <dependency>
             <groupId>com.github.fakemongo</groupId>
             <artifactId>fongo</artifactId>
@@ -104,6 +105,19 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.1.6.RELEASE</version>
 		</dependency>
+=======
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+
+>>>>>>> master
 	</dependencies>
 
 	<build>
