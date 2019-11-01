@@ -57,9 +57,18 @@ public class MenuController {
   /*===== POST Methods=====*/
 
   // TODO: Prevent POST methods from allowing an ID field
+  @ApiOperation(
+      value = "Creates a new menu in the database",
+      notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
+      response = Menu.class,
+      consumes = "application/json",
+      produces = "application/json"
+  )
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
-  public Menu newMenu(@Valid @RequestBody Menu menu) {
+  public Menu newMenu(
+      @ApiParam(value = "JSON menu object without an id field", required = true)
+      @Valid @RequestBody Menu menu) {
     repository.save(menu);
     return menu;
   }
