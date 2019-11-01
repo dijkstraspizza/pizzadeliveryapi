@@ -2,8 +2,8 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
+import io.swagger.annotations.Api;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+@Api(value = "pizzas", description = "Provides CRUD operations for Pizza objects")
 @RestController
 @RequestMapping("/pizzas")
 public class PizzaController {
@@ -30,16 +31,17 @@ public class PizzaController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public Optional<Pizza> getPizzaById(@PathVariable("id") String id) {
+  public Pizza getPizzaById(@PathVariable("id") String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
     }
-    return repository.findById(id);
+    return repository.findById(id).get();
   }
 
   /*===== POST Methods =====*/
 
+  // TODO: Prevent POST methods from allowing an ID field
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   public Pizza newPizza(@Valid @RequestBody Pizza pizza) {
