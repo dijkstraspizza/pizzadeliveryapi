@@ -36,12 +36,12 @@ public class IngredientController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public Optional<Ingredient> getIngredientById(@PathVariable("id") String id) {
+  public Ingredient getIngredientById(@PathVariable("id") String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Ingredient with id=" + id + " not found.");
     }
-    return repository.findById(id);
+    return repository.findById(id).get();
   }
 
   /*===== POST Methods =====*/

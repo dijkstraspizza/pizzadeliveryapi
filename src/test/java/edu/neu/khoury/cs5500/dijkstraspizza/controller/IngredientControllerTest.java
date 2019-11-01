@@ -6,7 +6,6 @@ import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,12 +45,6 @@ public class IngredientControllerTest {
   @MockBean
   private IngredientRepository ingredientRepository;
 
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-    mvc = MockMvcBuilders.webAppContextSetup(context).build();
-  }
-
   @Autowired
   private ObjectMapper mapper;
 
@@ -60,6 +54,18 @@ public class IngredientControllerTest {
   private final Ingredient gFCrust = new Ingredient("glutenFreeCrust", "crust", true);
   private final Ingredient spinach = new Ingredient("spinach", "vegetable", true);
   private final Ingredient ham = new Ingredient("ham", "meat", true);
+
+  @Before
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
+    mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    mushrooms.setId("mushroomId");
+    sausage.setId("sausageId");
+    nonGfCrust.setId("nonGfCrustId");
+    gFCrust.setId("gFCrustId");
+    spinach.setId("spinachId");
+    ham.setId("hamId");
+  }
 
   private static class Behavior {
     IngredientRepository ingredientRepository;
@@ -74,6 +80,7 @@ public class IngredientControllerTest {
       when(ingredientRepository.findAll()).thenReturn(Collections.emptyList());
       when(ingredientRepository.findByCategory(anyString())).thenReturn(Collections.emptyList());
       when(ingredientRepository.findById(anyString())).thenReturn(Optional.empty());
+      when(ingredientRepository.existsById(anyString())).thenReturn(false);
       return this;
     }
 
@@ -90,10 +97,16 @@ public class IngredientControllerTest {
               .filter(ingredient -> ingredient.getCategory()
                   .equals(invocationOnMock.getArguments()[0])).collect(Collectors.toList()));
       for (Ingredient ingredient : ingredients) {
-        when(ingredientRepository.findById(ingredient.getId()))
-            .thenReturn(Optional.of(ingredient));
-        when(ingredientRepository.save(ingredient)).thenReturn(ingredient);
+        when(ingredientRepository.findById(ingredient.getId())).thenReturn(Optional.of(ingredient));
       }
+      when(ingredientRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (Ingredient i : ingredients) {
+          if (i.getId().equals((String) invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
       return this;
     }
   }
@@ -150,24 +163,93 @@ public class IngredientControllerTest {
   @Test
   public void getIngredientsByCategoryNoMatch() throws Exception {
     Behavior.set(ingredientRepository).returnIngredients(spinach, mushrooms, ham);
-    String hamContent = mapper.writeValueAsString(ham);
     mvc.perform(get("/ingredients/filter?category=jetfuel"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json("[]"));
   }
 
+  @Test
+  public void getIngredientsByCategoryMultiple() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(spinach, mushrooms, ham);
+    String veggieContent = mapper.writeValueAsString(Arrays.asList(spinach, mushrooms));
+    mvc.perform(get("/ingredients/filter?category=vegetable"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(veggieContent));
+  }
 
-    @Test
-  public void getIngredientById() {
+
+  @Test
+  public void getIngredientByIdNoIngredients() throws Exception {
+    Behavior.set(ingredientRepository).hasNoIngredients();
+    mvc.perform(get("/ingredients/hamId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 
   @Test
-  public void newIngredient() {
+  public void getIngredientByIdNoMatch() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(ham, sausage);
+    mvc.perform(get("/ingredients/mushroomId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 
   @Test
-  public void updateIngredientById() {
+  public void getIngredientByIdMatch() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(ham, sausage);
+    String hamContent = mapper.writeValueAsString(ham);
+    mvc.perform(get("/ingredients/hamId"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(hamContent));
+  }
+
+  @Test
+  public void newIngredient() throws Exception {
+    Behavior.set(ingredientRepository).returnSame();
+    String mushroomContent = mapper.writeValueAsString(mushrooms);
+    mvc.perform(post("/ingredients/")
+        .content(mushroomContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isCreated())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(mushroomContent));
+  }
+
+  @Test
+  public void updateIngredientByIdNoIngredients() throws Exception {
+    Behavior.set(ingredientRepository).hasNoIngredients();
+    String spinachContent = mapper.writeValueAsString(spinach);
+    mvc.perform(put("/ingredients/")
+        .content(spinachContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void updateIngredientByIdNotFound() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(ham, mushrooms);
+    String spinachContent = mapper.writeValueAsString(spinach);
+    mvc.perform(put("/ingredients/")
+        .content(spinachContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void updateIngredientById() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(spinach, ham, mushrooms);
+    spinach.setName("organicSpinach");
+    String spinachContent = mapper.writeValueAsString(spinach);
+    mvc.perform(put("/ingredients/")
+        .content(spinachContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 
   @Test
