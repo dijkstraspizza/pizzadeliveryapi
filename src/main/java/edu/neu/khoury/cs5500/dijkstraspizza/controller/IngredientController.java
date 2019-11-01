@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@Api(value = "ingredients", description = "Provides CRUD operations for Ingredient objects")
+@Api(value = "ingredients", tags = {"ingredient-controller"})
 @RestController
 @RequestMapping("/ingredients")
 public class IngredientController {

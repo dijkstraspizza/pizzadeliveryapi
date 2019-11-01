@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@Api(value = "menus", description = "Provides CRUD operations for menu objects")
+@Api(value = "menus", tags = {"menu-controller"})
 @RestController
 @RequestMapping("/menus")
 public class MenuController {

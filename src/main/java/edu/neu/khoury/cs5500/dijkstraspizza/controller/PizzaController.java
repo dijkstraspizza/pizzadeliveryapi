@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@Api(value = "pizzas", description = "Provides CRUD operations for Pizza objects")
+@Api(value = "pizzas", tags = {"pizza-controller"})
 @RestController
 @RequestMapping("/pizzas")
 public class PizzaController {
