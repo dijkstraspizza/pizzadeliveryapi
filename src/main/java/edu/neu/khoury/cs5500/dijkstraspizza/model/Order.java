@@ -1,5 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.NonNull;
@@ -14,9 +15,9 @@ public class Order {
   private String id;
   // NonNull tags are for lombok -> creates a constructor that includes them
   @NonNull
-  private Address storeAddr;
+  private String storeAddrId;
   @NonNull
-  private Address custAddr;
-  private List<Pizza> pizzas;
+  private String custAddrId;
+  private List<String> pizzaIds = new ArrayList<>();
   private double price;
 }
