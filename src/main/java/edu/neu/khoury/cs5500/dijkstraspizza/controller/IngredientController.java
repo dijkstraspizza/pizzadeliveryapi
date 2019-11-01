@@ -116,6 +116,10 @@ public class IngredientController {
   public void deleteIngredientById(
       @ApiParam(value = "ID of the ingredient to delete", required = true)
       @PathVariable("id") String id) {
+    if (!repository.existsById(id)) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, "Ingredient with id=" + id + " not found.");
+    }
     repository.deleteById(id);
   }
 }

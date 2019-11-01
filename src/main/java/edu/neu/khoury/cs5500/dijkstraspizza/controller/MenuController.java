@@ -88,6 +88,9 @@ public class MenuController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void deleteMenuById(@PathVariable("id") String id) {
+    if (!repository.existsById(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
+    }
     repository.deleteById(id);
   }
 }

@@ -66,6 +66,10 @@ public class PizzaController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void deletePizzaById(@PathVariable("id") String id) {
+    if (!repository.existsById(id)) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
+    }
     repository.deleteById(id);
   }
 }
