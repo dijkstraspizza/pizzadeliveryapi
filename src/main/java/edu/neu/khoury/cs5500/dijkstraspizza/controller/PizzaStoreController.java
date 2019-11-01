@@ -23,7 +23,6 @@ public class PizzaStoreController {
 
   /*===== GET Methods =====*/
 
-
   @ApiOperation(
       value = "Gets all stores in the database",
       response = PizzaStore.class,

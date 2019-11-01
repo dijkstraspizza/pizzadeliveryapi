@@ -75,8 +75,15 @@ public class MenuController {
 
   /*===== PUT Methods=====*/
 
+  @ApiOperation(
+      value = "Updates an existing Menu based on the ID in the provided object",
+      notes = "ID must match an existing ingredient",
+      consumes = "application/json"
+  )
   @RequestMapping(value = "/", method = RequestMethod.PUT)
-  public void updateMenuById(@Valid @RequestBody Menu menu) {
+  public void updateMenuById(
+      @ApiParam(value = "JSON menu object with an existing menu ID and updated fields as needed", required = true)
+      @Valid @RequestBody Menu menu) {
     String id = menu.getId();
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
@@ -86,8 +93,13 @@ public class MenuController {
 
   /*===== DELETE Methods=====*/
 
+  @ApiOperation(
+      value = "Deletes an ingredient from the database based on its ID"
+  )
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-  public void deleteMenuById(@PathVariable("id") String id) {
+  public void deleteMenuById(
+      @ApiParam(value = "ID of the ingredient to delete", required = true)
+      @PathVariable("id") String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
     }
