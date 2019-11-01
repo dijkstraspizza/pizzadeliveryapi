@@ -50,7 +50,7 @@ public class OrderController {
   )
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
-  public Order addOrder(
+  public Order newOrder(
       @ApiParam(value = "JSON Order object without an id field", required = true)
       @Valid @RequestBody Order order) {
     repository.save(order);
