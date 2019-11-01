@@ -1,6 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
