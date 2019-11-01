@@ -253,6 +253,26 @@ public class IngredientControllerTest {
   }
 
   @Test
-  public void deleteIngredientById() {
+  public void deleteIngredientByIdHasNoIngredients() throws Exception {
+    Behavior.set(ingredientRepository).hasNoIngredients();
+    mvc.perform(delete("/ingredients/hamId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void deleteIngredientByIdNotFound() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(sausage);
+    mvc.perform(delete("/ingredients/hamId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void deleteIngredientById() throws Exception {
+    Behavior.set(ingredientRepository).returnIngredients(sausage, ham);
+    mvc.perform(delete("/ingredients/hamId"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 }
