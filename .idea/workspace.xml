@@ -380,8 +380,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.IngredientControllerTest.updateIngredientById">
-    <configuration name="IngredientControllerTest.getIngredientByIdMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.IngredientControllerTest">
+    <configuration name="IngredientControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swagger-spring" />
       <extension name="coverage">
         <pattern>
@@ -391,8 +391,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
       <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.IngredientControllerTest" />
-      <option name="METHOD_NAME" value="getIngredientByIdMatch" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -481,19 +480,19 @@
     </configuration>
     <list>
       <item itemvalue="Spring Boot.PizzaApp" />
-      <item itemvalue="JUnit.IngredientControllerTest.getIngredientByIdMatch" />
       <item itemvalue="JUnit.IngredientControllerTest.newIngredient" />
       <item itemvalue="JUnit.IngredientControllerTest.updateIngredientByIdNoIngredients" />
       <item itemvalue="JUnit.IngredientControllerTest.updateIngredientByIdNotFound" />
       <item itemvalue="JUnit.IngredientControllerTest.updateIngredientById" />
+      <item itemvalue="JUnit.IngredientControllerTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IngredientControllerTest" />
         <item itemvalue="JUnit.IngredientControllerTest.updateIngredientById" />
         <item itemvalue="JUnit.IngredientControllerTest.updateIngredientByIdNotFound" />
         <item itemvalue="JUnit.IngredientControllerTest.updateIngredientByIdNoIngredients" />
         <item itemvalue="JUnit.IngredientControllerTest.newIngredient" />
-        <item itemvalue="JUnit.IngredientControllerTest.getIngredientByIdMatch" />
       </list>
     </recent_temporary>
   </component>
