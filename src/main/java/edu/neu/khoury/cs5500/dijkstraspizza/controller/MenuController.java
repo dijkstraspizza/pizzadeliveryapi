@@ -3,6 +3,8 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,27 @@ public class MenuController {
 
   /*===== GET Methods =====*/
 
+  @ApiOperation(
+      value = "Get all menus available",
+      response = Menu.class,
+      responseContainer = "List",
+      produces = "application/json"
+  )
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public List getAllMenus() {
     return repository.findAll();
   }
 
+  @ApiOperation(
+      value = "Get a menu by its ID",
+      response = Menu.class,
+      responseContainer = "List",
+      produces = "application/json"
+  )
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public Menu getMenuById(@PathVariable("id") String id) {
+  public Menu getMenuById(
+      @ApiParam(value = "ID of the menu to get", required = true)
+      @PathVariable("id") String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
     }
@@ -41,9 +57,18 @@ public class MenuController {
   /*===== POST Methods=====*/
 
   // TODO: Prevent POST methods from allowing an ID field
+  @ApiOperation(
+      value = "Creates a new menu in the database",
+      notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
+      response = Menu.class,
+      consumes = "application/json",
+      produces = "application/json"
+  )
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
-  public Menu newMenu(@Valid @RequestBody Menu menu) {
+  public Menu newMenu(
+      @ApiParam(value = "JSON menu object without an id field", required = true)
+      @Valid @RequestBody Menu menu) {
     repository.save(menu);
     return menu;
   }
@@ -63,6 +88,9 @@ public class MenuController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void deleteMenuById(@PathVariable("id") String id) {
+    if (!repository.existsById(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
+    }
     repository.deleteById(id);
   }
 }
