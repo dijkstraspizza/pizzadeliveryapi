@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(value = "stores", description = "Provides CRUD operations for PizzaStore objects")
+@Api(value = "stores", tags = {"pizza-store-controller"})
 @RestController
 @RequestMapping("/stores")
 public class PizzaStoreController {
@@ -22,7 +22,6 @@ public class PizzaStoreController {
   private PizzaStoreRepository repository;
 
   /*===== GET Methods =====*/
-
 
   @ApiOperation(
       value = "Gets all stores in the database",
