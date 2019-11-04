@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.price.IPriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +21,25 @@ public class OrderController {
   @Autowired
   private OrderRepository repository;
 
+
   /*===== GET Methods =====*/
+
+  @ApiOperation(
+      value = "Gets the price of an order",
+      response = Order.class,
+      produces = "application/json"
+  )
+  @RequestMapping(value = "/price", method = RequestMethod.GET)
+  public Order getOrderPrice(
+      @ApiParam(value = "ID of the order to return", required = true)
+      @PathVariable("id") String id) {
+    if (!repository.existsById(id)) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, "Order with id=" + " not found."
+      );
+    }
+    return repository.findById(id).get();
+  }
 
   @ApiOperation(
       value = "Gets a specific order by ID",
