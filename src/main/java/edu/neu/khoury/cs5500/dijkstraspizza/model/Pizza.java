@@ -8,12 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "pizzas")
 @Data
-public class Pizza {
+public class Pizza implements Comparable<Pizza>{
 
   @Id
   private String id;
   private int sizeInches;
   private String sizeDesc;
   private Set<String> ingredientIds = new HashSet<>();
-  private double price;
+  private Double price;
+
+  @Override
+  public int compareTo(Pizza o) {
+    return this.getPrice().compareTo(o.getPrice());
+  }
 }

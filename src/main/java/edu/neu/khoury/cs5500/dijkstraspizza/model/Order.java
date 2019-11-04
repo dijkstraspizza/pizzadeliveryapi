@@ -20,4 +20,5 @@ public class Order {
   private String custAddrId;
   private List<String> pizzaIds = new ArrayList<>();
   private double price;
+  private String specialId;
 }

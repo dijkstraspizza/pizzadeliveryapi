@@ -18,4 +18,6 @@ public class Ingredient {
   private String category;
   @NonNull
   private Boolean isGlutenFree;
+  @NonNull
+  private Double price;
 }
