@@ -112,6 +112,7 @@ public class IngredientControllerTest {
 
   @Test
   public void getAllIngredientsNoIngredients() throws Exception {
+    Behavior.set(ingredientRepository).hasNoIngredients();
     mvc.perform(get("/ingredients/"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
