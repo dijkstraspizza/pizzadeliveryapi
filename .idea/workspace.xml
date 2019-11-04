@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3203ca47-05f6-479e-a834-58a632ea43c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Ingredient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Ingredient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Pizza.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Pizza.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderControllerTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -23,7 +17,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3304721">
+    <splitter split-orientation="horizontal" split-proportion="0.54291844">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -50,14 +44,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/MenuControllerTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2688">
-                  <caret line="202" selection-start-line="202" selection-end-line="202" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
+                <state relative-caret-position="-12">
+                  <caret line="22" column="35" lean-forward="true" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
                 </state>
               </provider>
             </entry>
@@ -65,17 +56,20 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="381">
-                  <caret line="38" column="3" lean-forward="true" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="3" />
+                <state relative-caret-position="413">
+                  <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#748#749#0" expanded="true" />
@@ -105,7 +99,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Pizza.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="195">
-                  <caret line="13" column="20" lean-forward="true" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+                  <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#525#526#0" expanded="true" />
@@ -119,7 +113,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Ingredient.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="195">
-                  <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+                  <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
@@ -128,7 +122,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="270">
-                  <caret line="18" column="25" lean-forward="true" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+                  <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
@@ -137,6 +131,18 @@
       </split-first>
       <split-second>
         <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="432">
+                  <caret line="41" column="67" selection-start-line="41" selection-start-column="67" selection-end-line="41" selection-end-column="67" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderControllerTest.java">
               <provider selected="true" editor-type-id="text-editor">
@@ -167,11 +173,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3855">
-                  <caret line="257" column="41" lean-forward="true" selection-start-line="257" selection-start-column="41" selection-end-line="257" selection-end-column="41" />
+                <state relative-caret-position="363">
+                  <caret line="254" column="19" lean-forward="true" selection-start-line="254" selection-start-column="19" selection-end-line="254" selection-end-column="19" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -233,6 +239,8 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Pizza.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioSpecial.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java" />
       </list>
     </option>
   </component>
@@ -314,6 +322,16 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="dijkstraspizza" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="swagger-spring" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Dijkstras" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="dijkstraspizza" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="price" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="swagger-spring" type="b2602c69:ProjectViewProjectNode" />
@@ -530,9 +548,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MenuControllerTest_newMenu - 2019.11.03 at 15h 17m 29s.xml">
-      <configuration name="MenuControllerTest.newMenu" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="MenuControllerTest_newMenu - 2019.11.03 at 15h 17m 57s.xml">
       <configuration name="MenuControllerTest.newMenu" configurationId="JUnit" />
     </history-entry>
@@ -560,9 +575,12 @@
     <history-entry file="MenuControllerTest - 2019.11.03 at 15h 30m 04s.xml">
       <configuration name="MenuControllerTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="IngredientControllerTest - 2019.11.03 at 21h 54m 33s.xml">
+      <configuration name="IngredientControllerTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43441000" />
+    <option name="totallyTimeSpent" value="44590000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -587,13 +605,13 @@
       <window_info id="Image Layers" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.36506024" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22289157" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.32891566" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49928468" weight="0.24216868" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49928468" visible="true" weight="0.24216868" />
       <window_info anchor="bottom" id="CheckStyle" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.40722892" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -812,7 +830,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Ingredient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -849,22 +867,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Pizza.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="13" column="20" lean-forward="true" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#525#526#0" expanded="true" />
             <element signature="e#557#558#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="254" column="19" lean-forward="true" selection-start-line="254" selection-start-column="19" selection-end-line="254" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/MenuControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="22" column="35" lean-forward="true" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -878,10 +913,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="38" column="3" lean-forward="true" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="3" />
+        <state relative-caret-position="413">
+          <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#748#749#0" expanded="true" />
@@ -894,27 +939,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="25" lean-forward="true" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/MenuControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2688">
-          <caret line="202" selection-start-line="202" selection-end-line="202" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3855">
-          <caret line="257" column="41" lean-forward="true" selection-start-line="257" selection-start-column="41" selection-end-line="257" selection-end-column="41" />
+        <state relative-caret-position="432">
+          <caret line="41" column="67" selection-start-line="41" selection-start-column="67" selection-end-line="41" selection-end-column="67" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

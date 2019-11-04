@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Class that calcualates the price of a pizza.
  */
-@Document(collection = "price-calculators")
+@Document(collection = "generic-price-calculators")
 public class GenericPriceCalculator implements IPriceCalculator {
 
   @Id
@@ -48,7 +48,7 @@ public class GenericPriceCalculator implements IPriceCalculator {
    */
   @Override
   public Order calculate(Order order) {
-    int price = 0;
+    double price = 0;
     List<Pizza> pizzas = order.getPizzaIds().stream()
         .map(pizzaId -> pizzaController.getPizzaById(pizzaId))
         .sorted(Pizza::compareTo).collect(Collectors.toList());
