@@ -1,8 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.price.GenericPriceCalculator;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.price.IPriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.price.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,14 +30,14 @@ public class OrderController {
   @ApiOperation(
       value = "Gets the price of an order with a special",
       notes = "Special ID is included as a query parameter",
-      response = Order.class,
+      response = Double.class,
       produces = "application/json"
   )
   @RequestMapping(value = "/price", method = RequestMethod.GET)
-  public Order getOrderPriceWithSpecial(
+  public Double getOrderPriceWithSpecial(
       @ApiParam(value = "id of the special to apply", example = "bogoSpecial")
       @RequestParam("special") String specialId, @Valid @RequestBody Order order) {
-    IPriceCalculator priceCalculator = priceCalculatorController.getPriceCalculatorById(specialId);
+    PriceCalculator priceCalculator = priceCalculatorController.getPriceCalculatorById(specialId);
     return priceCalculator.calculate(order);
   }
 
@@ -48,10 +47,10 @@ public class OrderController {
       produces = "application/json"
   )
   @RequestMapping(value = "/price", method = RequestMethod.GET)
-  public Order getOrderPrice(
+  public Double getOrderPrice(
       @ApiParam(value = "JSON Order object without a price.", required = true)
       @Valid @RequestBody Order order) {
-    IPriceCalculator priceCalculator = new GenericPriceCalculator();
+    PriceCalculator priceCalculator = new PriceCalculator();
     return priceCalculator.calculate(order);
   }
 

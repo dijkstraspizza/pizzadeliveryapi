@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.price.IPriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.price.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +41,7 @@ public class PriceCalculatorController {
       produces = "application/json"
   )
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public IPriceCalculator getPriceCalculatorByIdHttp(
+  public PriceCalculator getPriceCalculatorByIdHttp(
       @ApiParam(value = "ID of the price calculator to return", required = true)
       @PathVariable("id") String id) {
     if (!repository.existsById(id)) {
@@ -56,15 +57,15 @@ public class PriceCalculatorController {
   @ApiOperation(
       value = "Creates a new price calculator in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
-      response = IPriceCalculator.class,
+      response = PriceCalculator.class,
       consumes = "application/json",
       produces = "application/json"
   )
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
-  public IPriceCalculator newPriceCalculator(
+  public PriceCalculator newPriceCalculator(
       @ApiParam(value = "JSON Price Calculator object without an id field", required = true)
-      @Valid @RequestBody IPriceCalculator priceCalculator) {
+      @Valid @RequestBody PriceCalculator priceCalculator) {
     repository.save(priceCalculator);
     return priceCalculator;
   }
@@ -86,7 +87,7 @@ public class PriceCalculatorController {
   }
 
   /*===== Non-Http Methods =====*/
-  public IPriceCalculator getPriceCalculatorById(String id) {
+  public PriceCalculator getPriceCalculatorById(String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Price Calculator with id=" + id + " not found."
