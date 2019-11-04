@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 @Document(collection = "generic-price-calculators")
 @Data
-public class GenericPriceCalculator implements IPriceCalculator {
+public class GenericPriceCalculator extends PriceCalculator {
 
   @Id
   private String id;
