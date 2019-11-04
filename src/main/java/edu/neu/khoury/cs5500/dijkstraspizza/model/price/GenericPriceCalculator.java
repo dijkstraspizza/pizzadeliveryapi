@@ -3,6 +3,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.model.price;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.PizzaController;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * Class that calcualates the price of a pizza.
  */
 @Document(collection = "generic-price-calculators")
+@Data
 public class GenericPriceCalculator implements IPriceCalculator {
 
   @Id

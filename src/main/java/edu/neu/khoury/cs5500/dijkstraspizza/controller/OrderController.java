@@ -4,7 +4,6 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.price.GenericPriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.price.IPriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Api(value = "orders", tags = {"order-controller"})
 @RestController
