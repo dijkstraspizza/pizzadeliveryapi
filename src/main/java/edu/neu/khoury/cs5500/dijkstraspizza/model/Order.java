@@ -18,10 +18,8 @@ public class Order {
   @Id
   private String id;
   // NonNull tags are for lombok -> creates a constructor that includes them
-  @NonNull
-  private String storeAddrId;
-  @NonNull
-  private String custAddrId;
-  private List<String> pizzaIds = new ArrayList<>();
+  private @NonNull Address storeAddr;
+  private @NonNull Address custAddr;
+  private List<Pizza> pizzas = new ArrayList<>();
   private double price;
 }

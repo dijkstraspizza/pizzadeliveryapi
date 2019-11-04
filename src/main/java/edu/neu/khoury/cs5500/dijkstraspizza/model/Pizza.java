@@ -18,6 +18,6 @@ public class Pizza {
   private String id;
   private int sizeInches;
   private String sizeDesc;
-  private Set<String> ingredientIds = new HashSet<>();
+  private Set<Ingredient> ingredients = new HashSet<>();
   private double price;
 }

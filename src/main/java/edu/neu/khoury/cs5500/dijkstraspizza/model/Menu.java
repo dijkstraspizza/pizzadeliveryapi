@@ -16,6 +16,6 @@ public class Menu {
 
   @Id
   private String id;
-  private Set<String> pizzaIds = new HashSet<>();
-  private Set<String> ingredientIds = new HashSet<>();
+  private Set<Pizza> pizzas = new HashSet<>();
+  private Set<Ingredient> ingredients = new HashSet<>();
 }
