@@ -26,7 +26,7 @@ public class OrderController {
   private OrderRepository repository;
 
   @Autowired
-  private PriceCalculatorRepository priceCalculatorRepository;
+  private PriceCalculatorController priceCalculatorController;
 
 
   /*===== GET Methods =====*/
@@ -41,11 +41,7 @@ public class OrderController {
   public Order getOrderPriceWithSpecial(
       @ApiParam(value = "id of the special to apply", example = "bogoSpecial")
       @RequestParam("special") String specialId, @Valid @RequestBody Order order) {
-    if (!priceCalculatorRepository.existsById(specialId)) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, "Special with id=" + specialId + " not found.");
-    }
-    IPriceCalculator priceCalculator = priceCalculatorRepository.findById(specialId).get();
+    IPriceCalculator priceCalculator = priceCalculatorController.getPriceCalculatorById(specialId);
     return priceCalculator.calculate(order);
   }
 
