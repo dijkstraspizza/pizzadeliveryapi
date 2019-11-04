@@ -6,6 +6,10 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * A Pizza object with lombok generated boilerplate code (constructor, equals, hashCode, toString,
+ * getters, setters).
+ */
 @Document(collection = "pizzas")
 @Data
 public class Pizza {

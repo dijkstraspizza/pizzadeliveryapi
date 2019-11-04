@@ -7,6 +7,10 @@ import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * An Order object with lombok generated boilerplate code (constructor, equals, hashCode, toString,
+ * getters, setters).
+ */
 @Document(collection = "orders")
 @Data
 public class Order {
