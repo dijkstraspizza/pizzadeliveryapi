@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@Api(value = "ingredients", tags = {"ingredient-controller"})
+@Api(value = "ingredients", tags = {"ingredient"})
 @RestController
 @RequestMapping("/ingredients")
 

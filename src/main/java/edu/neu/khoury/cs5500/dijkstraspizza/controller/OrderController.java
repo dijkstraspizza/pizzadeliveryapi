@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
-@Api(value = "orders", tags = {"order-controller"})
+@Api(value = "orders", tags = {"order"})
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
