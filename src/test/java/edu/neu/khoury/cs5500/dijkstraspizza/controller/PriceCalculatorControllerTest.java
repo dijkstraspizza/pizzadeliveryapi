@@ -1,8 +1,10 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.price.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,18 +19,19 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PriceCalculatorController.class)
@@ -45,6 +48,9 @@ public class PriceCalculatorControllerTest {
 
   @MockBean
   PriceCalculatorRepository repository;
+
+  @MockBean
+  IngredientController ingredientController;
 
   @Autowired
   ObjectMapper mapper;
@@ -156,14 +162,51 @@ public class PriceCalculatorControllerTest {
   }
 
   @Test
-  public void newPriceCalculator() {
+  public void newPriceCalculator() throws Exception {
+    Behavior.set(repository).returnSame();
+    String content = mapper.writeValueAsString(halfOffAll);
+    mockMvc.perform(post("/prices/")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(content))
+        .andExpect(status().isCreated())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
   }
 
   @Test
-  public void deletePriceCalculatorById() {
+  public void deletePriceCalculatorByIdNoCalculators() throws Exception {
+    Behavior.set(repository).hasNoPriceCalculator();
+    mockMvc.perform(delete("/prices/id"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+
   }
 
   @Test
-  public void getPriceCalculatorById() {
+  public void deletePriceCalculatorByIdSomeCalculators() throws Exception {
+    Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll);
+    mockMvc.perform(delete("/prices/bogo"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void getPizzaPriceSomeCalculators() throws Exception {
+    Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll);
+    Pizza pizza = new Pizza();
+    pizza.setId("pizzaId");
+    pizza.setPrice(15.0);
+    Ingredient pepperoni = new Ingredient("pepperoni","meat", true, .5);
+    pizza.setIngredientIds(new HashSet<>(Collections.singletonList("pepperoni")));
+    pizza.setSizeDesc("medium");
+    pizza.setSizeInches(12);
+    ingredientController = mock(IngredientController.class);
+    when(ingredientController.getIngredientById(any())).thenReturn(pepperoni);
+    String content = mapper.writeValueAsString(pizza);
+    mockMvc.perform(get("/prices/pizza?id=bogo")
+        .content(content)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk());
+//        .andExpect(jsonPath("$").doesNotExist());
   }
 }

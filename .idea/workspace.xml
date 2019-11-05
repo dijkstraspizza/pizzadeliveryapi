@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3203ca47-05f6-479e-a834-58a632ea43c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/PriceCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/repository/PriceCalculatorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/repository/PriceCalculatorRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -73,8 +72,20 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-621">
-                  <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
+                <state relative-caret-position="411">
+                  <caret line="110" column="3" selection-start-line="110" selection-start-column="3" selection-end-line="110" selection-end-column="3" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/PriceCalculator.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="319">
+                  <caret line="81" column="71" lean-forward="true" selection-start-line="81" selection-start-column="71" selection-end-line="81" selection-end-column="71" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -83,19 +94,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="58">
-                  <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+                <state relative-caret-position="495">
+                  <caret line="39" column="3" lean-forward="true" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
                 </state>
               </provider>
             </entry>
@@ -114,27 +116,15 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1290">
-                  <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-36">
-                  <caret line="127" column="45" selection-start-line="127" selection-start-column="45" selection-end-line="127" selection-end-column="45" />
+                <state relative-caret-position="1255">
+                  <caret line="199" column="31" selection-start-line="199" selection-start-column="31" selection-end-line="199" selection-end-column="31" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -157,8 +147,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="125">
-                  <caret line="12" selection-start-line="12" selection-end-line="12" />
+                <state relative-caret-position="31">
+                  <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -171,15 +164,6 @@
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
                 </state>
               </provider>
             </entry>
@@ -208,8 +192,20 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1535">
-                  <caret line="111" column="16" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
+                <state relative-caret-position="51">
+                  <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="405">
+                  <caret line="51" column="38" lean-forward="true" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -274,14 +270,16 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/AbstractPriceGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/AbstractPriceCalculator.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/repository/PriceCalculatorRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/GenericPriceCalculator.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/RatioDiscountSpecial.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/IPriceCalculator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java" />
+        <option value="$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/PriceCalculator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java" />
       </list>
     </option>
   </component>
@@ -345,15 +343,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="dijkstraspizza" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swagger-spring" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Dijkstras" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="dijkstraspizza" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="swagger-spring" type="b2602c69:ProjectViewProjectNode" />
@@ -424,6 +413,9 @@
       <recent name="edu.neu.khoury.cs5500.dijkstraspizza.model.price" />
       <recent name="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="edu.neu.khoury.cs5500.dijkstraspizza.model" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -440,8 +432,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch">
-    <configuration name="PriceCalculatorControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.PriceCalculatorControllerTest.getPizzaPriceSomeCalculators">
+    <configuration name="PriceCalculatorControllerTest.deletePriceCalculatorByIdNoCalculators" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swagger-spring" />
       <extension name="coverage">
         <pattern>
@@ -451,28 +443,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
       <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="swagger-spring" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
-      <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
-      <option name="METHOD_NAME" value="getPriceCalculatorByIdHttpHasCalculatorsMatch" />
+      <option name="METHOD_NAME" value="deletePriceCalculatorByIdNoCalculators" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsNoMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PriceCalculatorControllerTest.deletePriceCalculatorByIdSomeCalculators" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swagger-spring" />
       <extension name="coverage">
         <pattern>
@@ -482,13 +459,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
       <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
-      <option name="METHOD_NAME" value="getPriceCalculatorByIdHttpHasCalculatorsNoMatch" />
+      <option name="METHOD_NAME" value="deletePriceCalculatorByIdSomeCalculators" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpNoCalculators" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swagger-spring" />
       <extension name="coverage">
         <pattern>
@@ -498,23 +475,40 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
       <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
-      <option name="METHOD_NAME" value="getPriceCalculatorByIdHttpNoCalculators" />
+      <option name="METHOD_NAME" value="getPizzaPriceSomeCalculators" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PriceCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PriceCalculatorControllerTest.getPriceCalculatorById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swagger-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.neu.khoury.cs5500.dijkstraspizza.model.price.*" />
+          <option name="PATTERN" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.model.price" />
-      <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.model.price.PriceCalculatorTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
+      <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
+      <option name="METHOD_NAME" value="getPriceCalculatorById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PriceCalculatorControllerTest.newPriceCalculator" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller" />
+      <option name="MAIN_CLASS_NAME" value="edu.neu.khoury.cs5500.dijkstraspizza.controller.PriceCalculatorControllerTest" />
+      <option name="METHOD_NAME" value="newPriceCalculator" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -540,19 +534,19 @@
     <list>
       <item itemvalue="Spring Boot.DijkstrasPizzaApplication" />
       <item itemvalue="Spring Boot.PizzaApp" />
-      <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpNoCalculators" />
-      <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsNoMatch" />
-      <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" />
-      <item itemvalue="JUnit.PriceCalculatorControllerTest" />
-      <item itemvalue="JUnit.PriceCalculatorTest" />
+      <item itemvalue="JUnit.PriceCalculatorControllerTest.newPriceCalculator" />
+      <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdNoCalculators" />
+      <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdSomeCalculators" />
+      <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorById" />
+      <item itemvalue="JUnit.PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" />
-        <item itemvalue="JUnit.PriceCalculatorControllerTest" />
-        <item itemvalue="JUnit.PriceCalculatorTest" />
-        <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsNoMatch" />
-        <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorByIdHttpNoCalculators" />
+        <item itemvalue="JUnit.PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" />
+        <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorById" />
+        <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdSomeCalculators" />
+        <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdNoCalculators" />
+        <item itemvalue="JUnit.PriceCalculatorControllerTest.newPriceCalculator" />
       </list>
     </recent_temporary>
   </component>
@@ -567,44 +561,44 @@
       <option name="presentableId" value="Default" />
       <updated>1571956565699</updated>
       <workItem from="1571956567103" duration="1211000" />
-      <workItem from="1572891622790" duration="7489000" />
+      <workItem from="1572891622790" duration="14039000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="PriceCalculatorControllerTest_getAllPriceCalculatorsHasCalculators - 2019.11.04 at 11h 27m 09s.xml">
-      <configuration name="PriceCalculatorControllerTest.getAllPriceCalculatorsHasCalculators" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_newPriceCalculator - 2019.11.04 at 12h 44m 10s.xml">
+      <configuration name="PriceCalculatorControllerTest.newPriceCalculator" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpNoCalculators - 2019.11.04 at 11h 29m 23s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpNoCalculators" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_newPriceCalculator - 2019.11.04 at 12h 44m 26s.xml">
+      <configuration name="PriceCalculatorControllerTest.newPriceCalculator" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsNoMatch - 2019.11.04 at 11h 30m 18s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsNoMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_deletePriceCalculatorByIdNoCalculators - 2019.11.04 at 12h 46m 47s.xml">
+      <configuration name="PriceCalculatorControllerTest.deletePriceCalculatorByIdNoCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsMatch - 2019.11.04 at 11h 31m 44s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_deletePriceCalculatorByIdSomeCalculators - 2019.11.04 at 12h 49m 15s.xml">
+      <configuration name="PriceCalculatorControllerTest.deletePriceCalculatorByIdSomeCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsMatch - 2019.11.04 at 11h 31m 46s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorById - 2019.11.04 at 12h 52m 58s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorById" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsMatch - 2019.11.04 at 11h 32m 41s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPizzaPriceSomeCalculators - 2019.11.04 at 13h 03m 08s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsMatch - 2019.11.04 at 11h 35m 25s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPizzaPriceSomeCalculators - 2019.11.04 at 13h 04m 48s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest_getPriceCalculatorByIdHttpHasCalculatorsMatch - 2019.11.04 at 11h 39m 47s.xml">
-      <configuration name="PriceCalculatorControllerTest.getPriceCalculatorByIdHttpHasCalculatorsMatch" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPizzaPriceSomeCalculators - 2019.11.04 at 13h 06m 19s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest - 2019.11.04 at 11h 43m 08s.xml">
-      <configuration name="PriceCalculatorControllerTest" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPizzaPriceSomeCalculators - 2019.11.04 at 13h 08m 53s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PriceCalculatorControllerTest - 2019.11.04 at 12h 22m 39s.xml">
-      <configuration name="PriceCalculatorControllerTest" configurationId="JUnit" />
+    <history-entry file="PriceCalculatorControllerTest_getPizzaPriceSomeCalculators - 2019.11.04 at 13h 10m 03s.xml">
+      <configuration name="PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56680000" />
+    <option name="totallyTimeSpent" value="63230000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -629,8 +623,8 @@
       <window_info id="Image Layers" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.30361447" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.26746988" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.30361447" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.26746988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
@@ -665,13 +659,13 @@
       <window_info id="Image Layers" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.30361447" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.30361447" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.26746988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.32891566" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4985694" weight="0.24216868" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4985694" visible="true" weight="0.24216868" />
       <window_info anchor="bottom" id="CheckStyle" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.5180723" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
@@ -893,16 +887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1535">
-          <caret line="111" column="16" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/repository/OrderRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -947,30 +931,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/Order.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-621">
-          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -984,31 +948,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/IngredientController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+        <state relative-caret-position="51">
+          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorControllerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-36">
-          <caret line="127" column="45" selection-start-line="127" selection-start-column="45" selection-end-line="127" selection-end-column="45" />
+        <state relative-caret-position="1255">
+          <caret line="199" column="31" selection-start-line="199" selection-start-column="31" selection-end-line="199" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PizzaController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="110" column="3" selection-start-line="110" selection-start-column="3" selection-end-line="110" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/edu/neu/khoury/cs5500/dijkstraspizza/model/price/PriceCalculatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="39" column="3" lean-forward="true" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/OrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/controller/PriceCalculatorController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="51" column="38" lean-forward="true" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/neu/khoury/cs5500/dijkstraspizza/model/PriceCalculator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="81" column="71" lean-forward="true" selection-start-line="81" selection-start-column="71" selection-end-line="81" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

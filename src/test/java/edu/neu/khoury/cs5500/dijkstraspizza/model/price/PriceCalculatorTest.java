@@ -2,12 +2,11 @@ package edu.neu.khoury.cs5500.dijkstraspizza.model.price;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.PizzaController;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import static org.junit.Assert.*;
 
 public class PriceCalculatorTest {
 
