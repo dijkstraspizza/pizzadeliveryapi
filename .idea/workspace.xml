@@ -532,13 +532,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.DijkstrasPizzaApplication" />
-      <item itemvalue="Spring Boot.PizzaApp" />
       <item itemvalue="JUnit.PriceCalculatorControllerTest.newPriceCalculator" />
       <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdNoCalculators" />
       <item itemvalue="JUnit.PriceCalculatorControllerTest.deletePriceCalculatorByIdSomeCalculators" />
       <item itemvalue="JUnit.PriceCalculatorControllerTest.getPriceCalculatorById" />
       <item itemvalue="JUnit.PriceCalculatorControllerTest.getPizzaPriceSomeCalculators" />
+      <item itemvalue="Spring Boot.DijkstrasPizzaApplication" />
+      <item itemvalue="Spring Boot.PizzaApp" />
     </list>
     <recent_temporary>
       <list>
