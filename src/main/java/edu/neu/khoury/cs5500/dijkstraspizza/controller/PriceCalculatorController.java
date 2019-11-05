@@ -106,7 +106,7 @@ public class PriceCalculatorController {
   }
 
   /*===== Non-Http Methods =====*/
-  public PriceCalculator getPriceCalculatorById(String id) {
+  private PriceCalculator getPriceCalculatorById(String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Price Calculator with id=" + id + " not found."

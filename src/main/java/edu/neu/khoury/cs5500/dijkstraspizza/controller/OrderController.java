@@ -1,7 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Api(value = "orders", tags = {"order-controller"})
 @RestController
@@ -58,6 +58,9 @@ public class OrderController {
   public Order newOrder(
       @ApiParam(value = "JSON Order object without an id field", required = true)
       @Valid @RequestBody Order order) {
+    Double price = priceCalculatorController.getOrderPrice(
+        Optional.ofNullable(order.getSpecialId()), order);
+    order.setPrice(price);
     repository.save(order);
     return order;
   }
@@ -78,6 +81,9 @@ public class OrderController {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Order with id=" + id + " not found.");
     }
+    Double price = priceCalculatorController.getOrderPrice(
+        Optional.ofNullable(order.getSpecialId()), order);
+    order.setPrice(price);
     repository.save(order);
   }
 }
