@@ -35,7 +35,7 @@ public class DataLoader implements ApplicationRunner {
   a tedious way and should be updated in the future, given the time.
    */
 
-  // Repository links
+  // === Repository links ===
   @Autowired
   AddressRepository addressRepository;
   @Autowired
