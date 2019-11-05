@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Api(value = "ingredients", tags = {"ingredient-controller"})
 @RestController
 @RequestMapping("/ingredients")
+
 public class IngredientController {
 
   @Autowired
