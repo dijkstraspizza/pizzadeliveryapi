@@ -5,6 +5,10 @@ import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * A Ingredient object with lombok generated boilerplate code (constructor, equals, hashCode, toString,
+ * getters, setters).
+ */
 @Document(collection = "ingredients")
 @Data
 public class Ingredient {
