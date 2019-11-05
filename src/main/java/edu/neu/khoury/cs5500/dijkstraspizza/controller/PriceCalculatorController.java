@@ -1,23 +1,19 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Api(value = "price-calculators", tags="price-calculator-controller")
 @RestController
@@ -26,12 +22,6 @@ public class PriceCalculatorController {
 
   @Autowired
   private PriceCalculatorRepository repository;
-
-  @Autowired
-  private IngredientController ingredientController;
-
-  @Autowired
-  private PizzaController pizzaController;
 
   /*===== GET Methods =====*/
 
@@ -42,57 +32,15 @@ public class PriceCalculatorController {
       produces = "application/json"
   )
   @RequestMapping(value = "/price", method = RequestMethod.GET)
-  public Double getOrderPriceWithSpecial(
+  public @ResponseBody Double getOrderPrice(
       @ApiParam(value = "id of the special to apply", example = "bogoSpecial")
-      @RequestParam("special") String specialId, @Valid @RequestBody Order order) {
-    PriceCalculator priceCalculator = getPriceCalculatorById(specialId);
-    List<Double> pizzaPrices = order.getPizzaIds().stream()
-        .map(pizzaController::getPizzaById)
-        .map(Pizza::getPrice)
-        .collect(Collectors.toList());
-    List<List<Ingredient>> ingredients = order.getPizzaIds().stream()
-        .map(pizzaController::getPizzaById)
-        .map(Pizza::getIngredientIds)
-        .map(ingredientController::getIngredientById)
-        .collect(Collectors.toList());
-    return ;
-  }
-
-  @ApiOperation(
-      value = "Gets the price of an order",
-      response = Order.class,
-      produces = "application/json"
-  )
-  @RequestMapping(value = "/price", method = RequestMethod.GET)
-  public Double getOrderPrice(
-      @ApiParam(value = "JSON Order object without a price.", required = true)
-      @Valid @RequestBody Order order) {
-    PriceCalculator priceCalculator = new PriceCalculator();
-    return priceCalculator.calculate(order);
-  }
-
-  /**
-   * @param pizza The pizza for which to calculate a price.
-   * @param id The id of the PriceCalculator to retrieve.
-   * @return the price of the pizza.
-   */
-  @ApiOperation(
-      value = "Returns the price of a pizza.",
-      response = Double.class,
-      consumes = "application/json"
-  )
-  @RequestMapping(value = "/pizza", method = RequestMethod.GET)
-  public Double getPizzaPrice(
-      @ApiParam(value = "JSON Pizza object", required = true)
-      @Valid @RequestBody Pizza pizza, @ApiParam(value = "ID of the price calculator used", required = true)
-      @RequestParam("id") String id) {
-    if (!repository.existsById(id)) {
-      throw new ResponseStatusException(
-          HttpStatus.NOT_FOUND, "Price calculator with id=" + id + " not found.");
+      @RequestParam("special") Optional<String> specialId, @Valid @RequestBody Order order) {
+    if (specialId.isEmpty()) {
+      PriceCalculator priceCalculator = new PriceCalculator();
+      return priceCalculator.calculate(order.getPizzas());
     }
-    List<Ingredient> ingredients = getListOfIngredients(pizza.getIngredientIds());
-    return PriceCalculator.calculatePizzaPrice(
-        pizza.getPrice(), repository.findById(id).get().getBaseFreeIngredients(), ingredients);
+    PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
+    return priceCalculator.calculate(order.getPizzas());
   }
 
   @ApiOperation(
@@ -165,10 +113,5 @@ public class PriceCalculatorController {
       );
     }
     return repository.findById(id).get();
-  }
-
-  private List<Ingredient> getListOfIngredients(Collection<String> ingredientIds) {
-    return ingredientIds.stream().map(ingredientController::getIngredientById)
-        .collect(Collectors.toList());
   }
 }

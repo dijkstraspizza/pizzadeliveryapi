@@ -46,12 +46,12 @@ public class IngredientControllerTest {
   @Autowired
   private ObjectMapper mapper;
 
-  private final Ingredient mushrooms = new Ingredient("mushroom", "vegetable", true, .5);
-  private final Ingredient sausage = new Ingredient("sausage", "meat", true, 1.0);
-  private final Ingredient nonGfCrust = new Ingredient("crust", "crust", false, 0.0);
-  private final Ingredient gFCrust = new Ingredient("glutenFreeCrust", "crust", true, 2.0);
-  private final Ingredient spinach = new Ingredient("spinach", "vegetable", true, .5);
-  private final Ingredient ham = new Ingredient("ham", "meat", true, 1.0);
+  private final Ingredient mushrooms = new Ingredient("mushroom", "vegetable", true);
+  private final Ingredient sausage = new Ingredient("sausage", "meat", true);
+  private final Ingredient nonGfCrust = new Ingredient("crust", "crust", false);
+  private final Ingredient gFCrust = new Ingredient("glutenFreeCrust", "crust", true);
+  private final Ingredient spinach = new Ingredient("spinach", "vegetable", true);
+  private final Ingredient ham = new Ingredient("ham", "meat", true);
 
   @Before
   public void setup() {

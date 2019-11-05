@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model.price;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.PizzaController;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import org.junit.Before;
@@ -24,18 +25,19 @@ public class PriceCalculatorTest {
 
     MockitoAnnotations.initMocks(this);
 
-    order = new Order("add1", "add2");
+
+    Address store = new Address("123", "Seattle", "WA", "98103");
+    Address customer = new Address("abc", "Seattle", "WA", "98117");
+
+    order = new Order(store, customer);
 
     genericNoFreeIngredients = new PriceCalculator();
-    genericNoFreeIngredients.setId("generic-no-free-price");
-
-    genericTwoFreeIngredients = new PriceCalculator(2);
-    genericTwoFreeIngredients.setId("generic-two-free-price");
+    genericNoFreeIngredients.setId("generic-price");
 
     halfOffAll = new PriceCalculator(.5);
     halfOffAll.setId("half-off");
 
-    bogo = new PriceCalculator(0, 2, 1, 1.0);
+    bogo = new PriceCalculator(2, 1, 1.0);
     bogo.setId("bogo");
   }
 

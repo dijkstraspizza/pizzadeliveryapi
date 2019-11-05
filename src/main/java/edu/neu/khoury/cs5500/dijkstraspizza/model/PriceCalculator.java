@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "price-calculators")
@@ -47,12 +48,14 @@ public class PriceCalculator {
       double price = calculateBasePrice(pizzas);
       return price - price * discountRatio;
     }
+    List<Pizza> sortedPizzas = new ArrayList<>(pizzas);
+    sortedPizzas.sort(Pizza::compareTo);
     double price = 0;
     for (int i = 0; i < pizzasAppliedTo; i++) {
-      price += pizzas.get(i).getPrice() - discountRatio * pizzas.get(i).getPrice();
+      price += sortedPizzas.get(i).getPrice() - discountRatio * sortedPizzas.get(i).getPrice();
     }
     for (int i = pizzasAppliedTo; i < pizzas.size(); i++) {
-      price += pizzas.get(i).getPrice();
+      price += sortedPizzas.get(i).getPrice();
     }
     return price;
   }
