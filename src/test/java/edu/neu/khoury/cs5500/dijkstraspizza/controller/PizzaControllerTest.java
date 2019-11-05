@@ -93,9 +93,7 @@ public class PizzaControllerTest {
 	}
 
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 // package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 // import com.fasterxml.jackson.databind.ObjectMapper;
@@ -190,8 +188,4 @@ public class PizzaControllerTest {
 // 	}
 
 // }
->>>>>>> 01b4e6074bf68f06d25ca239ac30dc0edb535086
-=======
->>>>>>> excludelomboktesting
-=======
->>>>>>> excludelomboktesting
+
