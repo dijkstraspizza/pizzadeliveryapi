@@ -7,12 +7,10 @@ import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -75,6 +73,29 @@ public class DataLoader implements ApplicationRunner {
   private List<Pizza> veggie = new ArrayList<>(
       Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
 
+  // Names of the 6 Pizzas
+  private final String CHEESE_NAME = "Cheese";
+  private final String MARGHERITA_NAME = "Margherita";
+  private final String PEPPERONI_NAME = "Pepperoni";
+  private final String SUPREME_NAME = "Supreme";
+  private final String HAWAIIAN_NAME = "Hawaiian";
+  private final String VEGETABLE_NAME = "Vegetable";
+
+  // Prices of the 6 pizzas
+  private final Double CHEESE_PRICE = 10.0;
+  private final Double MARGHERITA_PRICE = 12.0;
+  private final Double PEPPERONI_PRICE = 12.0;
+  private final Double SUPREME_PRICE = 15.0;
+  private final Double HAWAIIAN_PRICE = 12.0;
+  private final Double VEGGIE_PRICE = 12.0;
+  private final Map<String, Double> priceMap= Map.of(
+      CHEESE_NAME, CHEESE_PRICE,
+      MARGHERITA_NAME, MARGHERITA_PRICE,
+      PEPPERONI_NAME, PEPPERONI_PRICE,
+      SUPREME_NAME, SUPREME_PRICE,
+      HAWAIIAN_NAME, HAWAIIAN_PRICE,
+      VEGETABLE_NAME, VEGGIE_PRICE);
+
   // === Menus ===
   private Menu regular, glutenFree;
 
@@ -92,13 +113,13 @@ public class DataLoader implements ApplicationRunner {
     // Set-up starter data
     initAddresses();
     initIngredients();
-    initPizzas(cheese, "Cheese", new HashSet<>());
-    initPizzas(margherita, "Margherita", new HashSet<>(Collections.singletonList(basil)));
-    initPizzas(pepperoni, "Pepperoni", new HashSet<>(Collections.singletonList(pep)));
-    initPizzas(supreme, "Supreme",
+    initPizzas(cheese, CHEESE_NAME, new HashSet<>());
+    initPizzas(margherita, MARGHERITA_NAME, new HashSet<>(Collections.singletonList(basil)));
+    initPizzas(pepperoni, PEPPERONI_NAME, new HashSet<>(Collections.singletonList(pep)));
+    initPizzas(supreme, SUPREME_NAME,
         new HashSet<>(Arrays.asList(pep, sausage, olives, mushrooms, onions, peppers)));
-    initPizzas(hawaiian, "Hawaiian", new HashSet<>(Arrays.asList(ham, pineapple)));
-    initPizzas(veggie, "Vegetable",
+    initPizzas(hawaiian, HAWAIIAN_NAME, new HashSet<>(Arrays.asList(ham, pineapple)));
+    initPizzas(veggie, VEGETABLE_NAME,
         new HashSet<>(Arrays.asList(olives, mushrooms, spinach, onions, peppers)));
     initMenus();
     initStores();
@@ -164,11 +185,12 @@ public class DataLoader implements ApplicationRunner {
    * @param meatAndVeg The set of ingredients that are meat and veggies
    */
   private void initPizzas(List<Pizza> pizzas, String name, Set<Ingredient> meatAndVeg) {
-    // TODO: Calculate pricing
+
     Set<Ingredient> regBase = new HashSet<>(Arrays.asList(crust, tomSauce, moz));
     Set<Ingredient> gfBase = new HashSet<>(Arrays.asList(gfCrust, gfTomSauce, moz));
     String[] nameSizes = new String[]{"Small", "Medium", "Large"};
     int[] numSizes = new int[]{11, 15, 17};
+    Function<Integer, Double> priceModifier = size -> (1.0 + ((size + 1.0)/2.0));
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i);
       pizza.setName(name);
@@ -176,6 +198,7 @@ public class DataLoader implements ApplicationRunner {
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
       pizza.setSizeInches(numSizes[i]);
+      pizza.setPrice(priceMap.get(name) * priceModifier.apply(i));
     }
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i + 3);
@@ -184,6 +207,7 @@ public class DataLoader implements ApplicationRunner {
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
       pizza.setSizeInches(numSizes[i]);
+      pizza.setPrice(priceMap.get(name) * priceModifier.apply(i) + 2);
     }
   }
 
