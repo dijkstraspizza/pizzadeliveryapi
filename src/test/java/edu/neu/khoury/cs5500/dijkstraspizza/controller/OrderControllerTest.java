@@ -90,10 +90,10 @@ public class OrderControllerTest {
     generic = new PriceCalculator();
     generic.setId("generic-price");
 
-    halfOffAll = new PriceCalculator(.5);
+    halfOffAll = new PriceCalculator(.5, "halfOff");
     halfOffAll.setId("half-off");
 
-    bogo = new PriceCalculator(2, 1, 1.0);
+    bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
 
     when(priceCalculatorController.getOrderPrice(eq(Optional.empty()), any(Order.class)))
