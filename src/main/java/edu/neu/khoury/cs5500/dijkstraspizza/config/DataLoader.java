@@ -137,6 +137,7 @@ public class DataLoader implements ApplicationRunner {
     pizzaRepository.saveAll(veggie);
     menuRepository.saveAll(Arrays.asList(regular, glutenFree));
     storeRepository.saveAll(Arrays.asList(first, store2, store3));
+    priceCalculatorRepository.saveAll(Arrays.asList(bogoSpecial, halfOfAll));
   }
 
   /**
