@@ -24,11 +24,11 @@ public class Swagger2Config {
         .paths(PathSelectors.any())
         .build()
         .apiInfo(apiInfo())
-        .tags(new Tag("ingredient-controller", "Provides CRUD operations for Ingredient objects"),
-            new Tag("menu-controller", "Provides CRUD operations for menu objects"),
-            new Tag("order-controller", "Provides CRUD operations for order objects"),
-            new Tag("pizza-controller", "Provides CRUD operations for pizza objects"),
-            new Tag("pizza-store-controller", "Provides CRUD operations for pizza store objects")
+        .tags(new Tag("ingredient", "Provides CRUD operations for Ingredient objects"),
+            new Tag("menu", "Provides CRUD operations for menu objects"),
+            new Tag("order", "Provides CRUD operations for order objects"),
+            new Tag("pizza", "Provides CRUD operations for pizza objects"),
+            new Tag("pizza-store", "Provides CRUD operations for pizza store objects")
         );
   }
 

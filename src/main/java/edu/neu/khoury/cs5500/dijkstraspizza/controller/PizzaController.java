@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-@Api(value = "pizzas", tags = {"pizza-controller"})
+@Api(value = "pizzas", tags = {"pizza"})
 @RestController
 @RequestMapping("/pizzas")
 public class PizzaController {
