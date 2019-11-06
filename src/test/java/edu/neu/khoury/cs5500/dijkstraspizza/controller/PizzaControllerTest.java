@@ -132,13 +132,13 @@ private static class Behavior {
   
   @Test
 	public void testGetAllPizzas() throws Exception {
-    // Behavior.set(pizzaRepository).returnPizzas(veggie, meat);
-    // List<Pizza> pizzas = Arrays.asList(veggie, meat);
-    // String pizzasContent = mapper.writeValueAsString(pizzas);
-    // mvc.perform(get("/pizzas/"))
-    //     .andExpect(status().isOk())
-    //     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-    //     .andExpect(content().json(pizzasContent));
+    Behavior.set(pizzaRepository).returnPizzas(veggie, meat);
+    List<Pizza> pizzas = Arrays.asList(veggie, meat);
+    String pizzasContent = mapper.writeValueAsString(pizzas);
+    mvc.perform(get("/pizzas/"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(pizzasContent));
 	}
 
 	@Test
