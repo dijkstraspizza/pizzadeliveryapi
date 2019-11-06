@@ -5,7 +5,6 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
-import io.swagger.models.auth.In;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

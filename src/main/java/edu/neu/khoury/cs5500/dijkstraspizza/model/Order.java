@@ -22,4 +22,5 @@ public class Order {
   private @NonNull Address custAddr;
   private List<Pizza> pizzas = new ArrayList<>();
   private double price;
+  private String specialId;
 }
