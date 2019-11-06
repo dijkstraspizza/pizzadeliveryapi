@@ -100,8 +100,8 @@ public class DataLoader implements ApplicationRunner {
   private Menu regular, glutenFree;
 
   // === Specials ===
-  private PriceCalculator bogoSpecial = new PriceCalculator(2, 1, 1.0);
-  private PriceCalculator halfOfAll = new PriceCalculator(.5);
+  private PriceCalculator bogoSpecial = new PriceCalculator(2, 1, 1.0, "bogo");
+  private PriceCalculator halfOfAll = new PriceCalculator(.5, "halfOff");
 
   // === Stores ===
   private PizzaStore first, store2, store3;
