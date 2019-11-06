@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Api(value = "price-calculators", tags="price-calculator")
+@Api(value = "price-calculators", tags={"price-calculator"})
 @RestController
 @RequestMapping("/prices")
 public class PriceCalculatorController {
