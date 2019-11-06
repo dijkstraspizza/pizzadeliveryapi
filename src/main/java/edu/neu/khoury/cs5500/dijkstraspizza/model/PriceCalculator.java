@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,23 +18,28 @@ public class PriceCalculator {
   private Double discountRatio;
   private Integer requiredPizzas;
   private Integer pizzasAppliedTo;
+  private String name;
 
   public PriceCalculator() {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
     this.discountRatio = 0.0;
+    this.name = "generic";
   }
 
-  public PriceCalculator(Double discountRatio) {
+  public PriceCalculator(Double discountRatio, String name) {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
     this.discountRatio = discountRatio;
+    this.name = name;
   }
 
-  public PriceCalculator(Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio) {
+  public PriceCalculator(Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
+                         String name) {
     this.requiredPizzas = requiredPizzas;
     this.pizzasAppliedTo = pizzasAppliedTo;
     this.discountRatio = discountRatio;
+    this.name = name;
   }
 
   private Double calculateBasePrice(List<Pizza> pizzas) {
