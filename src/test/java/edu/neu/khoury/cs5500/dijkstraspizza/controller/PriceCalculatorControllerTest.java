@@ -45,7 +45,7 @@ public class PriceCalculatorControllerTest {
   PriceCalculatorRepository repository;
 
   @MockBean
-  IngredientController ingredientController;
+  PizzaController pizzaController;
 
   @Autowired
   ObjectMapper mapper;
@@ -54,6 +54,10 @@ public class PriceCalculatorControllerTest {
   private PriceCalculator halfOffAll;
   private PriceCalculator bogo;
   private Order order;
+  private Pizza cheesePizza;
+  private Pizza pepperoniPizza;
+  private Pizza hugePizza;
+  private String pizzaParams;
 
   @Before
   public void setUp() throws Exception {
@@ -63,14 +67,17 @@ public class PriceCalculatorControllerTest {
     Address store = new Address("123", "Seattle", "WA", "98103");
     Address customer = new Address("abc", "Seattle", "WA", "98117");
 
-    Pizza cheesePizza = new Pizza();
+    cheesePizza = new Pizza();
     cheesePizza.setPrice(10.0);
+    cheesePizza.setId("cheese");
 
-    Pizza pepperoniPizza = new Pizza();
+    pepperoniPizza = new Pizza();
     pepperoniPizza.setPrice(12.0);
+    pepperoniPizza.setId("pepperoni");
 
-    Pizza hugePizza = new Pizza();
+    hugePizza = new Pizza();
     hugePizza.setPrice(30.0);
+    hugePizza.setId("huge");
 
     order = new Order(store, customer);
     order.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -83,6 +90,13 @@ public class PriceCalculatorControllerTest {
 
     bogo = new PriceCalculator(2, 1, 1.0);
     bogo.setId("bogo");
+
+    for (Pizza pizza: new Pizza[] {cheesePizza, pepperoniPizza, hugePizza}) {
+      when(pizzaController.getPizzaById(eq(pizza.getId()))).thenReturn(pizza);
+    }
+
+    pizzaParams = "pizzaId[]=" + pepperoniPizza.getId() +
+    "&pizzaId[]=" + cheesePizza.getId() + "&pizzaId[]=" + hugePizza.getId();
   }
 
   private static class Behavior {
@@ -197,11 +211,8 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceNoSpecial() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    String content = mapper.writeValueAsString(order);
     Double orderPrice = order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum();
-    mockMvc.perform(get("/prices/price")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(content))
+    mockMvc.perform(get("/prices/price?" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json(String.format("%s", orderPrice)));
@@ -210,11 +221,9 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceHalfOff() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    String content = mapper.writeValueAsString(order);
     Double orderPrice = order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum() * 0.5;
-    mockMvc.perform(get("/prices/price?special=" + halfOffAll.getId())
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(content))
+    mockMvc.perform(get("/prices/price?special=" + halfOffAll.getId() +
+        "&" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json(String.format("%s", orderPrice)));
@@ -223,11 +232,9 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceBogo() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    String content = mapper.writeValueAsString(order);
     Double orderPrice = 42.0;
-    mockMvc.perform(get("/prices/price?special=" + bogo.getId())
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(content))
+    mockMvc.perform(get("/prices/price?special=" + bogo.getId() +
+        "&" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json(String.format("%s", orderPrice)));
@@ -236,10 +243,7 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceBadSpecialId() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    String content = mapper.writeValueAsString(order);
-    mockMvc.perform(get("/prices/price?special=badId")
-        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(content))
+    mockMvc.perform(get("/prices/price?special=badId&" + pizzaParams))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$").doesNotExist());
   }
