@@ -1,12 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.config;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.AddressRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.*;
 
 import java.util.*;
 import java.util.function.Function;
@@ -42,6 +37,8 @@ public class DataLoader implements ApplicationRunner {
   PizzaRepository pizzaRepository;
   @Autowired
   PizzaStoreRepository storeRepository;
+  @Autowired
+  PriceCalculatorRepository priceCalculatorRepository;
 
   // === Addresses ===
   private Address firstAddr, storeAddr2, storeAddr3;
