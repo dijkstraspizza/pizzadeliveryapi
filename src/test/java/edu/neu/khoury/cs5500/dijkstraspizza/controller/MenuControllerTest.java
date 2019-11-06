@@ -1,7 +1,9 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,17 +56,61 @@ public class MenuControllerTest {
     MockitoAnnotations.initMocks(this);
     mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
+    // Ingredients Setup
+    Ingredient spinach = new Ingredient("Spinach", "Veggie", true);
+    Ingredient mushroom = new Ingredient("Mushrooms", "Veggie", true);
+    Ingredient ham = new Ingredient("Ham", "Meat", true);
+    Ingredient sausage = new Ingredient("Sausage", "Meat", true);
+    Ingredient pepperoni = new Ingredient("Pepperoni", "Meat", true);
+    Ingredient gfDough = new Ingredient("glutenFreeDough", "Crust", true);
+    spinach.setId("spinachId");
+    mushroom.setId("mushroomsId");
+    ham.setId("hamId");
+    sausage.setId("sausageId");
+    pepperoni.setId("pepperoniId");
+    gfDough.setId("glutenFreeDoughId");
+
+    // Pizza Setup
+    // spinach
+    Pizza spinachPizza = new Pizza();
+    spinachPizza.setId("spinachPizza");
+    spinachPizza.setIngredients(new HashSet<>(Collections.singletonList(spinach)));
+    // mushroom
+    Pizza mushroomPizza = new Pizza();
+    mushroomPizza.setId("mushroomPizza");
+    mushroomPizza.setIngredients(new HashSet<>(Collections.singletonList(mushroom)));
+    // veggie
+    Pizza vegPizza = new Pizza();
+    vegPizza.setId("vegPizza");
+    vegPizza.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
+    // ham
+    Pizza hamPizza = new Pizza();
+    hamPizza.setId("hamPizza");
+    hamPizza.setIngredients(new HashSet<>(Collections.singletonList(ham)));
+    // sausage
+    Pizza sausagePizza = new Pizza();
+    sausagePizza.setId("sausagePizza");
+    sausagePizza.setIngredients(new HashSet<>(Collections.singletonList(sausage)));
+    // meat
+    Pizza meatPizza = new Pizza();
+    meatPizza.setId("meatPizza");
+    meatPizza.setIngredients(new HashSet<>(Arrays.asList(ham, sausage)));
+    // gf pizza
+    Pizza gfPizza = new Pizza();
+    gfPizza.setId("glutenFreePizzaId");
+    gfPizza.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
+
     vegMenu.setId("vegMenuId");
-    vegMenu.setIngredientIds(new HashSet<>(Arrays.asList("spinachId", "mushroomsId")));
-    vegMenu.setPizzaIds(new HashSet<>(Arrays.asList("spinachPizza", "mushroomPizza", "vegPizza")));
+    vegMenu.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
+    vegMenu.setPizzas(new HashSet<>(Arrays.asList(spinachPizza, mushroomPizza, vegPizza)));
 
     nonVegMenu.setId("nonVegMenuId");
-    nonVegMenu.setIngredientIds(new HashSet<>(Arrays.asList("hamId", "sausageId")));
-    nonVegMenu.setPizzaIds(new HashSet<>(Arrays.asList("hamPizza", "sausagePizza", "meatPizza")));
+    nonVegMenu.setIngredients(new HashSet<>(Arrays.asList(ham, sausage)));
+    nonVegMenu.setPizzas(new HashSet<>(Arrays.asList(hamPizza, sausagePizza, meatPizza)));
 
     glutenFreeMenu.setId("glutenFreeMenuId");
-    glutenFreeMenu.setIngredientIds(new HashSet<>(Arrays.asList("glutenFreeDoughId", "pepperoniId")));
-    glutenFreeMenu.setPizzaIds(new HashSet<>(Collections.singletonList("glutenFreePizzaId")));
+    glutenFreeMenu.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
+    glutenFreeMenu.setPizzas(new HashSet<>(Collections.singletonList(gfPizza)));
   }
 
   private static class Behavior {
@@ -184,7 +230,13 @@ public class MenuControllerTest {
   @Test
   public void updateMenuByIdSomeMenusHasMatch() throws Exception {
     Behavior.set(repository).returnMenus(nonVegMenu, vegMenu);
-    vegMenu.getPizzaIds().add("cheesePizzaId");
+    Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
+    cheese.setId("mozzarellaId");
+    Pizza cheesePizza = new Pizza();
+    cheesePizza.setId("cheesePizzaId");
+    cheesePizza.setIngredients(new HashSet<>(Collections.singletonList(cheese)));
+
+    vegMenu.getPizzas().add(cheesePizza);
     String content = mapper.writeValueAsString(vegMenu);
     mockMvc.perform(put("/menus/")
         .content(content)

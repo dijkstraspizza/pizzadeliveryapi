@@ -6,14 +6,26 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * A Pizza object with lombok generated boilerplate code (constructor, equals, hashCode, toString,
+ * getters, setters).
+ */
 @Document(collection = "pizzas")
 @Data
-public class Pizza {
+public class Pizza implements Comparable<Pizza>{
 
   @Id
   private String id;
-  private int sizeInches;
+  private String name;
   private String sizeDesc;
-  private Set<String> ingredientIds = new HashSet<>();
-  private double price;
+
+  private int sizeInches;
+
+  private Set<Ingredient> ingredients = new HashSet<>();
+  private Double price;
+
+  @Override
+  public int compareTo(Pizza o) {
+    return price.compareTo(o.getPrice());
+  }
 }

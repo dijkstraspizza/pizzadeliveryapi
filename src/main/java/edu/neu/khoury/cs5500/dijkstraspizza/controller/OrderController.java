@@ -11,14 +11,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
-@Api(value = "orders", tags = {"order-controller"})
+@Api(value = "orders", tags = {"order"})
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
   @Autowired
   private OrderRepository repository;
+
+  @Autowired
+  private PriceCalculatorController priceCalculatorController;
+
 
   /*===== GET Methods =====*/
 
@@ -53,6 +58,9 @@ public class OrderController {
   public Order newOrder(
       @ApiParam(value = "JSON Order object without an id field", required = true)
       @Valid @RequestBody Order order) {
+    Double price = priceCalculatorController.getOrderPrice(
+        Optional.ofNullable(order.getSpecialId()), order);
+    order.setPrice(price);
     repository.save(order);
     return order;
   }
@@ -73,6 +81,9 @@ public class OrderController {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Order with id=" + id + " not found.");
     }
+    Double price = priceCalculatorController.getOrderPrice(
+        Optional.ofNullable(order.getSpecialId()), order);
+    order.setPrice(price);
     repository.save(order);
   }
 }
