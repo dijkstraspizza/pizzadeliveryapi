@@ -101,12 +101,15 @@ private static class Behavior {
     public Behavior returnPizzas(Pizza... pizzas) {
       when(pizzaRepository.findAll()).thenReturn(Arrays.asList(pizzas));
       when(pizzaRepository.findById(any()))
-          .thenAnswer(invocationOnMock -> Arrays.stream(pizzas)
-              .filter(pizza -> pizza.getId()
-                  .equals(invocationOnMock.getArguments()[0])).collect(Collectors.toList()));
-      for (Pizza p : pizzas) {
-        when(pizzaRepository.findById(p.getId())).thenReturn(Optional.of(p));
+          .thenAnswer(invocationOnMock -> {
+            for (Pizza p : pizzas) {
+        if (p.getId().equals(invocationOnMock.getArguments()[0])){
+            return Optional.of(p);
+        }
       }
+      return Optional.empty();
+    });
+        
       when(pizzaRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
         for (Pizza p : pizzas) {
           if (p.getId().equals((String) invocationOnMock.getArguments()[0])) {
@@ -168,10 +171,10 @@ private static class Behavior {
 
 	@Test
 	public void testDeletePizzaById() throws Exception {
-    // Behavior.set(pizzaRepository).returnPizzas(meat, veggie);
-    // mvc.perform(delete("/pizzas/meatId"))
-    //     .andExpect(status().isOk())
-    //     .andExpect(jsonPath("$").doesNotExist());
+    Behavior.set(pizzaRepository).returnPizzas(meat, veggie);
+    mvc.perform(delete("/pizzas/meatId"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
 	}
 
 }
