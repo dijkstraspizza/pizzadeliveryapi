@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(value = "stores", tags = {"pizza-store-controller"})
+@Api(value = "stores", tags = {"pizza-store"})
 @RestController
 @RequestMapping("/stores")
 public class PizzaStoreController {

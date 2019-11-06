@@ -16,8 +16,11 @@ public class Pizza {
 
   @Id
   private String id;
-  private int sizeInches;
+  private String name;
   private String sizeDesc;
+
+  private int sizeInches;
+
   private Set<Ingredient> ingredients = new HashSet<>();
   private double price;
 }
