@@ -1,10 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.config;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaStore;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.AddressRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;

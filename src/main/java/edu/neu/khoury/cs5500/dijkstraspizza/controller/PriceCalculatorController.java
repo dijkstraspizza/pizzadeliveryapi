@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
@@ -12,16 +13,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Api(value = "price-calculators", tags="price-calculator-controller")
+@Api(value = "price-calculators", tags={"price-calculator"})
 @RestController
 @RequestMapping("/prices")
 public class PriceCalculatorController {
 
   @Autowired
   private PriceCalculatorRepository repository;
+
+  @Autowired
+  private PizzaController pizzaController;
 
   /*===== GET Methods =====*/
 
@@ -34,17 +39,23 @@ public class PriceCalculatorController {
   @RequestMapping(value = "/price", method = RequestMethod.GET)
   public @ResponseBody Double getOrderPrice(
       @ApiParam(value = "id of the special to apply", example = "bogoSpecial")
-      @RequestParam("special") Optional<String> specialId, @Valid @RequestBody Order order) {
+      @RequestParam("special") Optional<String> specialId,
+      @ApiParam(value="Id of Pizza(s) in the order", example = "cheesePizzaId")
+      @RequestParam(value = "pizzaId[]") String[] pizzaIds) {
+    List<Pizza> pizzas = new ArrayList<>();
+    for (String id : pizzaIds) {
+      pizzas.add(pizzaController.getPizzaById(id));
+    }
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return priceCalculator.calculate(order.getPizzas());
+      return priceCalculator.calculate(pizzas);
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return priceCalculator.calculate(order.getPizzas());
+    return priceCalculator.calculate(pizzas);
   }
 
   @ApiOperation(
-      value = "Gets all ingredients in all categories",
+      value = "Gets all price calculators.",
       response = PriceCalculator.class,
       responseContainer = "List",
       produces = "application/json"
@@ -113,5 +124,14 @@ public class PriceCalculatorController {
       );
     }
     return repository.findById(id).get();
+  }
+
+  Double getOrderPrice(Optional<String> specialId, Order order) {
+    if (specialId.isEmpty()) {
+      PriceCalculator priceCalculator = new PriceCalculator();
+      return priceCalculator.calculate(order.getPizzas());
+    }
+    PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
+    return priceCalculator.calculate(order.getPizzas());
   }
 }
