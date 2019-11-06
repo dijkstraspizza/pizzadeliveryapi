@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Api(value = "price-calculators", tags="price-calculator-controller")
+@Api(value = "price-calculators", tags="price-calculator")
 @RestController
 @RequestMapping("/prices")
 public class PriceCalculatorController {
