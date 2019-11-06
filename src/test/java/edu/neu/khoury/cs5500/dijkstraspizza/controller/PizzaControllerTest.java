@@ -165,8 +165,14 @@ private static class Behavior {
 	}
 
 	@Test
-	public void testUpdatePizzaById() throws Exception {
-
+	public void testUpdatePizzaByIdNoMatch() throws Exception {
+    Behavior.set(pizzaRepository).returnPizzas(veggie);
+    String content = mapper.writeValueAsString(meat);
+    mvc.perform(put("/pizzas/")
+        .content(content)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
 	}
 
 	@Test
