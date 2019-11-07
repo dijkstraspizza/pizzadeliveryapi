@@ -222,12 +222,12 @@ public class DataLoader implements ApplicationRunner {
         chicken, basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers));
     // Gluten free menu
     glutenFree = new Menu();
-    glutenFree.getPizzas().addAll(cheese.subList(0, 6));
-    glutenFree.getPizzas().addAll(margherita.subList(0, 6));
-    glutenFree.getPizzas().addAll(pepperoni.subList(0, 6));
-    glutenFree.getPizzas().addAll(supreme.subList(0, 6));
-    glutenFree.getPizzas().addAll(hawaiian.subList(0, 6));
-    glutenFree.getPizzas().addAll(veggie.subList(0, 6));
+    glutenFree.getPizzas().addAll(cheese);
+    glutenFree.getPizzas().addAll(margherita);
+    glutenFree.getPizzas().addAll(pepperoni);
+    glutenFree.getPizzas().addAll(supreme);
+    glutenFree.getPizzas().addAll(hawaiian);
+    glutenFree.getPizzas().addAll(veggie);
     glutenFree.getIngredients()
         .addAll(Arrays.asList(crust, gfCrust, tomSauce, gfTomSauce, moz, pep, sausage, ham, bacon,
             chicken, basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers));
