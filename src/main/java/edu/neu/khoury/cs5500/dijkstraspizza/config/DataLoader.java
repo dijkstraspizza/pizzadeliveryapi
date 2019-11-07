@@ -4,14 +4,11 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.*;
 
 import java.util.*;
-import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import static edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.*;
 
 /**
  * This class loads data into the API database if there is no data already in it. It tests the
@@ -184,8 +181,6 @@ public class DataLoader implements ApplicationRunner {
     List<Ingredient> gfBase = Arrays.asList(gfCrust, gfTomSauce, moz);
     PizzaSize[] nameSizes = new PizzaSize[]{edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8),
         edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10), edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.large(12)};
-    int[] numSizes = new int[]{11, 15, 17};
-    Function<Integer, Double> priceModifier = size -> (1.0 + ((size + 1.0)/2.0));
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i);
       pizza.setName(name);

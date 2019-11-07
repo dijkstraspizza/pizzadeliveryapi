@@ -1,8 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 
-import org.springframework.data.annotation.PersistenceConstructor;
-
 public class PizzaSize {
 
   private static final double SMALL = 8.0;
@@ -16,7 +14,6 @@ public class PizzaSize {
   private String description;
   private double value;
 
-  @PersistenceConstructor
   public PizzaSize(double inches, String description, double value) {
     this.description = description;
     this.inches = inches;
