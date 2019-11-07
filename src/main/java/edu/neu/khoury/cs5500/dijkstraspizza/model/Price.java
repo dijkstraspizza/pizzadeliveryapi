@@ -7,6 +7,9 @@ public class Price {
     this.price = price;
   }
 
+  public Price() {
+  }
+
   public Double get() {
     return price;
   }
