@@ -50,19 +50,19 @@ public class PriceCalculatorTest {
     genericNoFreeIngredients = new PriceCalculator();
     genericNoFreeIngredients.setId("generic-price");
 
-    halfOffAll = new PriceCalculator(.5);
+    halfOffAll = new PriceCalculator(.5, "halfOff");
     halfOffAll.setId("half-off");
 
-    bogo = new PriceCalculator(2, 1, 1.0);
+    bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
 
-    buyOneGetTwoFree = new PriceCalculator(3, 2, 1.0);
+    buyOneGetTwoFree = new PriceCalculator(3, 2, 1.0, "buyOneGetTwo");
     buyOneGetTwoFree.setId("buy-one-get-two");
 
-    buyTwoGetOneHalfOff = new PriceCalculator(3, 1, .5);
+    buyTwoGetOneHalfOff = new PriceCalculator(3, 1, .5, "buyTwoGetHalf");
     buyTwoGetOneHalfOff.setId("buy-two-get-half");
 
-    buyThreeGet25OffAll = new PriceCalculator(3, -1, .25);
+    buyThreeGet25OffAll = new PriceCalculator(3, -1, .25, "buyThreeGet25");
   }
 
   @Test
