@@ -6,6 +6,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 /**
  * A Pizza object with lombok generated boilerplate code (constructor, equals, hashCode, toString,
  * getters, setters).
@@ -14,10 +17,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class Pizza implements Comparable<Pizza>{
 
+  public static enum PizzaSize {
+
+    SMALL(8),
+    MEDIUM(10),
+    LARGE(12);
+
+    int value;
+
+    PizzaSize(int i) {
+      this.value = i;
+    }
+
+    public int getValue() {
+      return this.value;
+    }
+
+
+  }
+
   @Id
   private String id;
   private String name;
-  private String sizeDesc;
+  @Enumerated(EnumType.STRING)
+  private PizzaSize sizeDesc;
 
   private int sizeInches;
 
