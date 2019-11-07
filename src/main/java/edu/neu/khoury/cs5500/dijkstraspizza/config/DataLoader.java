@@ -28,8 +28,6 @@ public class DataLoader implements ApplicationRunner {
 
   // === Repository links ===
   @Autowired
-  AddressRepository addressRepository;
-  @Autowired
   IngredientRepository ingredientRepository;
   @Autowired
   MenuRepository menuRepository;
@@ -118,18 +116,22 @@ public class DataLoader implements ApplicationRunner {
     initStores();
 
     // Load starter data
-    addressRepository.saveAll(Arrays.asList(firstAddr, storeAddr2, storeAddr3));
+    ingredientRepository.deleteAll();
     ingredientRepository
         .saveAll(Arrays.asList(crust, gfCrust, tomSauce, gfTomSauce, moz, pep, sausage, ham, bacon,
             chicken, basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers));
+    pizzaRepository.deleteAll();
     pizzaRepository.saveAll(cheese);
     pizzaRepository.saveAll(margherita);
     pizzaRepository.saveAll(pepperoni);
     pizzaRepository.saveAll(supreme);
     pizzaRepository.saveAll(hawaiian);
     pizzaRepository.saveAll(veggie);
+    menuRepository.deleteAll();
     menuRepository.saveAll(Arrays.asList(regular, glutenFree));
+    storeRepository.deleteAll();
     storeRepository.saveAll(Arrays.asList(first, store2, store3));
+    priceCalculatorRepository.deleteAll();
     priceCalculatorRepository.saveAll(Arrays.asList(bogoSpecial, halfOfAll));
   }
 
