@@ -7,14 +7,16 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaStore;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -27,7 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,18 +38,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PizzaStoreController.class)
 @ContextConfiguration(classes =
-    {TestContext.class, WebApplicationContext.class, PizzaStoreController.class})
+    {TestContext.class, WebApplicationContext.class, PizzaStoreController.class, MenuController.class, PizzaController.class})
 @WebAppConfiguration
+// @AutoConfigureMockMvc
 public class PizzaStoreControllerTest {
 
 	@Autowired
 	private WebApplicationContext context;
-
+	
 	@Autowired
 	private MockMvc mvc;
 
 	@MockBean
 	private PizzaStoreRepository pizzaStoreRepository;
+
+	@MockBean
+	private MenuRepository menuRepository;
+
+	@MockBean
+	private PizzaRepository pizzaRepository;
+
+
 
 
 	@Autowired
@@ -133,6 +144,7 @@ public class PizzaStoreControllerTest {
 
 			store2 = new PizzaStore(storeAddr2);
 			store2.setMenu(glutenFree);
+			store2.setId("secondId");
 
 			store3 = new PizzaStore(storeAddr3);
 			store3.setMenu(glutenFree);
@@ -221,37 +233,73 @@ public class PizzaStoreControllerTest {
         .andExpect(content().json(stores));
   }
 
+  @Test
+	public void testGetStoreByIdSomeStoresNoMatch() throws Exception {
+		Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
+    	mvc.perform(get("/stores/Id"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void testGetStoreByIdNoStores() throws Exception {
+	  Behavior.set(pizzaStoreRepository).hasNoPizzasStores();
+	  mvc.perform(get("/stores/anId"))
+	  .andExpect(status().isNotFound())
+	  .andExpect(jsonPath("$").doesNotExist());
+}
+
 
 	@Test
 	public void testNewStore() throws Exception {
 		
-		// Behavior.set(pizzaStoreRepository).returnSame();
-		// String store = mapper.writeValueAsString(store2);
-		// mvc.perform(post("/stores/")
-		// .content(store)
-		// .contentType(MediaType.APPLICATION_JSON_UTF8))
-        // .andExpect(status().isCreated())
-        // // .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        // .andExpect(content().json(store));
+		Behavior.set(pizzaStoreRepository).returnSame();
+		String content = mapper.writeValueAsString(new PizzaStore(storeAddr2));
+		mvc.perform(post("/stores/")
+		.content(content)
+		.contentType(MediaType.APPLICATION_JSON_UTF8)).
+		andExpect(status().isCreated())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
 	}
 
 	@Test
 	public void testUpdateStoreById() throws Exception {
-		// Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
-		// Address addressNew = new Address("test", "test", "test", "test");
-		// String store = mapper.writeValueAsString(first);
-		// first.setAddress(addressNew);
-		// mvc.perform(put("/stores/")
-		// .content(store)
-		// .contentType(MediaType.APPLICATION_JSON_UTF8))
-        // .andExpect(status().isOk())
-        // .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        // .andExpect(content().json(store));
+		Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
+		Address addressNew = new Address("test", "test", "test", "test");
+		first.setAddress(addressNew);
+		String store = mapper.writeValueAsString(first);
+		mvc.perform(put("/stores/")
+		.content(store)
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
 	}
 
 	@Test
 	public void testDeleteStoreById() throws Exception {
-
+		Behavior.set(pizzaStoreRepository).returnPizzasStores(first);
+    	mvc.perform(delete("/stores/firstId"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
 	}
+
+	@Test
+  public void deleteStoreByIdSomeStoresHasMatch() throws Exception {
+	  store2.setId("secondId");
+    Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
+    mvc.perform(delete("/stores/secondId"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void deleteStoreByIdSomeStoresHasNoMatch() throws Exception {
+	  store2.setId("secondId");
+    Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
+    mvc.perform(delete("/stores/badId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
 
 }
