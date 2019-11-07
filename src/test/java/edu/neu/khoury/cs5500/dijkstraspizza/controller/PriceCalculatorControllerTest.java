@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PriceCalculatorController.class)
@@ -67,16 +68,13 @@ public class PriceCalculatorControllerTest {
     Address store = new Address("123", "Seattle", "WA", "98103");
     Address customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza();
-    cheesePizza.setPrice(10.0);
+    cheesePizza = new Pizza(SMALL);
     cheesePizza.setId("cheese");
 
-    pepperoniPizza = new Pizza();
-    pepperoniPizza.setPrice(12.0);
+    pepperoniPizza = new Pizza(MEDIUM);
     pepperoniPizza.setId("pepperoni");
 
-    hugePizza = new Pizza();
-    hugePizza.setPrice(30.0);
+    hugePizza = new Pizza(LARGE);
     hugePizza.setId("huge");
 
     order = new Order(store, customer);
@@ -232,7 +230,7 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceBogo() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    Double orderPrice = 42.0;
+    Double orderPrice = 22.0;
     mockMvc.perform(get("/prices/price?special=" + bogo.getId() +
         "&" + pizzaParams))
         .andExpect(status().isOk())

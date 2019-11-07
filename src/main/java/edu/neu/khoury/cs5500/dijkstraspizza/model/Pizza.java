@@ -1,8 +1,11 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,37 +18,45 @@ import javax.persistence.Enumerated;
  */
 @Document(collection = "pizzas")
 @Data
-public class Pizza implements Comparable<Pizza>{
+public class Pizza implements Comparable<Pizza> {
 
-  public static enum PizzaSize {
+  private static Double SMALL_PRICE = 8.0;
+  private static Double MEDIUM_PRICE = 10.0;
+  private static Double LARGE_PRICE = 12.0;
 
-    SMALL(8),
-    MEDIUM(10),
-    LARGE(12);
+  public enum PizzaSize {
 
-    int value;
+    SMALL(SMALL_PRICE),
+    MEDIUM(MEDIUM_PRICE),
+    LARGE(LARGE_PRICE);
 
-    PizzaSize(int i) {
-      this.value = i;
+    private double value;
+
+    PizzaSize(double value) {
+      this.value = value;
     }
 
-    public int getValue() {
+    public double getValue() {
       return this.value;
     }
-
-
   }
 
   @Id
   private String id;
   private String name;
+
   @Enumerated(EnumType.STRING)
   private PizzaSize sizeDesc;
 
   private int sizeInches;
 
-  private Set<Ingredient> ingredients = new HashSet<>();
+  private List<Ingredient> ingredients = new ArrayList<>();
   private Double price;
+
+  public Pizza(PizzaSize size) {
+    sizeDesc = size;
+    price = size.getValue();
+  }
 
   @Override
   public int compareTo(Pizza o) {

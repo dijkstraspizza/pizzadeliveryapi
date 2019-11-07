@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MenuController.class)
@@ -72,33 +73,33 @@ public class MenuControllerTest {
 
     // Pizza Setup
     // spinach
-    Pizza spinachPizza = new Pizza();
+    Pizza spinachPizza = new Pizza(SMALL);
     spinachPizza.setId("spinachPizza");
-    spinachPizza.setIngredients(new HashSet<>(Collections.singletonList(spinach)));
+    spinachPizza.setIngredients(Collections.singletonList(spinach));
     // mushroom
-    Pizza mushroomPizza = new Pizza();
+    Pizza mushroomPizza = new Pizza(SMALL);
     mushroomPizza.setId("mushroomPizza");
-    mushroomPizza.setIngredients(new HashSet<>(Collections.singletonList(mushroom)));
+    mushroomPizza.setIngredients(Collections.singletonList(mushroom));
     // veggie
-    Pizza vegPizza = new Pizza();
+    Pizza vegPizza = new Pizza(SMALL);
     vegPizza.setId("vegPizza");
-    vegPizza.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
+    vegPizza.setIngredients(Arrays.asList(spinach, mushroom));
     // ham
-    Pizza hamPizza = new Pizza();
+    Pizza hamPizza = new Pizza(SMALL);
     hamPizza.setId("hamPizza");
-    hamPizza.setIngredients(new HashSet<>(Collections.singletonList(ham)));
+    hamPizza.setIngredients(Collections.singletonList(ham));
     // sausage
-    Pizza sausagePizza = new Pizza();
+    Pizza sausagePizza = new Pizza(SMALL);
     sausagePizza.setId("sausagePizza");
-    sausagePizza.setIngredients(new HashSet<>(Collections.singletonList(sausage)));
+    sausagePizza.setIngredients(Collections.singletonList(sausage));
     // meat
-    Pizza meatPizza = new Pizza();
+    Pizza meatPizza = new Pizza(SMALL);
     meatPizza.setId("meatPizza");
-    meatPizza.setIngredients(new HashSet<>(Arrays.asList(ham, sausage)));
+    meatPizza.setIngredients(Arrays.asList(ham, sausage));
     // gf pizza
-    Pizza gfPizza = new Pizza();
+    Pizza gfPizza = new Pizza(SMALL);
     gfPizza.setId("glutenFreePizzaId");
-    gfPizza.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
+    gfPizza.setIngredients(Arrays.asList(gfDough, pepperoni));
 
     vegMenu.setId("vegMenuId");
     vegMenu.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
@@ -134,7 +135,7 @@ public class MenuControllerTest {
     public void returnMenus(Menu... menus) {
       when(repository.findAll()).thenReturn(Arrays.asList(menus));
       when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Menu menu: menus) {
+        for (Menu menu : menus) {
           if (menu.getId().equals(invocationOnMock.getArguments()[0])) {
             return true;
           }
@@ -232,9 +233,9 @@ public class MenuControllerTest {
     Behavior.set(repository).returnMenus(nonVegMenu, vegMenu);
     Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
     cheese.setId("mozzarellaId");
-    Pizza cheesePizza = new Pizza();
+    Pizza cheesePizza = new Pizza(SMALL);
     cheesePizza.setId("cheesePizzaId");
-    cheesePizza.setIngredients(new HashSet<>(Collections.singletonList(cheese)));
+    cheesePizza.setIngredients(Collections.singletonList(cheese));
 
     vegMenu.getPizzas().add(cheesePizza);
     String content = mapper.writeValueAsString(vegMenu);

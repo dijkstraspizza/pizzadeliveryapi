@@ -1,17 +1,19 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 import lombok.Data;
-import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Document(collection = "price-calculators")
 @Data
 public class PriceCalculator {
 
+  private static final int DEFAULT_FREE_INGREDIENTS = 1;
+  private static final double DEFAULT_INGREDIENT_COST = 2;
 
   @Id
   private String id;
@@ -19,12 +21,25 @@ public class PriceCalculator {
   private Integer requiredPizzas;
   private Integer pizzasAppliedTo;
   private String name;
+  private Integer freeIngredients;
+  private Double ingredientCost;
 
   public PriceCalculator() {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
     this.discountRatio = 0.0;
     this.name = "generic";
+    this.freeIngredients = DEFAULT_FREE_INGREDIENTS;
+    this.ingredientCost = DEFAULT_INGREDIENT_COST;
+  }
+
+  public PriceCalculator(Integer freeIngredients, Double ingredientCost, String name) {
+    this.requiredPizzas = 0;
+    this.pizzasAppliedTo = -1;
+    this.discountRatio = 0.0;
+    this.name = name;
+    this.freeIngredients = freeIngredients;
+    this.ingredientCost = ingredientCost;
   }
 
   public PriceCalculator(Double discountRatio, String name) {
@@ -32,6 +47,18 @@ public class PriceCalculator {
     this.pizzasAppliedTo = -1;
     this.discountRatio = discountRatio;
     this.name = name;
+    this.freeIngredients = DEFAULT_FREE_INGREDIENTS;
+    this.ingredientCost = DEFAULT_INGREDIENT_COST;
+  }
+
+  public PriceCalculator(Integer freeIngredients, Double ingredientCost,
+                         Double discountRatio, String name) {
+    this.requiredPizzas = 0;
+    this.pizzasAppliedTo = -1;
+    this.discountRatio = discountRatio;
+    this.name = name;
+    this.freeIngredients = freeIngredients;
+    this.ingredientCost = ingredientCost;
   }
 
   public PriceCalculator(Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
@@ -40,10 +67,31 @@ public class PriceCalculator {
     this.pizzasAppliedTo = pizzasAppliedTo;
     this.discountRatio = discountRatio;
     this.name = name;
+    this.freeIngredients = DEFAULT_FREE_INGREDIENTS;
+    this.ingredientCost = DEFAULT_INGREDIENT_COST;
+  }
+
+  public PriceCalculator(Integer freeIngredients, Double ingredientCost,
+                         Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
+                         String name) {
+    this.requiredPizzas = requiredPizzas;
+    this.pizzasAppliedTo = pizzasAppliedTo;
+    this.discountRatio = discountRatio;
+    this.name = name;
+    this.freeIngredients = freeIngredients;
+    this.ingredientCost = ingredientCost;
+  }
+
+  private Double calculatePizzaPrice(Pizza pizza) {
+    double price = pizza.getPrice();
+    for (int i = freeIngredients; i < pizza.getIngredients().size(); i++) {
+      price += ingredientCost;
+    }
+    return price;
   }
 
   private Double calculateBasePrice(List<Pizza> pizzas) {
-    return pizzas.stream().mapToDouble(Pizza::getPrice).sum();
+    return pizzas.stream().mapToDouble(this::calculatePizzaPrice).sum();
   }
 
   public Double calculate(List<Pizza> pizzas) {
@@ -55,13 +103,14 @@ public class PriceCalculator {
       return price - price * discountRatio;
     }
     List<Pizza> sortedPizzas = new ArrayList<>(pizzas);
-    sortedPizzas.sort(Pizza::compareTo);
+    sortedPizzas.sort(Comparator.comparing(this::calculatePizzaPrice));
     double price = 0;
     for (int i = 0; i < pizzasAppliedTo; i++) {
-      price += sortedPizzas.get(i).getPrice() - discountRatio * sortedPizzas.get(i).getPrice();
+      price += calculatePizzaPrice(sortedPizzas.get(i)) -
+          discountRatio * calculatePizzaPrice(sortedPizzas.get(i));
     }
     for (int i = pizzasAppliedTo; i < pizzas.size(); i++) {
-      price += sortedPizzas.get(i).getPrice();
+      price += calculatePizzaPrice(sortedPizzas.get(i));
     }
     return price;
   }
