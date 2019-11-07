@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,7 +30,7 @@ public class Pizza implements Comparable<Pizza> {
     MEDIUM(MEDIUM_PRICE),
     LARGE(LARGE_PRICE);
 
-    double value;
+    private double value;
 
     PizzaSize(double value) {
       this.value = value;
@@ -43,6 +44,7 @@ public class Pizza implements Comparable<Pizza> {
   @Id
   private String id;
   private String name;
+
   @Enumerated(EnumType.STRING)
   private PizzaSize sizeDesc;
 
@@ -50,6 +52,11 @@ public class Pizza implements Comparable<Pizza> {
 
   private List<Ingredient> ingredients = new ArrayList<>();
   private Double price;
+
+  public Pizza(PizzaSize size) {
+    sizeDesc = size;
+    price = size.getValue();
+  }
 
   @Override
   public int compareTo(Pizza o) {
