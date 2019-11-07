@@ -1,9 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model.price;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -35,14 +32,13 @@ public class PriceCalculatorTest {
     Address store = new Address("123", "Seattle", "WA", "98103");
     Address customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza();
-    cheesePizza.setPrice(10.0);
+    cheesePizza = new Pizza(Pizza.PizzaSize.SMALL);
 
-    pepperoniPizza = new Pizza();
-    pepperoniPizza.setPrice(12.0);
+    pepperoniPizza = new Pizza(Pizza.PizzaSize.MEDIUM);
 
-    hugePizza = new Pizza();
-    hugePizza.setPrice(30.0);
+    hugePizza = new Pizza(Pizza.PizzaSize.LARGE);
+    hugePizza.setIngredients(Arrays.asList(new Ingredient("mushrooms", "vegetable", true),
+        new Ingredient("ham", "meat", true)));
 
     order = new Order(store, customer);
     order.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -67,19 +63,17 @@ public class PriceCalculatorTest {
 
   @Test
   public void calculateGeneric() {
-    assertEquals(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum(),
-        genericNoFreeIngredients.calculate(order.getPizzas()), 0);
+    assertEquals(32, genericNoFreeIngredients.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateHalfOffAll() {
-    assertEquals(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum() * .5,
-        halfOffAll.calculate(order.getPizzas()), 0);
+    assertEquals(16, halfOffAll.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateBogo() {
-    assertEquals(42.0, bogo.calculate(order.getPizzas()), 0);
+    assertEquals(24, bogo.calculate(order.getPizzas()), 0);
   }
 
   @Test
@@ -90,30 +84,29 @@ public class PriceCalculatorTest {
 
   @Test
   public void calculateBuyOneGetTwo() {
-    assertEquals(30.0, buyOneGetTwoFree.calculate(order.getPizzas()), 0);
+    assertEquals(14, buyOneGetTwoFree.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateBuyOneGetTwoOnlyTwo() {
     order.setPizzas(Arrays.asList(cheesePizza, pepperoniPizza));
-    assertEquals(22.0, buyOneGetTwoFree.calculate(order.getPizzas()), 0);
+    assertEquals(18, buyOneGetTwoFree.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateTwoGetHalf() {
-    assertEquals(47.0, buyTwoGetOneHalfOff.calculate(order.getPizzas()), 0);
+    assertEquals(28, buyTwoGetOneHalfOff.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateBuyThreeGet25Off() {
-    assertEquals(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum() * .75,
+    assertEquals(32 * .75,
         buyThreeGet25OffAll.calculate(order.getPizzas()), 0);
   }
 
   @Test
   public void calculateBuyThreeGet25OffNotSatisfied() {
     order.setPizzas(Arrays.asList(pepperoniPizza, hugePizza));
-    assertEquals(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum(),
-        buyThreeGet25OffAll.calculate(order.getPizzas()), 0);
+    assertEquals(24, buyThreeGet25OffAll.calculate(order.getPizzas()), 0);
   }
 }

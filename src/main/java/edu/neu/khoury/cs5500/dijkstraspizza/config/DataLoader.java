@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 /**
  * This class loads data into the API database if there is no data already in it. It tests the
@@ -59,17 +60,23 @@ public class DataLoader implements ApplicationRunner {
   // === Pizzas ===
   // Lists contain regular pizzas (sm, med, lg) and gluten-free (sm, med, lg).
   private List<Pizza> cheese = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
   private List<Pizza> margherita = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
   private List<Pizza> pepperoni = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
   private List<Pizza> supreme = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
   private List<Pizza> hawaiian = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
   private List<Pizza> veggie = new ArrayList<>(
-      Arrays.asList(new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza(), new Pizza()));
+      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
+          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
 
   // Names of the 6 Pizzas
   private final String CHEESE_NAME = "Cheese";
@@ -78,21 +85,6 @@ public class DataLoader implements ApplicationRunner {
   private final String SUPREME_NAME = "Supreme";
   private final String HAWAIIAN_NAME = "Hawaiian";
   private final String VEGETABLE_NAME = "Vegetable";
-
-  // Prices of the 6 pizzas
-  private final Double CHEESE_PRICE = 10.0;
-  private final Double MARGHERITA_PRICE = 12.0;
-  private final Double PEPPERONI_PRICE = 12.0;
-  private final Double SUPREME_PRICE = 15.0;
-  private final Double HAWAIIAN_PRICE = 12.0;
-  private final Double VEGGIE_PRICE = 12.0;
-  private final Map<String, Double> priceMap= Map.of(
-      CHEESE_NAME, CHEESE_PRICE,
-      MARGHERITA_NAME, MARGHERITA_PRICE,
-      PEPPERONI_NAME, PEPPERONI_PRICE,
-      SUPREME_NAME, SUPREME_PRICE,
-      HAWAIIAN_NAME, HAWAIIAN_PRICE,
-      VEGETABLE_NAME, VEGGIE_PRICE);
 
   // === Menus ===
   private Menu regular, glutenFree;
@@ -201,7 +193,6 @@ public class DataLoader implements ApplicationRunner {
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
       pizza.setSizeInches(numSizes[i]);
-      pizza.setPrice(priceMap.get(name) * priceModifier.apply(i));
     }
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i + 3);
@@ -210,7 +201,6 @@ public class DataLoader implements ApplicationRunner {
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
       pizza.setSizeInches(numSizes[i]);
-      pizza.setPrice(priceMap.get(name) * priceModifier.apply(i) + 2);
     }
   }
 
