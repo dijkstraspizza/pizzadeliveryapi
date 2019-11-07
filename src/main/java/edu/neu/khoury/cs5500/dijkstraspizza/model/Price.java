@@ -7,10 +7,11 @@ public class Price {
     this.price = price;
   }
 
-  public Price() {
+  public double getPrice() {
+    return price;
   }
 
-  public Double get() {
-    return price;
+  public void setPrice(double price) {
+    this.price = price;
   }
 }
