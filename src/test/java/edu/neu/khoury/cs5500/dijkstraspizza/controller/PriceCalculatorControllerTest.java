@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PriceCalculatorController.class)
@@ -68,13 +67,13 @@ public class PriceCalculatorControllerTest {
     Address store = new Address("123", "Seattle", "WA", "98103");
     Address customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza(SMALL);
+    cheesePizza = new Pizza(PizzaSize.small(8.0));
     cheesePizza.setId("cheese");
 
-    pepperoniPizza = new Pizza(MEDIUM);
+    pepperoniPizza = new Pizza(PizzaSize.medium(12.0));
     pepperoniPizza.setId("pepperoni");
 
-    hugePizza = new Pizza(LARGE);
+    hugePizza = new Pizza(PizzaSize.large(15.0));
     hugePizza.setId("huge");
 
     order = new Order(store, customer);
