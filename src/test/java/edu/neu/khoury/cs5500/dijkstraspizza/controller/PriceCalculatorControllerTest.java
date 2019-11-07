@@ -208,33 +208,33 @@ public class PriceCalculatorControllerTest {
   @Test
   public void getOrderPriceNoSpecial() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    Double orderPrice = order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum();
+    Price orderPrice = new Price(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum());
     mockMvc.perform(get("/prices/price?" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(content().json(String.format("%s", orderPrice)));
+        .andExpect(content().json(mapper.writeValueAsString(orderPrice)));
   }
 
   @Test
   public void getOrderPriceHalfOff() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    Double orderPrice = order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum() * 0.5;
+    Price orderPrice = new Price(order.getPizzas().stream().mapToDouble(Pizza::getPrice).sum() * 0.5);
     mockMvc.perform(get("/prices/price?special=" + halfOffAll.getId() +
         "&" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(content().json(String.format("%s", orderPrice)));
+        .andExpect(content().json(mapper.writeValueAsString(orderPrice)));
   }
 
   @Test
   public void getOrderPriceBogo() throws Exception {
     Behavior.set(repository).returnPriceCalculators(bogo, halfOffAll, generic);
-    Double orderPrice = 22.0;
+    Price orderPrice = new Price(22.0);
     mockMvc.perform(get("/prices/price?special=" + bogo.getId() +
         "&" + pizzaParams))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(content().json(String.format("%s", orderPrice)));
+        .andExpect(content().json(mapper.writeValueAsString(orderPrice)));
   }
 
   @Test
