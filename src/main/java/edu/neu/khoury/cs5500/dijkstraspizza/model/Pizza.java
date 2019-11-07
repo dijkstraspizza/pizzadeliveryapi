@@ -1,7 +1,8 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -47,7 +48,7 @@ public class Pizza implements Comparable<Pizza> {
 
   private int sizeInches;
 
-  private Set<Ingredient> ingredients = new HashSet<>();
+  private List<Ingredient> ingredients = new ArrayList<>();
   private Double price;
 
   @Override
