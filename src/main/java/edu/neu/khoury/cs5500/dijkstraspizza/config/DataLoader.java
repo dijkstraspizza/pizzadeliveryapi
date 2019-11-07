@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+
 /**
  * This class loads data into the API database if there is no data already in it. It tests the
  * Ingredient collection because none of the other classes can exist without ingredients. It will
@@ -187,9 +188,10 @@ public class DataLoader implements ApplicationRunner {
    */
   private void initPizzas(List<Pizza> pizzas, String name, Set<Ingredient> meatAndVeg) {
 
-    Set<Ingredient> regBase = new HashSet<>(Arrays.asList(crust, tomSauce, moz));
-    Set<Ingredient> gfBase = new HashSet<>(Arrays.asList(gfCrust, gfTomSauce, moz));
-    String[] nameSizes = new String[]{"Small", "Medium", "Large"};
+    List<Ingredient> regBase = Arrays.asList(crust, tomSauce, moz);
+    List<Ingredient> gfBase = Arrays.asList(gfCrust, gfTomSauce, moz);
+    Pizza.PizzaSize[] nameSizes = new Pizza.PizzaSize[]{Pizza.PizzaSize.SMALL,
+        Pizza.PizzaSize.MEDIUM, Pizza.PizzaSize.LARGE};
     int[] numSizes = new int[]{11, 15, 17};
     Function<Integer, Double> priceModifier = size -> (1.0 + ((size + 1.0)/2.0));
     for (int i = 0; i < 3; i++) {
