@@ -4,14 +4,11 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.*;
 
 import java.util.*;
-import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 /**
  * This class loads data into the API database if there is no data already in it. It tests the
@@ -58,23 +55,23 @@ public class DataLoader implements ApplicationRunner {
   // === Pizzas ===
   // Lists contain regular pizzas (sm, med, lg) and gluten-free (sm, med, lg).
   private List<Pizza> cheese = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
   private List<Pizza> margherita = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
   private List<Pizza> pepperoni = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
   private List<Pizza> supreme = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
   private List<Pizza> hawaiian = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
   private List<Pizza> veggie = new ArrayList<>(
-      Arrays.asList(new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE),
-          new Pizza(SMALL), new Pizza(MEDIUM), new Pizza(LARGE)));
+      Arrays.asList(new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12)),
+          new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8.0)), new Pizza(edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10)), new Pizza(PizzaSize.large(12))));
 
   // Names of the 6 Pizzas
   private final String CHEESE_NAME = "Cheese";
@@ -184,17 +181,14 @@ public class DataLoader implements ApplicationRunner {
 
     List<Ingredient> regBase = Arrays.asList(crust, tomSauce, moz);
     List<Ingredient> gfBase = Arrays.asList(gfCrust, gfTomSauce, moz);
-    Pizza.PizzaSize[] nameSizes = new Pizza.PizzaSize[]{Pizza.PizzaSize.SMALL,
-        Pizza.PizzaSize.MEDIUM, Pizza.PizzaSize.LARGE};
-    int[] numSizes = new int[]{11, 15, 17};
-    Function<Integer, Double> priceModifier = size -> (1.0 + ((size + 1.0)/2.0));
+    PizzaSize[] nameSizes = new PizzaSize[]{edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.small(8),
+        edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.medium(10), edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize.large(12)};
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i);
       pizza.setName(name);
       pizza.getIngredients().addAll(regBase);
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
-      pizza.setSizeInches(numSizes[i]);
     }
     for (int i = 0; i < 3; i++) {
       Pizza pizza = pizzas.get(i + 3);
@@ -202,7 +196,6 @@ public class DataLoader implements ApplicationRunner {
       pizza.getIngredients().addAll(gfBase);
       pizza.getIngredients().addAll(meatAndVeg);
       pizza.setSizeDesc(nameSizes[i]);
-      pizza.setSizeInches(numSizes[i]);
     }
   }
 
