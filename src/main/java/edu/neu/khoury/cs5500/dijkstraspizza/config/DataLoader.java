@@ -1,7 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.config;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.AddressRepository;
+
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
@@ -32,8 +32,6 @@ public class DataLoader implements ApplicationRunner {
    */
 
   // === Repository links ===
-  @Autowired
-  AddressRepository addressRepository;
   @Autowired
   IngredientRepository ingredientRepository;
   @Autowired
@@ -104,7 +102,7 @@ public class DataLoader implements ApplicationRunner {
     initStores();
 
     // Load starter data
-    addressRepository.saveAll(Arrays.asList(firstAddr, storeAddr2, storeAddr3));
+    
     ingredientRepository
         .saveAll(Arrays.asList(crust, gfCrust, tomSauce, gfTomSauce, moz, pep, sausage, ham, bacon,
             chicken, basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers));
