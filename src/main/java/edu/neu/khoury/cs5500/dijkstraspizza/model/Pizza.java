@@ -2,6 +2,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,25 +16,27 @@ import javax.persistence.Enumerated;
  */
 @Document(collection = "pizzas")
 @Data
-public class Pizza implements Comparable<Pizza>{
+public class Pizza implements Comparable<Pizza> {
 
-  public static enum PizzaSize {
+  private static Double SMALL_PRICE = 8.0;
+  private static Double MEDIUM_PRICE = 10.0;
+  private static Double LARGE_PRICE = 12.0;
 
-    SMALL(8),
-    MEDIUM(10),
-    LARGE(12);
+  public enum PizzaSize {
 
-    int value;
+    SMALL(SMALL_PRICE),
+    MEDIUM(MEDIUM_PRICE),
+    LARGE(LARGE_PRICE);
 
-    PizzaSize(int i) {
-      this.value = i;
+    double value;
+
+    PizzaSize(double value) {
+      this.value = value;
     }
 
-    public int getValue() {
+    public double getValue() {
       return this.value;
     }
-
-
   }
 
   @Id
