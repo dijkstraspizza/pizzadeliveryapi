@@ -32,11 +32,11 @@ public class PriceCalculatorTest {
     Address store = new Address("123", "Seattle", "WA", "98103");
     Address customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza(Pizza.PizzaSize.SMALL);
+    cheesePizza = new Pizza(PizzaSize.small(8));
 
-    pepperoniPizza = new Pizza(Pizza.PizzaSize.MEDIUM);
+    pepperoniPizza = new Pizza(PizzaSize.medium(10));
 
-    hugePizza = new Pizza(Pizza.PizzaSize.LARGE);
+    hugePizza = new Pizza(PizzaSize.large(12));
     hugePizza.setIngredients(Arrays.asList(new Ingredient("mushrooms", "vegetable", true),
         new Ingredient("ham", "meat", true)));
 

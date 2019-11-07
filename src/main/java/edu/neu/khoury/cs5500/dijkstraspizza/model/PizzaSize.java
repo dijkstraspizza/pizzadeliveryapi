@@ -1,5 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PizzaSize {
 

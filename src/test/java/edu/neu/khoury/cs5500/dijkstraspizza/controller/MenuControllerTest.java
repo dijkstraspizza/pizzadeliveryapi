@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +22,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MenuController.class)
@@ -73,31 +76,31 @@ public class MenuControllerTest {
 
     // Pizza Setup
     // spinach
-    Pizza spinachPizza = new Pizza(SMALL);
+    Pizza spinachPizza = new Pizza(PizzaSize.small(8));
     spinachPizza.setId("spinachPizza");
     spinachPizza.setIngredients(Collections.singletonList(spinach));
     // mushroom
-    Pizza mushroomPizza = new Pizza(SMALL);
+    Pizza mushroomPizza = new Pizza(PizzaSize.small(8));
     mushroomPizza.setId("mushroomPizza");
     mushroomPizza.setIngredients(Collections.singletonList(mushroom));
     // veggie
-    Pizza vegPizza = new Pizza(SMALL);
+    Pizza vegPizza = new Pizza(PizzaSize.small(8));
     vegPizza.setId("vegPizza");
     vegPizza.setIngredients(Arrays.asList(spinach, mushroom));
     // ham
-    Pizza hamPizza = new Pizza(SMALL);
+    Pizza hamPizza = new Pizza(PizzaSize.small(8));
     hamPizza.setId("hamPizza");
     hamPizza.setIngredients(Collections.singletonList(ham));
     // sausage
-    Pizza sausagePizza = new Pizza(SMALL);
+    Pizza sausagePizza = new Pizza(PizzaSize.small(8));
     sausagePizza.setId("sausagePizza");
     sausagePizza.setIngredients(Collections.singletonList(sausage));
     // meat
-    Pizza meatPizza = new Pizza(SMALL);
+    Pizza meatPizza = new Pizza(PizzaSize.small(8));
     meatPizza.setId("meatPizza");
     meatPizza.setIngredients(Arrays.asList(ham, sausage));
     // gf pizza
-    Pizza gfPizza = new Pizza(SMALL);
+    Pizza gfPizza = new Pizza(PizzaSize.small(8));
     gfPizza.setId("glutenFreePizzaId");
     gfPizza.setIngredients(Arrays.asList(gfDough, pepperoni));
 
@@ -233,7 +236,7 @@ public class MenuControllerTest {
     Behavior.set(repository).returnMenus(nonVegMenu, vegMenu);
     Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
     cheese.setId("mozzarellaId");
-    Pizza cheesePizza = new Pizza(SMALL);
+    Pizza cheesePizza = new Pizza(PizzaSize.small(8));
     cheesePizza.setId("cheesePizzaId");
     cheesePizza.setIngredients(Collections.singletonList(cheese));
 

@@ -1,10 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +24,6 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza.PizzaSize.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
@@ -71,11 +67,11 @@ public class OrderControllerTest {
     store = new Address("123", "Seattle", "WA", "98103");
     customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza(SMALL);
+    cheesePizza = new Pizza(PizzaSize.small(8));
 
-    pepperoniPizza = new Pizza(MEDIUM);
+    pepperoniPizza = new Pizza(PizzaSize.medium(10));
 
-    hugePizza = new Pizza(LARGE);
+    hugePizza = new Pizza(PizzaSize.large(12));
 
     bigOrder = new Order(store, customer);
     bigOrder.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -166,7 +162,7 @@ public class OrderControllerTest {
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setId(bigOrder.getId());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(52 * .5);
+    newOrder.setPrice(30 * .5);
 
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
@@ -185,7 +181,7 @@ public class OrderControllerTest {
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setId(bigOrder.getId());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(52);
+    newOrder.setPrice(30);
 
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
