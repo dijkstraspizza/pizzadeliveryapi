@@ -18,7 +18,7 @@ import javax.persistence.Enumerated;
  */
 @Document(collection = "pizzas")
 @Data
-public class Pizza implements Comparable<Pizza> {
+public class Pizza {
 
   private static Double SMALL_PRICE = 8.0;
   private static Double MEDIUM_PRICE = 10.0;
@@ -51,15 +51,10 @@ public class Pizza implements Comparable<Pizza> {
   private int sizeInches;
 
   private List<Ingredient> ingredients = new ArrayList<>();
-  private Double price;
 
   public Pizza(PizzaSize size) {
     sizeDesc = size;
-    price = size.getValue();
   }
 
-  @Override
-  public int compareTo(Pizza o) {
-    return price.compareTo(o.getPrice());
-  }
+  public Double getPrice() {return sizeDesc.getValue();}
 }
