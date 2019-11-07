@@ -1,10 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,14 +67,11 @@ public class OrderControllerTest {
     store = new Address("123", "Seattle", "WA", "98103");
     customer = new Address("abc", "Seattle", "WA", "98117");
 
-    cheesePizza = new Pizza();
-    cheesePizza.setPrice(10.0);
+    cheesePizza = new Pizza(PizzaSize.small(8));
 
-    pepperoniPizza = new Pizza();
-    pepperoniPizza.setPrice(12.0);
+    pepperoniPizza = new Pizza(PizzaSize.medium(10));
 
-    hugePizza = new Pizza();
-    hugePizza.setPrice(30.0);
+    hugePizza = new Pizza(PizzaSize.large(12));
 
     bigOrder = new Order(store, customer);
     bigOrder.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -90,10 +84,10 @@ public class OrderControllerTest {
     generic = new PriceCalculator();
     generic.setId("generic-price");
 
-    halfOffAll = new PriceCalculator(.5);
+    halfOffAll = new PriceCalculator(.5, "halfOff");
     halfOffAll.setId("half-off");
 
-    bogo = new PriceCalculator(2, 1, 1.0);
+    bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
 
     when(priceCalculatorController.getOrderPrice(eq(Optional.empty()), any(Order.class)))
@@ -168,7 +162,7 @@ public class OrderControllerTest {
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setId(bigOrder.getId());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(52 * .5);
+    newOrder.setPrice(30 * .5);
 
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
@@ -187,7 +181,7 @@ public class OrderControllerTest {
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setId(bigOrder.getId());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(52);
+    newOrder.setPrice(30);
 
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
