@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
@@ -72,33 +76,33 @@ public class MenuControllerTest {
 
     // Pizza Setup
     // spinach
-    Pizza spinachPizza = new Pizza();
+    Pizza spinachPizza = new Pizza(PizzaSize.small(8));
     spinachPizza.setId("spinachPizza");
-    spinachPizza.setIngredients(new HashSet<>(Collections.singletonList(spinach)));
+    spinachPizza.setIngredients(Collections.singletonList(spinach));
     // mushroom
-    Pizza mushroomPizza = new Pizza();
+    Pizza mushroomPizza = new Pizza(PizzaSize.small(8));
     mushroomPizza.setId("mushroomPizza");
-    mushroomPizza.setIngredients(new HashSet<>(Collections.singletonList(mushroom)));
+    mushroomPizza.setIngredients(Collections.singletonList(mushroom));
     // veggie
-    Pizza vegPizza = new Pizza();
+    Pizza vegPizza = new Pizza(PizzaSize.small(8));
     vegPizza.setId("vegPizza");
-    vegPizza.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
+    vegPizza.setIngredients(Arrays.asList(spinach, mushroom));
     // ham
-    Pizza hamPizza = new Pizza();
+    Pizza hamPizza = new Pizza(PizzaSize.small(8));
     hamPizza.setId("hamPizza");
-    hamPizza.setIngredients(new HashSet<>(Collections.singletonList(ham)));
+    hamPizza.setIngredients(Collections.singletonList(ham));
     // sausage
-    Pizza sausagePizza = new Pizza();
+    Pizza sausagePizza = new Pizza(PizzaSize.small(8));
     sausagePizza.setId("sausagePizza");
-    sausagePizza.setIngredients(new HashSet<>(Collections.singletonList(sausage)));
+    sausagePizza.setIngredients(Collections.singletonList(sausage));
     // meat
-    Pizza meatPizza = new Pizza();
+    Pizza meatPizza = new Pizza(PizzaSize.small(8));
     meatPizza.setId("meatPizza");
-    meatPizza.setIngredients(new HashSet<>(Arrays.asList(ham, sausage)));
+    meatPizza.setIngredients(Arrays.asList(ham, sausage));
     // gf pizza
-    Pizza gfPizza = new Pizza();
+    Pizza gfPizza = new Pizza(PizzaSize.small(8));
     gfPizza.setId("glutenFreePizzaId");
-    gfPizza.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
+    gfPizza.setIngredients(Arrays.asList(gfDough, pepperoni));
 
     vegMenu.setId("vegMenuId");
     vegMenu.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
@@ -134,7 +138,7 @@ public class MenuControllerTest {
     public void returnMenus(Menu... menus) {
       when(repository.findAll()).thenReturn(Arrays.asList(menus));
       when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Menu menu: menus) {
+        for (Menu menu : menus) {
           if (menu.getId().equals(invocationOnMock.getArguments()[0])) {
             return true;
           }
@@ -232,9 +236,9 @@ public class MenuControllerTest {
     Behavior.set(repository).returnMenus(nonVegMenu, vegMenu);
     Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
     cheese.setId("mozzarellaId");
-    Pizza cheesePizza = new Pizza();
+    Pizza cheesePizza = new Pizza(PizzaSize.small(8));
     cheesePizza.setId("cheesePizzaId");
-    cheesePizza.setIngredients(new HashSet<>(Collections.singletonList(cheese)));
+    cheesePizza.setIngredients(Collections.singletonList(cheese));
 
     vegMenu.getPizzas().add(cheesePizza);
     String content = mapper.writeValueAsString(vegMenu);

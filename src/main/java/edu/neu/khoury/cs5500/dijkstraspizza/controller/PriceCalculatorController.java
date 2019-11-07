@@ -2,6 +2,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Price;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
@@ -37,7 +38,8 @@ public class PriceCalculatorController {
       produces = "application/json"
   )
   @RequestMapping(value = "/price", method = RequestMethod.GET)
-  public @ResponseBody Double getOrderPrice(
+  public @ResponseBody
+  Price getOrderPrice(
       @ApiParam(value = "id of the special to apply", example = "bogoSpecial")
       @RequestParam("special") Optional<String> specialId,
       @ApiParam(value="Id of Pizza(s) in the order", example = "cheesePizzaId")
@@ -48,10 +50,10 @@ public class PriceCalculatorController {
     }
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return priceCalculator.calculate(pizzas);
+      return new Price(priceCalculator.calculate(pizzas));
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return priceCalculator.calculate(pizzas);
+    return new Price(priceCalculator.calculate(pizzas));
   }
 
   @ApiOperation(

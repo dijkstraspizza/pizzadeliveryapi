@@ -1,8 +1,8 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
-import java.util.HashSet;
-import java.util.Set;
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,21 +11,54 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * getters, setters).
  */
 @Document(collection = "pizzas")
-@Data
-public class Pizza implements Comparable<Pizza>{
+public class Pizza {
 
   @Id
   private String id;
   private String name;
-  private String sizeDesc;
 
-  private int sizeInches;
+  private PizzaSize sizeDesc;
 
-  private Set<Ingredient> ingredients = new HashSet<>();
-  private Double price;
+  private List<Ingredient> ingredients = new ArrayList<>();
 
-  @Override
-  public int compareTo(Pizza o) {
-    return price.compareTo(o.getPrice());
+  public Pizza() {
   }
+
+  public Pizza(PizzaSize size) {
+    sizeDesc = size;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public PizzaSize getSizeDesc() {
+    return sizeDesc;
+  }
+
+  public void setSizeDesc(PizzaSize sizeDesc) {
+    this.sizeDesc = sizeDesc;
+  }
+
+  public List<Ingredient> getIngredients() {
+    return ingredients;
+  }
+
+  public void setIngredients(List<Ingredient> ingredients) {
+    this.ingredients = ingredients;
+  }
+
+  public Double getPrice() {return sizeDesc.getValue();}
 }
