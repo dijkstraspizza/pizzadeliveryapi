@@ -2,17 +2,16 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +24,12 @@ public class PizzaController {
 
   @Autowired
   private PizzaRepository repository;
+
+  @Autowired
+  private IngredientRepository ingredientRepository;
+
+  @Autowired
+  private PizzaSizeRepository pizzaSizeRepository;
 
   /*===== GET Methods =====*/
 
@@ -108,5 +113,19 @@ public class PizzaController {
           HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
     }
     repository.deleteById(id);
+  }
+
+  /*===== Helper Methods =====*/
+  public boolean validPizzaSize(Pizza pizza) {
+    return pizzaSizeRepository.existsById(pizza.getSizeDesc().getId());
+  }
+
+  public boolean validIngredients(Pizza pizza) {
+    for (Ingredient ingredient : pizza.getIngredients()) {
+      if (!ingredientRepository.existsById(ingredient.getId())) {
+        return false;
+      }
+    }
+    return true;
   }
 }
