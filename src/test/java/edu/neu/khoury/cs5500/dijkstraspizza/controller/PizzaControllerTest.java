@@ -3,6 +3,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class PizzaControllerTest {
 	private final Ingredient gFCrust = new Ingredient("glutenFreeCrust", "crust", true);
 	private final Ingredient spinach = new Ingredient("spinach", "vegetable", true);
 	private final Ingredient ham = new Ingredient("ham", "meat", true);
-	private final double price = 11.68;
+	private final Double price = 11.68;
 	Set<Ingredient> ingredientsIds = new HashSet<Ingredient>(Arrays.asList(ham, sausage));
 	private final Pizza meat = new Pizza();
 	private final Pizza veggie = new Pizza();
@@ -62,14 +63,10 @@ public class PizzaControllerTest {
   public void setup() {
     MockitoAnnotations.initMocks(this);
     mvc = MockMvcBuilders.webAppContextSetup(context).build();
-	veggie.setIngredients(new HashSet<Ingredient>(Arrays.asList(spinach, mushrooms)));
-  meat.setIngredients(new HashSet<Ingredient>(Arrays.asList(ham, sausage)));
-  veggie.setPrice(11.68);
-  meat.setPrice(11.68);
-  meat.setSizeDesc("large");
-  veggie.setSizeDesc("small");
-  meat.setSizeInches(12);
-  veggie.setSizeInches(12);
+	veggie.setIngredients(new ArrayList<Ingredient>(Arrays.asList(spinach, mushrooms)));
+  meat.setIngredients(new ArrayList<Ingredient>(Arrays.asList(ham, sausage)));
+  meat.setSizeDesc(new PizzaSize(12, "small", price));
+  veggie.setSizeDesc(new PizzaSize(12, "small", price));
   meat.setId("meatId");
   veggie.setId("veggieId");
   
@@ -134,7 +131,7 @@ private static class Behavior {
 	}
   
   @Test
-	public void testGetAllPizzas() throws Exception {
+	public void testGetAllPizzasHasSomePizzas() throws Exception {
     Behavior.set(pizzaRepository).returnPizzas(veggie, meat);
     List<Pizza> pizzas = Arrays.asList(veggie, meat);
     String pizzasContent = mapper.writeValueAsString(pizzas);
@@ -148,6 +145,24 @@ private static class Behavior {
 	public void testGetPizzaByIdNoPizzas() throws Exception {
     Behavior.set(pizzaRepository).hasNoPizzas();
     mvc.perform(get("/pizzas/hamId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+	public void testGetPizzaByIdSomePizzasMatch() throws Exception {
+    Behavior.set(pizzaRepository).returnPizzas(veggie, meat);
+    String pizzasContent = mapper.writeValueAsString(meat);
+    mvc.perform(get("/pizzas/meatId"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(pizzasContent));
+  }
+  
+  @Test
+	public void testGetPizzaByIdSomePizzasNoMatch() throws Exception {
+    Behavior.set(pizzaRepository).returnPizzas(veggie, meat);
+    mvc.perform(get("/pizzas/someId"))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$").doesNotExist());
 	}
@@ -181,6 +196,17 @@ private static class Behavior {
     mvc.perform(delete("/pizzas/meatId"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").doesNotExist());
-	}
+  }
+
+  @Test
+	public void testDeletePizzaByIdNoPizzas() throws Exception {
+    Behavior.set(pizzaRepository).hasNoPizzas();
+    mvc.perform(delete("/pizzas/meatId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+  
+
+
 
 }

@@ -96,31 +96,31 @@ public class PizzaStoreControllerTest {
 		  // spinach
 		  Pizza spinachPizza = new Pizza();
 		  spinachPizza.setId("spinachPizza");
-		  spinachPizza.setIngredients(new HashSet<>(Collections.singletonList(spinach)));
+		  spinachPizza.setIngredients(new ArrayList<>(Collections.singletonList(spinach)));
 		  // mushroom
 		  Pizza mushroomPizza = new Pizza();
 		  mushroomPizza.setId("mushroomPizza");
-		  mushroomPizza.setIngredients(new HashSet<>(Collections.singletonList(mushroom)));
+		  mushroomPizza.setIngredients(new ArrayList<>(Collections.singletonList(mushroom)));
 		  // veggie
 		  Pizza vegPizza = new Pizza();
 		  vegPizza.setId("vegPizza");
-		  vegPizza.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
+		  vegPizza.setIngredients(new ArrayList<>(Arrays.asList(spinach, mushroom)));
 		  // ham
 		  Pizza hamPizza = new Pizza();
 		  hamPizza.setId("hamPizza");
-		  hamPizza.setIngredients(new HashSet<>(Collections.singletonList(ham)));
+		  hamPizza.setIngredients(new ArrayList<>(Collections.singletonList(ham)));
 		  // sausage
 		  Pizza sausagePizza = new Pizza();
 		  sausagePizza.setId("sausagePizza");
-		  sausagePizza.setIngredients(new HashSet<>(Collections.singletonList(sausage)));
+		  sausagePizza.setIngredients(new ArrayList<>(Collections.singletonList(sausage)));
 		  // meat
 		  Pizza meatPizza = new Pizza();
 		  meatPizza.setId("meatPizza");
-		  meatPizza.setIngredients(new HashSet<>(Arrays.asList(ham, sausage)));
+		  meatPizza.setIngredients(new ArrayList<>(Arrays.asList(ham, sausage)));
 		  // gf pizza
 		  Pizza gfPizza = new Pizza();
 		  gfPizza.setId("glutenFreePizzaId");
-		  gfPizza.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
+		  gfPizza.setIngredients(new ArrayList<>(Arrays.asList(gfDough, pepperoni)));
 	  
 		  vegMenu.setId("vegMenuId");
 		  vegMenu.setIngredients(new HashSet<>(Arrays.asList(spinach, mushroom)));
