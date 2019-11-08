@@ -24,6 +24,9 @@ public class OrderController {
   @Autowired
   private PriceCalculatorController priceCalculatorController;
 
+  @Autowired
+  private PizzaController pizzaController;
+
 
   /*===== GET Methods =====*/
 

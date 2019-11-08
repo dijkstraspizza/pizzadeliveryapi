@@ -1,10 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,10 +23,7 @@ public class PizzaController {
   private PizzaRepository repository;
 
   @Autowired
-  private IngredientRepository ingredientRepository;
-
-  @Autowired
-  private PizzaSizeRepository pizzaSizeRepository;
+  Validator<Pizza> validator = new PizzaValidator();
 
   /*===== GET Methods =====*/
 
@@ -80,16 +74,21 @@ public class PizzaController {
           HttpStatus.BAD_REQUEST, "Pizza ID must be null"
       );
     }
-    if (!validIngredients(pizza)) {
+    if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+          HttpStatus.BAD_REQUEST, "Invalid pizza."
       );
     }
-    if (!validPizzaSize(pizza)) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza size."
-      );
-    }
+//    if (!validIngredients(pizza)) {
+//      throw new ResponseStatusException(
+//          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+//      );
+//    }
+//    if (!validPizzaSize(pizza)) {
+//      throw new ResponseStatusException(
+//          HttpStatus.BAD_REQUEST, "Invalid pizza size."
+//      );
+//    }
     repository.save(pizza);
     return pizza;
   }
@@ -110,16 +109,21 @@ public class PizzaController {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
     }
-    if (!validIngredients(pizza)) {
+    if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+          HttpStatus.BAD_REQUEST, "Invalid pizza."
       );
     }
-    if (!validPizzaSize(pizza)) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza size."
-      );
-    }
+//    if (!validIngredients(pizza)) {
+//      throw new ResponseStatusException(
+//          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+//      );
+//    }
+//    if (!validPizzaSize(pizza)) {
+//      throw new ResponseStatusException(
+//          HttpStatus.BAD_REQUEST, "Invalid pizza size."
+//      );
+//    }
     repository.save(pizza);
   }
 
@@ -140,16 +144,16 @@ public class PizzaController {
   }
 
   /*===== Helper Methods =====*/
-  public boolean validPizzaSize(Pizza pizza) {
-    return pizzaSizeRepository.existsById(pizza.getSizeDesc().getId());
-  }
-
-  public boolean validIngredients(Pizza pizza) {
-    for (Ingredient ingredient : pizza.getIngredients()) {
-      if (!ingredientRepository.existsById(ingredient.getId())) {
-        return false;
-      }
-    }
-    return true;
-  }
+//  public boolean validPizzaSize(Pizza pizza) {
+//    return pizzaSizeRepository.existsById(pizza.getSizeDesc().getId());
+//  }
+//
+//  public boolean validIngredients(Pizza pizza) {
+//    for (Ingredient ingredient : pizza.getIngredients()) {
+//      if (!ingredientRepository.existsById(ingredient.getId())) {
+//        return false;
+//      }
+//    }
+//    return true;
+//  }
 }

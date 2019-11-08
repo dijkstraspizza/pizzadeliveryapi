@@ -51,6 +51,9 @@ public class PizzaControllerTest {
   @MockBean
   private IngredientRepository ingredientRepository;
 
+  @MockBean
+  private Validator<Pizza> validator;
+
   @Autowired
   private ObjectMapper mapper;
 
@@ -87,6 +90,7 @@ public class PizzaControllerTest {
     PizzaRepository pizzaRepository;
     IngredientRepository ingredientRepository;
     PizzaSizeRepository pizzaSizeRepository;
+    private Validator<Pizza> validator;
 
     public static Behavior set(PizzaRepository pizzaRepository) {
       Behavior behavior = new Behavior();
@@ -96,21 +100,25 @@ public class PizzaControllerTest {
 
     public static Behavior set(PizzaRepository pizzaRepository,
                                IngredientRepository ingredientRepository,
-                               PizzaSizeRepository pizzaSizeRepository) {
+                               PizzaSizeRepository pizzaSizeRepository,
+                               Validator validator) {
       Behavior behavior = new Behavior();
       behavior.pizzaRepository = pizzaRepository;
       behavior.ingredientRepository = ingredientRepository;
       behavior.pizzaSizeRepository = pizzaSizeRepository;
+      behavior.validator = validator;
       return behavior;
     }
 
     public Behavior hasNoIngredients() {
       when(ingredientRepository.existsById(anyString())).thenReturn(false);
+      when(validator.validate(any())).thenReturn(false);
       return this;
     }
 
     public Behavior hasNoSizes() {
       when(pizzaSizeRepository.existsById(any())).thenReturn(false);
+      when(validator.validate(any())).thenReturn(false);
       return this;
     }
 
@@ -135,6 +143,16 @@ public class PizzaControllerTest {
         }
         return false;
       });
+      return this;
+    }
+
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
       return this;
     }
 
@@ -166,7 +184,7 @@ public class PizzaControllerTest {
 
       when(pizzaRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
         for (Pizza p : pizzas) {
-          if (p.getId().equals((String) invocationOnMock.getArguments()[0])) {
+          if (p.getId().equals(invocationOnMock.getArguments()[0])) {
             return true;
           }
         }
@@ -227,8 +245,8 @@ public class PizzaControllerTest {
   @Test
   public void testNewPizza() throws Exception {
     meat.setId(null);
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository).returnSame()
-        .returnIngredients(ham, sausage).returnSizes(size);
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator).returnSame()
+        .returnIngredients(ham, sausage).returnSizes(size).isValid();
     String pizzaContent = mapper.writeValueAsString(meat);
     mvc.perform(post("/pizzas/")
         .content(pizzaContent)
@@ -241,8 +259,8 @@ public class PizzaControllerTest {
   @Test
   public void testNewPizzaInvalidSize() throws Exception {
     meat.setId(null);
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository)
-        .returnSame().hasNoSizes().returnIngredients(ham, sausage);
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator)
+        .returnSame().hasNoSizes().returnIngredients(ham, sausage).isNotValid();
     String pizzaContent = mapper.writeValueAsString(meat);
     mvc.perform(post("/pizzas/")
         .content(pizzaContent)
@@ -254,8 +272,8 @@ public class PizzaControllerTest {
   @Test
   public void testNewPizzaInvalidIngredient() throws Exception {
     meat.setId(null);
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository)
-        .returnSame().returnSizes(size).returnIngredients(sausage);
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator)
+        .returnSame().returnSizes(size).returnIngredients(sausage).isNotValid();
     String pizzaContent = mapper.writeValueAsString(meat);
     mvc.perform(post("/pizzas/")
         .content(pizzaContent)
@@ -266,8 +284,8 @@ public class PizzaControllerTest {
 
   @Test
   public void testNewPizzaPreExistingId() throws Exception {
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository)
-        .returnSame().returnSizes(size).returnIngredients(ham, sausage);
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator)
+        .returnSame().returnSizes(size).returnIngredients(ham, sausage).isValid();
     String pizzaContent = mapper.writeValueAsString(meat);
     mvc.perform(post("/pizzas/")
         .content(pizzaContent)
@@ -289,8 +307,8 @@ public class PizzaControllerTest {
 
   @Test
   public void testUpdatePizzaByInvalidIngredient() throws Exception {
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository)
-        .returnPizzas(veggie, meat).returnSizes(size).hasNoIngredients();
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator)
+        .returnPizzas(veggie, meat).returnSizes(size).hasNoIngredients().isNotValid();
     String content = mapper.writeValueAsString(meat);
     mvc.perform(put("/pizzas/")
         .content(content)
@@ -301,8 +319,8 @@ public class PizzaControllerTest {
 
   @Test
   public void testUpdatePizzaByInvalidSize() throws Exception {
-    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository)
-        .returnPizzas(veggie, meat).hasNoSizes().returnIngredients(mushrooms, spinach);
+    Behavior.set(pizzaRepository, ingredientRepository, pizzaSizeRepository, validator)
+        .returnPizzas(veggie, meat).hasNoSizes().returnIngredients(mushrooms, spinach).isNotValid();
     String content = mapper.writeValueAsString(veggie);
     mvc.perform(put("/pizzas/")
         .content(content)
