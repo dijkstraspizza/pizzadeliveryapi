@@ -76,6 +76,16 @@ public class PizzaController {
   public Pizza newPizza(
       @ApiParam(value = "JSON pizza object without an id field", required = true)
       @Valid @RequestBody Pizza pizza) {
+    if (!validIngredients(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+      );
+    }
+    if (!validPizzaSize(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid pizza size."
+      );
+    }
     repository.save(pizza);
     return pizza;
   }
