@@ -28,7 +28,8 @@ public class Swagger2Config {
             new Tag("menu", "Provides CRUD operations for menu objects"),
             new Tag("order", "Provides CRUD operations for order objects"),
             new Tag("pizza", "Provides CRUD operations for pizza objects"),
-            new Tag("pizza-store", "Provides CRUD operations for pizza store objects")
+            new Tag("pizza-store", "Provides CRUD operations for pizza store objects"),
+            new Tag("price-calculator", "Provides pricing details for pizzas and specials")
         );
   }
 
