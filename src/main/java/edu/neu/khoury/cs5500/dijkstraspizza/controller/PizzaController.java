@@ -63,7 +63,6 @@ public class PizzaController {
 
   /*===== POST Methods =====*/
 
-  // TODO: Prevent POST methods from allowing an ID field
   @ApiOperation(
       value = "Creates a new pizza in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
@@ -76,6 +75,11 @@ public class PizzaController {
   public Pizza newPizza(
       @ApiParam(value = "JSON pizza object without an id field", required = true)
       @Valid @RequestBody Pizza pizza) {
+    if (pizza.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Pizza ID must be null"
+      );
+    }
     if (!validIngredients(pizza)) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, "Invalid ingredients."
