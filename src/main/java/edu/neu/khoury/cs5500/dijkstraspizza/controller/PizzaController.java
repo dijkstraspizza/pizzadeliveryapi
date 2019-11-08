@@ -106,6 +106,16 @@ public class PizzaController {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
     }
+    if (!validIngredients(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid ingredients."
+      );
+    }
+    if (!validPizzaSize(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid pizza size."
+      );
+    }
     repository.save(pizza);
   }
 
