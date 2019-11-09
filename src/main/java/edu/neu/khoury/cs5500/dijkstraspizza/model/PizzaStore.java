@@ -26,6 +26,10 @@ public class PizzaStore {
   // @NonNull
   private Address address;
   private Menu menu;
+
+  public PizzaStore() {
+
+  }
  
   public PizzaStore(Address address){
     this.address = address;

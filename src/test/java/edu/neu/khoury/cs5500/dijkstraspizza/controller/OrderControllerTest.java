@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import org.junit.Before;
@@ -41,6 +42,9 @@ public class OrderControllerTest {
 
   @MockBean
   PriceCalculatorController priceCalculatorController;
+
+  @MockBean
+  Validator<Order> validator;
 
   @Autowired
   ObjectMapper mapper;
@@ -103,6 +107,7 @@ public class OrderControllerTest {
 
   private static class Behavior {
     OrderRepository repository;
+    Validator<Order> validator;
 
     public static Behavior set(OrderRepository orderRepository) {
       Behavior behavior = new Behavior();
@@ -110,11 +115,29 @@ public class OrderControllerTest {
       return behavior;
     }
 
-    public void hasNoData() {
-      when(repository.existsById(anyString())).thenReturn(false);
+    public static Behavior set(OrderRepository orderRepository, Validator validator) {
+      Behavior behavior = new Behavior();
+      behavior.repository = orderRepository;
+      behavior.validator = validator;
+      return behavior;
     }
 
-    public void returnOrders(Order... orders) {
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoData() {
+      when(repository.existsById(anyString())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnOrders(Order... orders) {
       when(repository.existsById(anyString()))
           .thenAnswer(invocationOnMock -> {
             for (Order order: orders) {
@@ -133,6 +156,7 @@ public class OrderControllerTest {
             }
             return Optional.empty();
           });
+      return this;
     }
   }
 
@@ -155,8 +179,33 @@ public class OrderControllerTest {
   }
 
   @Test
-  public void newOrderHalfOff() throws Exception {
+  public void newOrderHalfOffValid() throws Exception {
     bigOrder.setSpecialId(halfOffAll.getId());
+
+    Behavior.set(repository, validator).isValid();
+
+    Order newOrder = new Order(store, customer);
+    newOrder.setPizzas(bigOrder.getPizzas());
+    newOrder.setSpecialId(bigOrder.getSpecialId());
+    newOrder.setPrice(30 * .5);
+
+    bigOrder.setId(null);
+    String requestContent = mapper.writeValueAsString(bigOrder);
+    String responseContent = mapper.writeValueAsString(newOrder);
+
+    mockMvc.perform(post("/orders/")
+        .content(requestContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isCreated())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(responseContent));
+  }
+
+  @Test
+  public void newOrderHalfOffNotValid() throws Exception {
+    bigOrder.setSpecialId(halfOffAll.getId());
+
+    Behavior.set(repository, validator).isNotValid();
 
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
@@ -164,25 +213,27 @@ public class OrderControllerTest {
     newOrder.setSpecialId(bigOrder.getSpecialId());
     newOrder.setPrice(30 * .5);
 
+    bigOrder.setId(null);
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
 
     mockMvc.perform(post("/orders/")
         .content(requestContent)
         .contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(status().isCreated())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(content().json(responseContent));
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 
   @Test
   public void newOrderNoDiscount() throws Exception {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
-    newOrder.setId(bigOrder.getId());
     newOrder.setSpecialId(bigOrder.getSpecialId());
     newOrder.setPrice(30);
 
+    Behavior.set(repository, validator).isValid();
+
+    bigOrder.setId(null);
     String requestContent = mapper.writeValueAsString(bigOrder);
     String responseContent = mapper.writeValueAsString(newOrder);
 
@@ -195,8 +246,26 @@ public class OrderControllerTest {
   }
 
   @Test
+  public void newOrderNoDiscountPreExistingId() throws Exception {
+    Order newOrder = new Order(store, customer);
+    newOrder.setPizzas(bigOrder.getPizzas());
+    newOrder.setSpecialId(bigOrder.getSpecialId());
+    newOrder.setPrice(30);
+
+    Behavior.set(repository, validator).isValid();
+    String requestContent = mapper.writeValueAsString(bigOrder);
+    String responseContent = mapper.writeValueAsString(newOrder);
+
+    mockMvc.perform(post("/orders/")
+        .content(requestContent)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
   public void updateOrderByIdNoMatch() throws Exception {
-    Behavior.set(repository).hasNoData();
+    Behavior.set(repository, validator).hasNoData();
     String content = mapper.writeValueAsString(bigOrder);
     mockMvc.perform(put("/orders/")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -206,14 +275,26 @@ public class OrderControllerTest {
   }
 
   @Test
-  public void updateOrderByIdHasMatch() throws Exception {
-    Behavior.set(repository).returnOrders(bigOrder);
+  public void updateOrderByIdHasMatchValid() throws Exception {
+    Behavior.set(repository, validator).returnOrders(bigOrder).isValid();
     bigOrder.setPizzas(smallOrder.getPizzas());
     String requestContent = mapper.writeValueAsString(bigOrder);
     mockMvc.perform(put("/orders/")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(requestContent))
         .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void updateOrderByIdHasMatchNotValid() throws Exception {
+    Behavior.set(repository, validator).returnOrders(bigOrder).isNotValid();
+    bigOrder.setPizzas(smallOrder.getPizzas());
+    String requestContent = mapper.writeValueAsString(bigOrder);
+    mockMvc.perform(put("/orders/")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(requestContent))
+        .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$").doesNotExist());
   }
 }

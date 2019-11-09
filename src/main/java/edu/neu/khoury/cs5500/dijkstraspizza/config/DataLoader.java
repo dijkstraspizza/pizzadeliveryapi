@@ -128,6 +128,8 @@ public class DataLoader implements ApplicationRunner {
     ingredientRepository
         .saveAll(Arrays.asList(crust, gfCrust, tomSauce, gfTomSauce, moz, pep, sausage, ham, bacon,
             chicken, basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers));
+    pizzaSizeRepository.deleteAll();
+    pizzaSizeRepository.saveAll(Arrays.asList(small, medium, large));
     pizzaRepository.deleteAll();
     pizzaRepository.saveAll(cheese);
     pizzaRepository.saveAll(margherita);
@@ -141,7 +143,6 @@ public class DataLoader implements ApplicationRunner {
     storeRepository.saveAll(Arrays.asList(first, store2, store3));
     priceCalculatorRepository.deleteAll();
     priceCalculatorRepository.saveAll(Arrays.asList(bogoSpecial, halfOfAll));
-    pizzaSizeRepository.saveAll(Arrays.asList(small, medium, large));
   }
 
   /**

@@ -1,18 +1,16 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.PizzaValidator;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +23,9 @@ public class PizzaController {
 
   @Autowired
   private PizzaRepository repository;
+
+  @Autowired
+  Validator<Pizza> validator = new PizzaValidator();
 
   /*===== GET Methods =====*/
 
@@ -58,7 +59,6 @@ public class PizzaController {
 
   /*===== POST Methods =====*/
 
-  // TODO: Prevent POST methods from allowing an ID field
   @ApiOperation(
       value = "Creates a new pizza in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
@@ -71,6 +71,17 @@ public class PizzaController {
   public Pizza newPizza(
       @ApiParam(value = "JSON pizza object without an id field", required = true)
       @Valid @RequestBody Pizza pizza) {
+    if (pizza.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Pizza ID must be null"
+      );
+    }
+    if (!validator.validate(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and sizes must be " +
+          "entities in the database"
+      );
+    }
     repository.save(pizza);
     return pizza;
   }
@@ -90,6 +101,12 @@ public class PizzaController {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Pizza with id=" + id + " not found.");
+    }
+    if (!validator.validate(pizza)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and sizes must be " +
+          "entities in the database"
+      );
     }
     repository.save(pizza);
   }

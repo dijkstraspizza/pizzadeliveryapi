@@ -1,5 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.PizzaStoreValidator;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaStore;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
 import io.swagger.annotations.Api;
@@ -20,6 +22,9 @@ public class PizzaStoreController {
 
   @Autowired
   private PizzaStoreRepository repository;
+
+  @Autowired
+  private Validator<PizzaStore> validator = new PizzaStoreValidator();
 
   /*===== GET Methods =====*/
 
@@ -64,6 +69,17 @@ public class PizzaStoreController {
   public PizzaStore newStore(
       @ApiParam(value = "JSON store object without an id field", required = true)
       @Valid @RequestBody PizzaStore store) {
+    if (store.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID must be null."
+      );
+    }
+    if (!validator.validate(store)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid store. All menus, pizzas, sizes, and ingredients must" +
+          "be entities in the database."
+      );
+    }
     repository.save(store);
     return store;
   }
@@ -83,6 +99,12 @@ public class PizzaStoreController {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Store with id=" + id + " not found.");
+    }
+    if (!validator.validate(store)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid store. All menus, pizzas, sizes, and ingredients must" +
+          "be entities in the database."
+      );
     }
     repository.save(store);
   }

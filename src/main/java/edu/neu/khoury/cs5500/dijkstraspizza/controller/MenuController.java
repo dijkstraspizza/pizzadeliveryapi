@@ -1,12 +1,16 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.MenuValidator;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
 import java.util.List;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +28,9 @@ public class MenuController {
 
   @Autowired
   private MenuRepository repository;
+
+  @Autowired
+  private Validator<Menu> validator = new MenuValidator();
 
   /*===== GET Methods =====*/
 
@@ -56,7 +63,6 @@ public class MenuController {
 
   /*===== POST Methods=====*/
 
-  // TODO: Prevent POST methods from allowing an ID field
   @ApiOperation(
       value = "Creates a new menu in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
@@ -69,6 +75,17 @@ public class MenuController {
   public Menu newMenu(
       @ApiParam(value = "JSON menu object without an id field", required = true)
       @Valid @RequestBody Menu menu) {
+    if (menu.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID must be null"
+      );
+    }
+    if (!validator.validate(menu)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid menu. All pizzas, ingredients, and sizes must be " +
+          "entities in the database"
+      );
+    }
     repository.save(menu);
     return menu;
   }
@@ -87,6 +104,12 @@ public class MenuController {
     String id = menu.getId();
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Menu with id=" + id + " not found.");
+    }
+    if (!validator.validate(menu)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid menu. All pizzas, ingredients, and sizes must be " +
+          "entities in the database"
+      );
     }
     repository.save(menu);
   }

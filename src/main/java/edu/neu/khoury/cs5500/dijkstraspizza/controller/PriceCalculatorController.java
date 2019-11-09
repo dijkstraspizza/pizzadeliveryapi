@@ -32,9 +32,9 @@ public class PriceCalculatorController {
   /*===== GET Methods =====*/
 
   @ApiOperation(
-      value = "Gets the price of an order with a special",
+      value = "Gets the price of an order.",
       notes = "Special ID is included as a query parameter",
-      response = Double.class,
+      response = Price.class,
       produces = "application/json"
   )
   @RequestMapping(value = "/price", method = RequestMethod.GET)

@@ -1,5 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.OrderValidator;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import io.swagger.annotations.Api;
@@ -23,6 +25,9 @@ public class OrderController {
 
   @Autowired
   private PriceCalculatorController priceCalculatorController;
+
+  @Autowired
+  private Validator<Order> validator = new OrderValidator();
 
 
   /*===== GET Methods =====*/
@@ -58,6 +63,20 @@ public class OrderController {
   public Order newOrder(
       @ApiParam(value = "JSON Order object without an id field", required = true)
       @Valid @RequestBody Order order) {
+
+    if (order.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID field must be null."
+      );
+    }
+
+    if (!validator.validate(order)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and sizes must be " +
+          "entities in the database."
+      );
+    }
+
     Double price = priceCalculatorController.getOrderPrice(
         Optional.ofNullable(order.getSpecialId()), order);
     order.setPrice(price);
@@ -80,6 +99,12 @@ public class OrderController {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Order with id=" + id + " not found.");
+    }
+    if (!validator.validate(order)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and sizes must be " +
+          "entities in the database"
+      );
     }
     Double price = priceCalculatorController.getOrderPrice(
         Optional.ofNullable(order.getSpecialId()), order);

@@ -1,4 +1,4 @@
-package edu.neu.khoury.cs5500.dijkstraspizza.model.price;
+package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import org.junit.Before;

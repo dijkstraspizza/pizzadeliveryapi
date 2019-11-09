@@ -2,6 +2,8 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.PizzaStoreValidator;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
@@ -57,6 +59,15 @@ public class PizzaStoreControllerTest {
 
 	@MockBean
 	private PizzaRepository pizzaRepository;
+
+	@MockBean
+	Validator<PizzaStore> validator;
+
+	@MockBean
+	Validator<Menu> menuValidator;
+
+	@MockBean
+	Validator<Pizza> pizzaValidator;
 
 
 
@@ -156,11 +167,30 @@ public class PizzaStoreControllerTest {
 	
 	private static class Behavior {
 		PizzaStoreRepository pizzaStoreRepository;
+		Validator<PizzaStore> validator;
 	
 		public static Behavior set(PizzaStoreRepository pizzaRepository) {
 		  Behavior behavior = new Behavior();
 		  behavior.pizzaStoreRepository = pizzaRepository;
 		  return behavior;
+		}
+
+		public static Behavior set(PizzaStoreRepository pizzaRepository,
+															 Validator validator) {
+			Behavior behavior = new Behavior();
+			behavior.pizzaStoreRepository = pizzaRepository;
+			behavior.validator = validator;
+			return behavior;
+		}
+
+		public Behavior isValid() {
+			when(validator.validate(any())).thenReturn(true);
+			return this;
+		}
+
+		public Behavior isNotValid() {
+			when(validator.validate(any())).thenReturn(false);
+			return this;
 		}
 	
 		public Behavior hasNoPizzasStores() {
@@ -252,8 +282,7 @@ public class PizzaStoreControllerTest {
 
 	@Test
 	public void testNewStore() throws Exception {
-		
-		Behavior.set(pizzaStoreRepository).returnSame();
+		Behavior.set(pizzaStoreRepository, validator).returnSame().isValid();
 		String content = mapper.writeValueAsString(new PizzaStore(storeAddr2));
 		mvc.perform(post("/stores/")
 		.content(content)
@@ -264,8 +293,33 @@ public class PizzaStoreControllerTest {
 	}
 
 	@Test
+	public void testNewStoreNotNull() throws Exception {
+		Behavior.set(pizzaStoreRepository, validator).returnSame().isValid();
+		PizzaStore store = new PizzaStore(storeAddr2);
+		store.setId("id");
+		String content = mapper.writeValueAsString(store);
+		mvc.perform(post("/stores/")
+				.content(content)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)).
+				andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
+	public void testNewStoreInvalid() throws Exception {
+		Behavior.set(pizzaStoreRepository, validator).returnSame().isNotValid();
+		PizzaStore store = new PizzaStore(storeAddr2);
+		String content = mapper.writeValueAsString(store);
+		mvc.perform(post("/stores/")
+				.content(content)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)).
+				andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
 	public void testUpdateStoreById() throws Exception {
-		Behavior.set(pizzaStoreRepository).returnPizzasStores(first, store2);
+		Behavior.set(pizzaStoreRepository, validator).returnPizzasStores(first, store2).isValid();
 		Address addressNew = new Address("test", "test", "test", "test");
 		first.setAddress(addressNew);
 		String store = mapper.writeValueAsString(first);
@@ -274,6 +328,19 @@ public class PizzaStoreControllerTest {
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
+	public void testUpdateStoreByIdInvalid() throws Exception {
+		Behavior.set(pizzaStoreRepository, validator).returnPizzasStores(first, store2).isNotValid();
+		Address addressNew = new Address("test", "test", "test", "test");
+		first.setAddress(addressNew);
+		String store = mapper.writeValueAsString(first);
+		mvc.perform(put("/stores/")
+				.content(store)
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$").doesNotExist());
 	}
 
 	@Test
