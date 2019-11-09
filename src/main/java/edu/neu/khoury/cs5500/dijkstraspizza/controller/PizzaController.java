@@ -82,16 +82,6 @@ public class PizzaController {
           "entities in the database"
       );
     }
-//    if (!validIngredients(pizza)) {
-//      throw new ResponseStatusException(
-//          HttpStatus.BAD_REQUEST, "Invalid ingredients."
-//      );
-//    }
-//    if (!validPizzaSize(pizza)) {
-//      throw new ResponseStatusException(
-//          HttpStatus.BAD_REQUEST, "Invalid pizza size."
-//      );
-//    }
     repository.save(pizza);
     return pizza;
   }
@@ -118,16 +108,6 @@ public class PizzaController {
           "entities in the database"
       );
     }
-//    if (!validIngredients(pizza)) {
-//      throw new ResponseStatusException(
-//          HttpStatus.BAD_REQUEST, "Invalid ingredients."
-//      );
-//    }
-//    if (!validPizzaSize(pizza)) {
-//      throw new ResponseStatusException(
-//          HttpStatus.BAD_REQUEST, "Invalid pizza size."
-//      );
-//    }
     repository.save(pizza);
   }
 
@@ -146,18 +126,4 @@ public class PizzaController {
     }
     repository.deleteById(id);
   }
-
-  /*===== Helper Methods =====*/
-//  public boolean validPizzaSize(Pizza pizza) {
-//    return pizzaSizeRepository.existsById(pizza.getSizeDesc().getId());
-//  }
-//
-//  public boolean validIngredients(Pizza pizza) {
-//    for (Ingredient ingredient : pizza.getIngredients()) {
-//      if (!ingredientRepository.existsById(ingredient.getId())) {
-//        return false;
-//      }
-//    }
-//    return true;
-//  }
 }
