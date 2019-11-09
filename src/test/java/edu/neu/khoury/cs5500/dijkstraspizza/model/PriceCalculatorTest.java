@@ -1,6 +1,5 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -59,6 +58,20 @@ public class PriceCalculatorTest {
     buyTwoGetOneHalfOff.setId("buy-two-get-half");
 
     buyThreeGet25OffAll = new PriceCalculator(3, -1, .25, "buyThreeGet25");
+  }
+
+  @Test
+  public void calculatePizzaPriceBase() {
+    assertEquals( 8.0,
+        PriceCalculator.calculatePizzaPrice(cheesePizza.getSizeDesc(),
+            cheesePizza.getIngredients().size()), 0);
+  }
+
+  @Test
+  public void calculatePizzaPriceExtraIngredients() {
+    assertEquals( 14.0,
+        PriceCalculator.calculatePizzaPrice(hugePizza.getSizeDesc(),
+            hugePizza.getIngredients().size()), 0);
   }
 
   @Test
