@@ -1,6 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
@@ -47,6 +48,9 @@ public class MenuControllerTest {
 
   @MockBean
   MenuRepository repository;
+
+  @MockBean
+  Validator<Menu> validator;
 
   @Autowired
   ObjectMapper mapper;
@@ -119,6 +123,7 @@ public class MenuControllerTest {
 
   private static class Behavior {
     MenuRepository repository;
+    Validator<Menu> validator;
 
     public static Behavior set(MenuRepository repository) {
       Behavior behavior = new Behavior();
@@ -126,16 +131,35 @@ public class MenuControllerTest {
       return behavior;
     }
 
-    public void hasNoMenu() {
+    public static Behavior set(MenuRepository repository, Validator validator) {
+      Behavior behavior = new Behavior();
+      behavior.repository = repository;
+      behavior.validator = validator;
+      return behavior;
+    }
+
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoMenu() {
       when(repository.findAll()).thenReturn(Collections.emptyList());
       when(repository.existsById(anyString())).thenReturn(false);
+      return this;
     }
 
-    public void returnSame() {
+    public Behavior returnSame() {
       when(repository.save(any())).thenAnswer(mockInvocation -> mockInvocation.getArguments()[0]);
+      return this;
     }
 
-    public void returnMenus(Menu... menus) {
+    public Behavior returnMenus(Menu... menus) {
       when(repository.findAll()).thenReturn(Arrays.asList(menus));
       when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
         for (Menu menu : menus) {
@@ -149,6 +173,7 @@ public class MenuControllerTest {
           .filter(menu -> menu.getId().equals(invocationOnMock.getArguments()[0]))
           .collect(Collectors.collectingAndThen(Collectors.toList(),
               list -> Optional.of(list.get(0)))));
+      return this;
     }
   }
 
@@ -199,7 +224,8 @@ public class MenuControllerTest {
 
   @Test
   public void newMenu() throws Exception {
-    Behavior.set(repository).returnSame();
+    Behavior.set(repository, validator).returnSame().isValid();
+    glutenFreeMenu.setId(null);
     String content = mapper.writeValueAsString(glutenFreeMenu);
     mockMvc.perform(post("/menus/")
         .content(content)
@@ -210,8 +236,32 @@ public class MenuControllerTest {
   }
 
   @Test
+  public void newMenuNotValid() throws Exception {
+    Behavior.set(repository, validator).returnSame().isNotValid();
+    glutenFreeMenu.setId(null);
+    String content = mapper.writeValueAsString(glutenFreeMenu);
+    mockMvc.perform(post("/menus/")
+        .content(content)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void newMenuIdNotNull() throws Exception {
+    Behavior.set(repository, validator).returnSame().isValid();
+    glutenFreeMenu.setId("notNull");
+    String content = mapper.writeValueAsString(glutenFreeMenu);
+    mockMvc.perform(post("/menus/")
+        .content(content)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
   public void updateMenuByIdNoMenus() throws Exception {
-    Behavior.set(repository).hasNoMenu();
+    Behavior.set(repository, validator).hasNoMenu();
     String content = mapper.writeValueAsString(vegMenu);
     mockMvc.perform(put("/menus/")
         .content(content)
@@ -222,7 +272,7 @@ public class MenuControllerTest {
 
   @Test
   public void updateMenuByIdSomeMenusNoMatch() throws Exception {
-    Behavior.set(repository).returnMenus(nonVegMenu);
+    Behavior.set(repository, validator).returnMenus(nonVegMenu);
     String content = mapper.writeValueAsString(vegMenu);
     mockMvc.perform(put("/menus/")
         .content(content)
@@ -233,7 +283,7 @@ public class MenuControllerTest {
 
   @Test
   public void updateMenuByIdSomeMenusHasMatch() throws Exception {
-    Behavior.set(repository).returnMenus(nonVegMenu, vegMenu);
+    Behavior.set(repository, validator).returnMenus(nonVegMenu, vegMenu).isValid();
     Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
     cheese.setId("mozzarellaId");
     Pizza cheesePizza = new Pizza(PizzaSize.small(8));
@@ -246,6 +296,24 @@ public class MenuControllerTest {
         .content(content)
         .contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void updateMenuByIdSomeMenusHasMatchInvalid() throws Exception {
+    Behavior.set(repository, validator).returnMenus(nonVegMenu, vegMenu).isNotValid();
+    Ingredient cheese = new Ingredient("Mozzarella", "Cheese", true);
+    cheese.setId("mozzarellaId");
+    Pizza cheesePizza = new Pizza(PizzaSize.small(8));
+    cheesePizza.setId("cheesePizzaId");
+    cheesePizza.setIngredients(Collections.singletonList(cheese));
+
+    vegMenu.getPizzas().add(cheesePizza);
+    String content = mapper.writeValueAsString(vegMenu);
+    mockMvc.perform(put("/menus/")
+        .content(content)
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$").doesNotExist());
   }
 
