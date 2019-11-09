@@ -10,8 +10,10 @@ import java.util.List;
 @Controller
 public class OrderValidator implements Validator<Order> {
 
+
+
   @Autowired
-  Validator<Pizza> pizzaValidator = new PizzaValidator();
+  PizzaValidator pizzaValidator;
 
   @Override
   public boolean validate(Order entity) {
