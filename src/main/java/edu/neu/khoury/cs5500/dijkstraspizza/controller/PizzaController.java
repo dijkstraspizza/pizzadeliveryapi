@@ -80,7 +80,8 @@ public class PizzaController {
     }
     if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza."
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and prices must be " +
+          "entities in the database"
       );
     }
 //    if (!validIngredients(pizza)) {
@@ -115,7 +116,8 @@ public class PizzaController {
     }
     if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza."
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and prices must be " +
+          "entities in the database"
       );
     }
 //    if (!validIngredients(pizza)) {

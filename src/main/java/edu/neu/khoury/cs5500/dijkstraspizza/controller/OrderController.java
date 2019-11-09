@@ -65,6 +65,20 @@ public class OrderController {
   public Order newOrder(
       @ApiParam(value = "JSON Order object without an id field", required = true)
       @Valid @RequestBody Order order) {
+
+    if (order.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID field must be null."
+      );
+    }
+
+    if (!validator.validate(order)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and prices must be " +
+          "entities in the database"
+      );
+    }
+
     Double price = priceCalculatorController.getOrderPrice(
         Optional.ofNullable(order.getSpecialId()), order);
     order.setPrice(price);
@@ -87,6 +101,12 @@ public class OrderController {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Order with id=" + id + " not found.");
+    }
+    if (!validator.validate(order)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and prices must be " +
+          "entities in the database"
+      );
     }
     Double price = priceCalculatorController.getOrderPrice(
         Optional.ofNullable(order.getSpecialId()), order);
