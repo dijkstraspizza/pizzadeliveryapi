@@ -1,5 +1,6 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import io.swagger.annotations.Api;
@@ -26,6 +27,9 @@ public class OrderController {
 
   @Autowired
   private PizzaController pizzaController;
+
+  @Autowired
+  private Validator<Order> validator;
 
 
   /*===== GET Methods =====*/

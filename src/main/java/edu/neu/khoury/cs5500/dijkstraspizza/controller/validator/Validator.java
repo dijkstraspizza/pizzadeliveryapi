@@ -1,4 +1,4 @@
-package edu.neu.khoury.cs5500.dijkstraspizza.controller;
+package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 
 /**
  * An interface for validating entities being added/updated in the database.
