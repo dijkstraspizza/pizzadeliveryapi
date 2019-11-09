@@ -2,6 +2,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +47,9 @@ public class PriceCalculatorControllerTest {
 
   @MockBean
   PizzaController pizzaController;
+
+  @MockBean
+  PizzaSizeRepository pizzaSizeRepository;
 
   @Autowired
   ObjectMapper mapper;
@@ -129,6 +133,26 @@ public class PriceCalculatorControllerTest {
           .collect(Collectors.collectingAndThen(Collectors.toList(),
               list -> Optional.of(list.get(0)))));
     }
+  }
+
+  @Test
+  public void getPizzaPriceInvalid() throws Exception {
+    when(pizzaSizeRepository.existsById(any())).thenReturn(false);
+    when(pizzaSizeRepository.findById(any())).thenReturn(Optional.of(PizzaSize.small(8)));
+    mockMvc.perform(get("/prices/price/pizza?size=small&num-toppings=1"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
+  public void getPizzaPriceValid() throws Exception {
+    when(pizzaSizeRepository.existsById(any())).thenReturn(true);
+    when(pizzaSizeRepository.findById(any())).thenReturn(Optional.of(PizzaSize.small(8)));
+    String content = mapper.writeValueAsString(new Price(8));
+    mockMvc.perform(get("/prices/price/pizza?size=small&num-toppings=1"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
   }
 
   @Test
