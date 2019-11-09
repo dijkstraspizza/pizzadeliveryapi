@@ -74,7 +74,7 @@ public class OrderController {
 
     if (!validator.validate(order)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and prices must be " +
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and sizes must be " +
           "entities in the database"
       );
     }
@@ -104,7 +104,7 @@ public class OrderController {
     }
     if (!validator.validate(order)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and prices must be " +
+          HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and sizes must be " +
           "entities in the database"
       );
     }

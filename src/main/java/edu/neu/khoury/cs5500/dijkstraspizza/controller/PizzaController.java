@@ -3,9 +3,7 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.PizzaValidator;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -80,7 +78,7 @@ public class PizzaController {
     }
     if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and prices must be " +
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and sizes must be " +
           "entities in the database"
       );
     }
@@ -116,7 +114,7 @@ public class PizzaController {
     }
     if (!validator.validate(pizza)) {
       throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and prices must be " +
+          HttpStatus.BAD_REQUEST, "Invalid pizza. All ingredients and sizes must be " +
           "entities in the database"
       );
     }
