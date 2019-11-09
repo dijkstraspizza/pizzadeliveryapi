@@ -1,9 +1,7 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Price;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +27,31 @@ public class PriceCalculatorController {
   @Autowired
   private PizzaController pizzaController;
 
+  @Autowired
+  private PizzaSizeRepository pizzaSizeRepository;
+
   /*===== GET Methods =====*/
+
+  @ApiOperation(
+      value = "Gets the price of a pizza, based on size and number of toppings.",
+      response = Price.class,
+      produces = "application/json"
+  )
+  @RequestMapping(value = "/price/pizza", method = RequestMethod.GET)
+  public @ResponseBody
+  Price getPizzaPrice(
+      @ApiParam(value = "ID of the pizza size", example = "smallId")
+      @RequestParam("size") String sizeId,
+      @ApiParam(value="Number of toppings on the pizza", example = "2")
+      @RequestParam(value = "num-toppings") Integer numToppings) {
+    if (!pizzaSizeRepository.existsById(sizeId)) {
+      throw new ResponseStatusException(
+          HttpStatus.NOT_FOUND, "Size ID" + sizeId + " does not exist."
+      );
+    }
+    PizzaSize size = pizzaSizeRepository.findById(sizeId).get();
+    return new Price(PriceCalculator.calculatePizzaPrice(size, numToppings));
+  }
 
   @ApiOperation(
       value = "Gets the price of an order.",

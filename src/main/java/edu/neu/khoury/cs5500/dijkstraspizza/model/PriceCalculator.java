@@ -114,4 +114,11 @@ public class PriceCalculator {
     }
     return price;
   }
+
+  public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {
+    if (numToppings <= DEFAULT_FREE_INGREDIENTS) {
+      return size.getValue();
+    }
+    return size.getValue() + (numToppings - DEFAULT_FREE_INGREDIENTS) * DEFAULT_INGREDIENT_COST;
+  }
 }
