@@ -14,6 +14,7 @@ public class PriceCalculator {
 
   private static final int DEFAULT_FREE_INGREDIENTS = 1;
   private static final double DEFAULT_INGREDIENT_COST = 2;
+  private static final double SEATTLE_SALES_TAX = .101;
 
   @Id
   private String id;
@@ -96,11 +97,11 @@ public class PriceCalculator {
 
   public Double calculate(List<Pizza> pizzas) {
     if (pizzas.size() < requiredPizzas) {
-      return calculateBasePrice(pizzas);
+      return calculateBasePrice(pizzas) * (1 + SEATTLE_SALES_TAX);
     }
     if (pizzasAppliedTo < 0) { // -1 represents all pizzas
       double price = calculateBasePrice(pizzas);
-      return price - price * discountRatio;
+      return (price - price * discountRatio) * (1 + SEATTLE_SALES_TAX);
     }
     List<Pizza> sortedPizzas = new ArrayList<>(pizzas);
     sortedPizzas.sort(Comparator.comparing(this::calculatePizzaPrice));
@@ -112,7 +113,7 @@ public class PriceCalculator {
     for (int i = pizzasAppliedTo; i < pizzas.size(); i++) {
       price += calculatePizzaPrice(sortedPizzas.get(i));
     }
-    return price;
+    return price * (1 + SEATTLE_SALES_TAX);
   }
 
   public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {
