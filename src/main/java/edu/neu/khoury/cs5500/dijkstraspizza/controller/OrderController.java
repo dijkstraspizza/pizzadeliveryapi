@@ -103,7 +103,7 @@ public class OrderController {
     if (!validator.validate(order)) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, "Invalid order. All ingredients and sizes must be " +
-          "entities in the database"
+          "entities in the database and order must contain valid credit card information."
       );
     }
     Double price = priceCalculatorController.getOrderPrice(
