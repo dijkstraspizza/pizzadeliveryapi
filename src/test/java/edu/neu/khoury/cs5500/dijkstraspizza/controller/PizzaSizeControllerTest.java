@@ -1,8 +1,22 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,19 +32,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PizzaSizeController.class)
-@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class, PizzaSizeController.class})
+@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class,
+    PizzaSizeController.class})
 public class PizzaSizeControllerTest {
 
   @Autowired
@@ -63,48 +69,6 @@ public class PizzaSizeControllerTest {
     large = PizzaSize.large(12);
     large.setId("largeId");
     huge = new PizzaSize(30.0, "huge", 30.0);
-  }
-
-  private static class Behavior {
-    PizzaSizeRepository repository;
-
-    public static Behavior set(PizzaSizeRepository repository) {
-      Behavior behavior = new Behavior();
-      behavior.repository = repository;
-      return behavior;
-    }
-
-    public void hasNoData() {
-      when(repository.findAll()).thenReturn(Collections.emptyList());
-      when(repository.existsById(anyString())).thenReturn(false);
-    }
-
-    public void returnSizes(PizzaSize... sizes) {
-      when(repository.findAll()).thenReturn(Arrays.asList(sizes));
-      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (PizzaSize size : sizes) {
-          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      when(repository.findById(anyString())).thenAnswer(invocationOnMock -> {
-        for (PizzaSize size: sizes) {
-          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
-            return Optional.of(size);
-          }
-        }
-        return Optional.empty();
-      });
-    }
-
-    public void returnSame(PizzaSize size) {
-      when(repository.save(any())).thenAnswer(invocationOnMock -> {
-        size.setId("newId");
-        return size;
-      });
-    }
   }
 
   @Test
@@ -181,5 +145,48 @@ public class PizzaSizeControllerTest {
     assertEquals("small", small.getDescription());
     assertEquals("medium", medium.getDescription());
     assertEquals("large", large.getDescription());
+  }
+
+  private static class Behavior {
+
+    PizzaSizeRepository repository;
+
+    public static Behavior set(PizzaSizeRepository repository) {
+      Behavior behavior = new Behavior();
+      behavior.repository = repository;
+      return behavior;
+    }
+
+    public void hasNoData() {
+      when(repository.findAll()).thenReturn(Collections.emptyList());
+      when(repository.existsById(anyString())).thenReturn(false);
+    }
+
+    public void returnSizes(PizzaSize... sizes) {
+      when(repository.findAll()).thenReturn(Arrays.asList(sizes));
+      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (PizzaSize size : sizes) {
+          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      when(repository.findById(anyString())).thenAnswer(invocationOnMock -> {
+        for (PizzaSize size : sizes) {
+          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
+            return Optional.of(size);
+          }
+        }
+        return Optional.empty();
+      });
+    }
+
+    public void returnSame(PizzaSize size) {
+      when(repository.save(any())).thenAnswer(invocationOnMock -> {
+        size.setId("newId");
+        return size;
+      });
+    }
   }
 }

@@ -1,5 +1,16 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
@@ -7,6 +18,11 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,16 +38,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MenuController.class)
@@ -119,62 +125,6 @@ public class MenuControllerTest {
     glutenFreeMenu.setId("glutenFreeMenuId");
     glutenFreeMenu.setIngredients(new HashSet<>(Arrays.asList(gfDough, pepperoni)));
     glutenFreeMenu.setPizzas(new HashSet<>(Collections.singletonList(gfPizza)));
-  }
-
-  private static class Behavior {
-    MenuRepository repository;
-    Validator<Menu> validator;
-
-    public static Behavior set(MenuRepository repository) {
-      Behavior behavior = new Behavior();
-      behavior.repository = repository;
-      return behavior;
-    }
-
-    public static Behavior set(MenuRepository repository, Validator validator) {
-      Behavior behavior = new Behavior();
-      behavior.repository = repository;
-      behavior.validator = validator;
-      return behavior;
-    }
-
-    public Behavior isValid() {
-      when(validator.validate(any())).thenReturn(true);
-      return this;
-    }
-
-    public Behavior isNotValid() {
-      when(validator.validate(any())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior hasNoMenu() {
-      when(repository.findAll()).thenReturn(Collections.emptyList());
-      when(repository.existsById(anyString())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior returnSame() {
-      when(repository.save(any())).thenAnswer(mockInvocation -> mockInvocation.getArguments()[0]);
-      return this;
-    }
-
-    public Behavior returnMenus(Menu... menus) {
-      when(repository.findAll()).thenReturn(Arrays.asList(menus));
-      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Menu menu : menus) {
-          if (menu.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      when(repository.findById(anyString())).thenAnswer(invocationOnMock -> Arrays.stream(menus)
-          .filter(menu -> menu.getId().equals(invocationOnMock.getArguments()[0]))
-          .collect(Collectors.collectingAndThen(Collectors.toList(),
-              list -> Optional.of(list.get(0)))));
-      return this;
-    }
   }
 
   @Test
@@ -339,5 +289,62 @@ public class MenuControllerTest {
     mockMvc.perform(delete("/menus/nonVegMenuId"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  private static class Behavior {
+
+    MenuRepository repository;
+    Validator<Menu> validator;
+
+    public static Behavior set(MenuRepository repository) {
+      Behavior behavior = new Behavior();
+      behavior.repository = repository;
+      return behavior;
+    }
+
+    public static Behavior set(MenuRepository repository, Validator validator) {
+      Behavior behavior = new Behavior();
+      behavior.repository = repository;
+      behavior.validator = validator;
+      return behavior;
+    }
+
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoMenu() {
+      when(repository.findAll()).thenReturn(Collections.emptyList());
+      when(repository.existsById(anyString())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnSame() {
+      when(repository.save(any())).thenAnswer(mockInvocation -> mockInvocation.getArguments()[0]);
+      return this;
+    }
+
+    public Behavior returnMenus(Menu... menus) {
+      when(repository.findAll()).thenReturn(Arrays.asList(menus));
+      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (Menu menu : menus) {
+          if (menu.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      when(repository.findById(anyString())).thenAnswer(invocationOnMock -> Arrays.stream(menus)
+          .filter(menu -> menu.getId().equals(invocationOnMock.getArguments()[0]))
+          .collect(Collectors.collectingAndThen(Collectors.toList(),
+              list -> Optional.of(list.get(0)))));
+      return this;
+    }
   }
 }

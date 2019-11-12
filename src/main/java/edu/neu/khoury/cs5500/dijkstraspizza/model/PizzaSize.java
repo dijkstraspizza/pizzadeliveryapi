@@ -4,6 +4,9 @@ package edu.neu.khoury.cs5500.dijkstraspizza.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * PizzaSize represents the size of a pizza through a description, size (inches) and price.
+ */
 @Document(collection = "sizes")
 public class PizzaSize {
 
@@ -54,12 +57,24 @@ public class PizzaSize {
     return inches;
   }
 
+  public void setInches(double inches) {
+    this.inches = inches;
+  }
+
   public String getDescription() {
     return description;
   }
 
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   public double getValue() {
     return value;
+  }
+
+  public void setValue(double value) {
+    this.value = value;
   }
 
   public String getId() {
@@ -68,17 +83,5 @@ public class PizzaSize {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public void setInches(double inches) {
-    this.inches = inches;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public void setValue(double value) {
-    this.value = value;
   }
 }
