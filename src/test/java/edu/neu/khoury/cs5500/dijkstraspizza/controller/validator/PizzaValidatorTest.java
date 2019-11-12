@@ -1,10 +1,16 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class PizzaValidatorTest {
@@ -48,11 +49,6 @@ public class PizzaValidatorTest {
     meatPizza.setSizeDesc(large);
   }
 
-  @Configuration
-  @Import(PizzaValidator.class)
-  static class Config {
-  }
-
   @Test
   public void validateValid() {
     when(ingredientRepository.existsById(any())).thenReturn(true);
@@ -72,5 +68,11 @@ public class PizzaValidatorTest {
     when(ingredientRepository.existsById(any())).thenReturn(false);
     when(pizzaSizeRepository.existsById(any())).thenReturn(true);
     assertFalse(validator.validate(meatPizza));
+  }
+
+  @Configuration
+  @Import(PizzaValidator.class)
+  static class Config {
+
   }
 }

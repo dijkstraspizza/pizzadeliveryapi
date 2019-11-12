@@ -4,10 +4,9 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
+import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import javax.annotation.Resource;
 
 @Controller
 public class PizzaValidator implements Validator<Pizza> {

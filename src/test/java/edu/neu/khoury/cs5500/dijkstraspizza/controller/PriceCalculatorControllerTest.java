@@ -1,9 +1,29 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Price;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +39,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PriceCalculatorController.class)
@@ -92,47 +103,12 @@ public class PriceCalculatorControllerTest {
     bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
 
-    for (Pizza pizza: new Pizza[] {cheesePizza, pepperoniPizza, hugePizza}) {
+    for (Pizza pizza : new Pizza[]{cheesePizza, pepperoniPizza, hugePizza}) {
       when(pizzaController.getPizzaById(eq(pizza.getId()))).thenReturn(pizza);
     }
 
     pizzaParams = "pizzaId[]=" + pepperoniPizza.getId() +
-    "&pizzaId[]=" + cheesePizza.getId() + "&pizzaId[]=" + hugePizza.getId();
-  }
-
-  private static class Behavior {
-    PriceCalculatorRepository repository;
-
-    public static Behavior set(PriceCalculatorRepository repository) {
-      Behavior behavior = new Behavior();
-      behavior.repository = repository;
-      return behavior;
-    }
-
-    public void hasNoPriceCalculator() {
-      when(repository.findAll()).thenReturn(Collections.emptyList());
-      when(repository.existsById(anyString())).thenReturn(false);
-    }
-
-    public void returnSame() {
-      when(repository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
-    }
-
-    public void returnPriceCalculators(PriceCalculator... priceCalculators) {
-      when(repository.findAll()).thenReturn(Arrays.asList(priceCalculators));
-      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (PriceCalculator priceCalculator: priceCalculators) {
-          if (priceCalculator.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      when(repository.findById(anyString())).thenAnswer(invocationOnMock -> Arrays.stream(priceCalculators)
-          .filter(priceCalculator -> priceCalculator.getId().equals(invocationOnMock.getArguments()[0]))
-          .collect(Collectors.collectingAndThen(Collectors.toList(),
-              list -> Optional.of(list.get(0)))));
-    }
+        "&pizzaId[]=" + cheesePizza.getId() + "&pizzaId[]=" + hugePizza.getId();
   }
 
   @Test
@@ -267,6 +243,45 @@ public class PriceCalculatorControllerTest {
     mockMvc.perform(get("/prices/price?special=badId&" + pizzaParams))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  private static class Behavior {
+
+    PriceCalculatorRepository repository;
+
+    public static Behavior set(PriceCalculatorRepository repository) {
+      Behavior behavior = new Behavior();
+      behavior.repository = repository;
+      return behavior;
+    }
+
+    public void hasNoPriceCalculator() {
+      when(repository.findAll()).thenReturn(Collections.emptyList());
+      when(repository.existsById(anyString())).thenReturn(false);
+    }
+
+    public void returnSame() {
+      when(repository.save(any()))
+          .thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+    }
+
+    public void returnPriceCalculators(PriceCalculator... priceCalculators) {
+      when(repository.findAll()).thenReturn(Arrays.asList(priceCalculators));
+      when(repository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (PriceCalculator priceCalculator : priceCalculators) {
+          if (priceCalculator.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      when(repository.findById(anyString()))
+          .thenAnswer(invocationOnMock -> Arrays.stream(priceCalculators)
+              .filter(priceCalculator -> priceCalculator.getId()
+                  .equals(invocationOnMock.getArguments()[0]))
+              .collect(Collectors.collectingAndThen(Collectors.toList(),
+                  list -> Optional.of(list.get(0)))));
+    }
   }
 
 }

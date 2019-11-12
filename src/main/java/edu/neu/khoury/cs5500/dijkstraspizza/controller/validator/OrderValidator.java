@@ -3,10 +3,9 @@ package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.CreditCardInfo;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 @Controller
 public class OrderValidator implements Validator<Order> {

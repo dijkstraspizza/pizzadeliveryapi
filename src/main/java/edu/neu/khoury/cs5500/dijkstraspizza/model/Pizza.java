@@ -2,7 +2,6 @@ package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,8 +20,7 @@ public class Pizza {
 
   private List<Ingredient> ingredients = new ArrayList<>();
 
-  public Pizza() {
-  }
+  public Pizza() { }
 
   public Pizza(PizzaSize size) {
     sizeDesc = size;
@@ -60,5 +58,7 @@ public class Pizza {
     this.ingredients = ingredients;
   }
 
-  public Double getPrice() {return sizeDesc.getValue();}
+  public Double getPrice() {
+    return sizeDesc.getValue();
+  }
 }

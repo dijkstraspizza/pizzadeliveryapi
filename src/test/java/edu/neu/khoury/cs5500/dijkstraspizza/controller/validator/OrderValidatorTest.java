@@ -1,6 +1,13 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,18 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.Collections;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class OrderValidatorTest {
-
-  private Pizza meatPizza;
-  private Ingredient ham;
-  private PizzaSize large;
-  private Order order;
 
   @MockBean
   PizzaValidator pizzaValidator;
@@ -33,6 +31,10 @@ public class OrderValidatorTest {
 
   @Autowired
   OrderValidator orderValidator;
+  private Pizza meatPizza;
+  private Ingredient ham;
+  private PizzaSize large;
+  private Order order;
 
   @Before
   public void setUp() throws Exception {
@@ -54,11 +56,6 @@ public class OrderValidatorTest {
         Date.from(Calendar.getInstance().toInstant())));
   }
 
-  @Configuration
-  @Import(OrderValidator.class)
-  static class Config {
-  }
-
   @Test
   public void validateValid() {
     when(pizzaValidator.validate(any())).thenReturn(true);
@@ -71,5 +68,11 @@ public class OrderValidatorTest {
     when(pizzaValidator.validate(any())).thenReturn(false);
     when(creditCardValidator.validate(any())).thenReturn(false);
     assertFalse(orderValidator.validate(order));
+  }
+
+  @Configuration
+  @Import(OrderValidator.class)
+  static class Config {
+
   }
 }

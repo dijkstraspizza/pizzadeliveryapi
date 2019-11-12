@@ -1,13 +1,12 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.MockitoAnnotations;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
 
 public class PriceCalculatorTest {
 
@@ -62,14 +61,14 @@ public class PriceCalculatorTest {
 
   @Test
   public void calculatePizzaPriceBase() {
-    assertEquals( 8.0,
+    assertEquals(8.0,
         PriceCalculator.calculatePizzaPrice(cheesePizza.getSizeDesc(),
             cheesePizza.getIngredients().size()), 0);
   }
 
   @Test
   public void calculatePizzaPriceExtraIngredients() {
-    assertEquals( 14.0,
+    assertEquals(14.0,
         PriceCalculator.calculatePizzaPrice(hugePizza.getSizeDesc(),
             hugePizza.getIngredients().size()), 0);
   }

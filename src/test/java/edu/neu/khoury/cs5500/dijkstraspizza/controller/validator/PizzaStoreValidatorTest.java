@@ -1,5 +1,10 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaStore;
@@ -13,23 +18,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 @RunWith(SpringRunner.class)
 public class PizzaStoreValidatorTest {
 
-  private Menu menu;
-  private PizzaStore pizzaStore;
-
   @MockBean
   MenuValidator menuValidator;
-
   @MockBean
   MenuRepository menuRepository;
-
   @Autowired
   PizzaStoreValidator validator;
+  private Menu menu;
+  private PizzaStore pizzaStore;
 
   @Before
   public void setUp() throws Exception {
@@ -39,11 +38,6 @@ public class PizzaStoreValidatorTest {
     Address address = new Address("1", "2", "3", "4");
     pizzaStore = new PizzaStore(address);
     pizzaStore.setMenu(menu);
-  }
-
-  @Configuration
-  @Import(PizzaStoreValidator.class)
-  static class Config {
   }
 
   @Test
@@ -65,5 +59,11 @@ public class PizzaStoreValidatorTest {
     when(menuValidator.validate(any())).thenReturn(false);
     when(menuRepository.existsById(any())).thenReturn(true);
     assertFalse(validator.validate(pizzaStore));
+  }
+
+  @Configuration
+  @Import(PizzaStoreValidator.class)
+  static class Config {
+
   }
 }

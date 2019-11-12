@@ -1,8 +1,24 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(IngredientController.class)
@@ -34,24 +43,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 public class IngredientControllerTest {
 
-  @Autowired
-  private WebApplicationContext context;
-
-  @Autowired
-  private MockMvc mvc;
-
-  @MockBean
-  private IngredientRepository ingredientRepository;
-
-  @Autowired
-  private ObjectMapper mapper;
-
   private final Ingredient mushrooms = new Ingredient("mushroom", "vegetable", true);
   private final Ingredient sausage = new Ingredient("sausage", "meat", true);
   private final Ingredient nonGfCrust = new Ingredient("crust", "crust", false);
   private final Ingredient gFCrust = new Ingredient("glutenFreeCrust", "crust", true);
   private final Ingredient spinach = new Ingredient("spinach", "vegetable", true);
   private final Ingredient ham = new Ingredient("ham", "meat", true);
+  @Autowired
+  private WebApplicationContext context;
+  @Autowired
+  private MockMvc mvc;
+  @MockBean
+  private IngredientRepository ingredientRepository;
+  @Autowired
+  private ObjectMapper mapper;
 
   @Before
   public void setup() {
@@ -64,51 +69,6 @@ public class IngredientControllerTest {
     spinach.setId("spinachId");
     ham.setId("hamId");
   }
-
-  private static class Behavior {
-    IngredientRepository ingredientRepository;
-
-    public static Behavior set(IngredientRepository ingredientRepository) {
-      Behavior behavior = new Behavior();
-      behavior.ingredientRepository = ingredientRepository;
-      return behavior;
-    }
-
-    public Behavior hasNoIngredients() {
-      when(ingredientRepository.findAll()).thenReturn(Collections.emptyList());
-      when(ingredientRepository.findByCategory(anyString())).thenReturn(Collections.emptyList());
-      when(ingredientRepository.findById(anyString())).thenReturn(Optional.empty());
-      when(ingredientRepository.existsById(anyString())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior returnSame() {
-      when(ingredientRepository.save(any()))
-          .thenAnswer(invocation -> invocation.getArguments()[0]);
-      return this;
-    }
-
-    public Behavior returnIngredients(Ingredient... ingredients) {
-      when(ingredientRepository.findAll()).thenReturn(Arrays.asList(ingredients));
-      when(ingredientRepository.findByCategory(any()))
-          .thenAnswer(invocationOnMock -> Arrays.stream(ingredients)
-              .filter(ingredient -> ingredient.getCategory()
-                  .equals(invocationOnMock.getArguments()[0])).collect(Collectors.toList()));
-      for (Ingredient ingredient : ingredients) {
-        when(ingredientRepository.findById(ingredient.getId())).thenReturn(Optional.of(ingredient));
-      }
-      when(ingredientRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Ingredient i : ingredients) {
-          if (i.getId().equals((String) invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      return this;
-    }
-  }
-
 
   @Test
   public void getAllIngredientsNoIngredients() throws Exception {
@@ -177,7 +137,6 @@ public class IngredientControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json(veggieContent));
   }
-
 
   @Test
   public void getIngredientByIdNoIngredients() throws Exception {
@@ -273,5 +232,50 @@ public class IngredientControllerTest {
     mvc.perform(delete("/ingredients/hamId"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  private static class Behavior {
+
+    IngredientRepository ingredientRepository;
+
+    public static Behavior set(IngredientRepository ingredientRepository) {
+      Behavior behavior = new Behavior();
+      behavior.ingredientRepository = ingredientRepository;
+      return behavior;
+    }
+
+    public Behavior hasNoIngredients() {
+      when(ingredientRepository.findAll()).thenReturn(Collections.emptyList());
+      when(ingredientRepository.findByCategory(anyString())).thenReturn(Collections.emptyList());
+      when(ingredientRepository.findById(anyString())).thenReturn(Optional.empty());
+      when(ingredientRepository.existsById(anyString())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnSame() {
+      when(ingredientRepository.save(any()))
+          .thenAnswer(invocation -> invocation.getArguments()[0]);
+      return this;
+    }
+
+    public Behavior returnIngredients(Ingredient... ingredients) {
+      when(ingredientRepository.findAll()).thenReturn(Arrays.asList(ingredients));
+      when(ingredientRepository.findByCategory(any()))
+          .thenAnswer(invocationOnMock -> Arrays.stream(ingredients)
+              .filter(ingredient -> ingredient.getCategory()
+                  .equals(invocationOnMock.getArguments()[0])).collect(Collectors.toList()));
+      for (Ingredient ingredient : ingredients) {
+        when(ingredientRepository.findById(ingredient.getId())).thenReturn(Optional.of(ingredient));
+      }
+      when(ingredientRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (Ingredient i : ingredients) {
+          if (i.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      return this;
+    }
   }
 }
