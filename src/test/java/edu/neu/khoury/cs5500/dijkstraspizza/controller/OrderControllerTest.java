@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -72,10 +74,13 @@ public class OrderControllerTest {
     customer = new Address("abc", "Seattle", "WA", "98117");
 
     cheesePizza = new Pizza(PizzaSize.small(8));
+    cheesePizza.setName("cheese pizza");
 
     pepperoniPizza = new Pizza(PizzaSize.medium(10));
+    pepperoniPizza.setName("pepperoni pizza");
 
     hugePizza = new Pizza(PizzaSize.large(12));
+    hugePizza.setName("huge pizza");
 
     bigOrder = new Order(store, customer);
     bigOrder.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -93,6 +98,7 @@ public class OrderControllerTest {
 
     bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
+    bogo.setName("bogo");
 
     when(priceCalculatorController.getOrderPrice(eq(Optional.empty()), any(Order.class)))
         .thenAnswer(invocationOnMock ->
@@ -103,6 +109,7 @@ public class OrderControllerTest {
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("bogo")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
             bogo.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+    when(priceCalculatorController.getPriceCalculatorById(eq("bogo"))).thenReturn(bogo);
   }
 
   private static class Behavior {
@@ -161,6 +168,14 @@ public class OrderControllerTest {
   }
 
   @Test
+  public void getReceiptByIdNoMatch() throws Exception {
+    Behavior.set(repository).hasNoData();
+    mockMvc.perform(get("/orders/receipt/anId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  @Test
   public void getOrderByIdNoMatch() throws Exception {
     Behavior.set(repository).hasNoData();
     mockMvc.perform(get("/orders/anId"))
@@ -173,6 +188,47 @@ public class OrderControllerTest {
     Behavior.set(repository).returnOrders(bigOrder, smallOrder);
     String content = mapper.writeValueAsString(bigOrder);
     mockMvc.perform(get("/orders/" + bigOrder.getId()))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
+  }
+
+  @Test
+  public void getReceiptByIdHasMatch() throws Exception {
+    Behavior.set(repository).returnOrders(bigOrder, smallOrder);
+    Receipt receipt = new Receipt();
+    Map<String, Double> pizzaPrices = new HashMap<>();
+    for (Pizza pizza : bigOrder.getPizzas()) {
+      pizzaPrices.put(pizza.getName(), PriceCalculator.calculatePizzaPrice(pizza.getSizeDesc(),
+          pizza.getIngredients().size()));
+    }
+    receipt.setPizzaPrices(pizzaPrices);
+    receipt.setDiscount(Map.of("No discount", 0.0));
+    receipt.setTax(generic.calculateTax(generic.calculateNoTaxPrice(bigOrder.getPizzas())));
+    receipt.setTotal(generic.calculatePrice(bigOrder.getPizzas()));
+    String content = mapper.writeValueAsString(receipt);
+    mockMvc.perform(get("/orders/receipt/" + bigOrder.getId()))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
+  }
+
+  @Test
+  public void getReceiptByIdHasMatchWithDiscount() throws Exception {
+    Behavior.set(repository).returnOrders(bigOrder, smallOrder);
+    bigOrder.setSpecialId(bogo.getId());
+    Receipt receipt = new Receipt();
+    Map<String, Double> pizzaPrices = new HashMap<>();
+    for (Pizza pizza : bigOrder.getPizzas()) {
+      pizzaPrices.put(pizza.getName(), PriceCalculator.calculatePizzaPrice(pizza.getSizeDesc(),
+          pizza.getIngredients().size()));
+    }
+    receipt.setPizzaPrices(pizzaPrices);
+    receipt.setDiscount(Map.of(bogo.getName(), bogo.calculateDiscount(bigOrder)));
+    receipt.setTax(bogo.calculateTax(bogo.calculateNoTaxPrice(bigOrder.getPizzas())));
+    receipt.setTotal(bogo.calculatePrice(bigOrder.getPizzas()));
+    String content = mapper.writeValueAsString(receipt);
+    mockMvc.perform(get("/orders/receipt/" + bigOrder.getId()))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json(content));
