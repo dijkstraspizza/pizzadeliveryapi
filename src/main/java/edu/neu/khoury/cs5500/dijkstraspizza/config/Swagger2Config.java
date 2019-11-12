@@ -26,10 +26,11 @@ public class Swagger2Config {
         .apiInfo(apiInfo())
         .tags(new Tag("ingredient", "Provides CRUD operations for Ingredient objects"),
             new Tag("menu", "Provides CRUD operations for menu objects"),
-            new Tag("order", "Provides CRUD operations for order objects"),
+            new Tag("order", "Provides CRU operations for order objects (Delete not supported)"),
             new Tag("pizza", "Provides CRUD operations for pizza objects"),
             new Tag("pizza-store", "Provides CRUD operations for pizza store objects"),
-            new Tag("price-calculator", "Provides pricing details for pizzas and specials")
+            new Tag("price-calculator", "Provides pricing details for pizzas and specials"),
+            new Tag("pizza-size", "Provides CRUD operations for pizza sizes")
         );
   }
 

@@ -1,11 +1,18 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller.validator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
+import java.util.Collections;
+import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,31 +22,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Collections;
-import java.util.HashSet;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 @RunWith(SpringRunner.class)
 public class MenuValidatorTest {
 
+  @MockBean
+  PizzaValidator pizzaValidator;
+  @MockBean
+  IngredientRepository repository;
+  @MockBean
+  PizzaRepository pizzaRepository;
+  @Autowired
+  MenuValidator validator;
   private Pizza meatPizza;
   private Ingredient ham;
   private PizzaSize large;
   private Menu menu;
-
-  @MockBean
-  PizzaValidator pizzaValidator;
-
-  @MockBean
-  IngredientRepository repository;
-
-  @MockBean
-  PizzaRepository pizzaRepository;
-
-  @Autowired
-  MenuValidator validator;
 
   @Before
   public void setUp() throws Exception {
@@ -56,11 +53,6 @@ public class MenuValidatorTest {
     menu = new Menu();
     menu.setIngredients(new HashSet<>(Collections.singletonList(ham)));
     menu.setPizzas(new HashSet<>(Collections.singletonList(meatPizza)));
-  }
-
-  @Configuration
-  @Import(MenuValidator.class)
-  static class Config {
   }
 
   @Test
@@ -93,5 +85,11 @@ public class MenuValidatorTest {
     when(repository.existsById(any())).thenReturn(false);
     when(pizzaRepository.existsById(any())).thenReturn(true);
     assertFalse(validator.validate(menu));
+  }
+
+  @Configuration
+  @Import(MenuValidator.class)
+  static class Config {
+
   }
 }

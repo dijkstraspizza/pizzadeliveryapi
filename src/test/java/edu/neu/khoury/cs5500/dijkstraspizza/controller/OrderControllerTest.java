@@ -1,9 +1,26 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
+import java.util.Arrays;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,40 +36,27 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
-@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class, OrderController.class})
+@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class,
+    OrderController.class})
 public class OrderControllerTest {
-
-  @Autowired
-  WebApplicationContext context;
-
-  @Autowired
-  MockMvc mockMvc;
-
-  @MockBean
-  OrderRepository repository;
-
-  @MockBean
-  PriceCalculatorController priceCalculatorController;
-
-  @MockBean
-  Validator<Order> validator;
-
-  @Autowired
-  ObjectMapper mapper;
-
 
   private static PriceCalculator generic;
   private static PriceCalculator halfOffAll;
   private static PriceCalculator bogo;
+  @Autowired
+  WebApplicationContext context;
+  @Autowired
+  MockMvc mockMvc;
+  @MockBean
+  OrderRepository repository;
+  @MockBean
+  PriceCalculatorController priceCalculatorController;
+  @MockBean
+  Validator<Order> validator;
+  @Autowired
+  ObjectMapper mapper;
   private Pizza cheesePizza;
   private Pizza pepperoniPizza;
   private Pizza hugePizza;
@@ -103,61 +107,6 @@ public class OrderControllerTest {
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("bogo")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
             bogo.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
-  }
-
-  private static class Behavior {
-    OrderRepository repository;
-    Validator<Order> validator;
-
-    public static Behavior set(OrderRepository orderRepository) {
-      Behavior behavior = new Behavior();
-      behavior.repository = orderRepository;
-      return behavior;
-    }
-
-    public static Behavior set(OrderRepository orderRepository, Validator validator) {
-      Behavior behavior = new Behavior();
-      behavior.repository = orderRepository;
-      behavior.validator = validator;
-      return behavior;
-    }
-
-    public Behavior isValid() {
-      when(validator.validate(any())).thenReturn(true);
-      return this;
-    }
-
-    public Behavior isNotValid() {
-      when(validator.validate(any())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior hasNoData() {
-      when(repository.existsById(anyString())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior returnOrders(Order... orders) {
-      when(repository.existsById(anyString()))
-          .thenAnswer(invocationOnMock -> {
-            for (Order order: orders) {
-              if (order.getId().equals(invocationOnMock.getArguments()[0])) {
-                return true;
-              }
-            }
-            return false;
-          });
-      when(repository.findById(anyString()))
-          .thenAnswer(invocationOnMock -> {
-            for (Order order: orders) {
-              if (order.getId().equals(invocationOnMock.getArguments()[0])) {
-                return Optional.of(order);
-              }
-            }
-            return Optional.empty();
-          });
-      return this;
-    }
   }
 
   @Test
@@ -296,5 +245,61 @@ public class OrderControllerTest {
         .content(requestContent))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  private static class Behavior {
+
+    OrderRepository repository;
+    Validator<Order> validator;
+
+    public static Behavior set(OrderRepository orderRepository) {
+      Behavior behavior = new Behavior();
+      behavior.repository = orderRepository;
+      return behavior;
+    }
+
+    public static Behavior set(OrderRepository orderRepository, Validator validator) {
+      Behavior behavior = new Behavior();
+      behavior.repository = orderRepository;
+      behavior.validator = validator;
+      return behavior;
+    }
+
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoData() {
+      when(repository.existsById(anyString())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnOrders(Order... orders) {
+      when(repository.existsById(anyString()))
+          .thenAnswer(invocationOnMock -> {
+            for (Order order : orders) {
+              if (order.getId().equals(invocationOnMock.getArguments()[0])) {
+                return true;
+              }
+            }
+            return false;
+          });
+      when(repository.findById(anyString()))
+          .thenAnswer(invocationOnMock -> {
+            for (Order order : orders) {
+              if (order.getId().equals(invocationOnMock.getArguments()[0])) {
+                return Optional.of(order);
+              }
+            }
+            return Optional.empty();
+          });
+      return this;
+    }
   }
 }

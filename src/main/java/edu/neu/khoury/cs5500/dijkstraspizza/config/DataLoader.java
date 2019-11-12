@@ -1,10 +1,25 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.config;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
-import edu.neu.khoury.cs5500.dijkstraspizza.repository.*;
-
-import java.util.*;
-
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Menu;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaStore;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.MenuRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaStoreRepository;
+import edu.neu.khoury.cs5500.dijkstraspizza.repository.PriceCalculatorRepository;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,6 +38,17 @@ public class DataLoader implements ApplicationRunner {
   a tedious way and should be updated in the future, given the time.
    */
 
+  // === Pizza Sizes ===
+  private final Double SMALL_INCHES = 12.0;
+  private final Double MEDIUM_INCHES = 16.0;
+  private final Double LARGE_INCHES = 18.0;
+  // Names of the 6 Pizzas
+  private final String CHEESE_NAME = "Cheese";
+  private final String MARGHERITA_NAME = "Margherita";
+  private final String PEPPERONI_NAME = "Pepperoni";
+  private final String SUPREME_NAME = "Supreme";
+  private final String HAWAIIAN_NAME = "Hawaiian";
+  private final String VEGETABLE_NAME = "Vegetable";
   // === Repository links ===
   @Autowired
   IngredientRepository ingredientRepository;
@@ -38,10 +64,8 @@ public class DataLoader implements ApplicationRunner {
   PriceCalculatorRepository priceCalculatorRepository;
   @Autowired
   PizzaSizeRepository pizzaSizeRepository;
-
   // === Addresses ===
   private Address firstAddr, storeAddr2, storeAddr3;
-
   // === Ingredients ===
   // crusts
   private Ingredient crust, gfCrust;
@@ -53,16 +77,9 @@ public class DataLoader implements ApplicationRunner {
   private Ingredient pep, sausage, ham, bacon, chicken;
   // veggie
   private Ingredient basil, olives, mushrooms, spinach, pineapple, garlic, onions, peppers;
-
-  // === Pizza Sizes ===
-  private final Double SMALL_INCHES = 12.0;
-  private final Double MEDIUM_INCHES = 16.0;
-  private final Double LARGE_INCHES = 18.0;
-
   private PizzaSize small = PizzaSize.small(SMALL_INCHES);
   private PizzaSize medium = PizzaSize.medium(MEDIUM_INCHES);
   private PizzaSize large = PizzaSize.large(LARGE_INCHES);
-
   // === Pizzas ===
   // Lists contain regular pizzas (sm, med, lg) and gluten-free (sm, med, lg).
   private List<Pizza> cheese = new ArrayList<>(
@@ -83,15 +100,6 @@ public class DataLoader implements ApplicationRunner {
   private List<Pizza> veggie = new ArrayList<>(
       Arrays.asList(new Pizza(small), new Pizza(medium), new Pizza(large),
           new Pizza(small), new Pizza(medium), new Pizza(large)));
-
-  // Names of the 6 Pizzas
-  private final String CHEESE_NAME = "Cheese";
-  private final String MARGHERITA_NAME = "Margherita";
-  private final String PEPPERONI_NAME = "Pepperoni";
-  private final String SUPREME_NAME = "Supreme";
-  private final String HAWAIIAN_NAME = "Hawaiian";
-  private final String VEGETABLE_NAME = "Vegetable";
-
   // === Menus ===
   private Menu regular, glutenFree;
 
