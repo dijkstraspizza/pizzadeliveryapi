@@ -1,13 +1,15 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.model;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
+/**
+ * PriceCalculator determines the price of a pizza or full order of pizzas.
+ */
 @Document(collection = "price-calculators")
 @Data
 public class PriceCalculator {
@@ -52,7 +54,7 @@ public class PriceCalculator {
   }
 
   public PriceCalculator(Integer freeIngredients, Double ingredientCost,
-                         Double discountRatio, String name) {
+      Double discountRatio, String name) {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
     this.discountRatio = discountRatio;
@@ -62,7 +64,7 @@ public class PriceCalculator {
   }
 
   public PriceCalculator(Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
-                         String name) {
+      String name) {
     this.requiredPizzas = requiredPizzas;
     this.pizzasAppliedTo = pizzasAppliedTo;
     this.discountRatio = discountRatio;
@@ -72,14 +74,21 @@ public class PriceCalculator {
   }
 
   public PriceCalculator(Integer freeIngredients, Double ingredientCost,
-                         Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
-                         String name) {
+      Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
+      String name) {
     this.requiredPizzas = requiredPizzas;
     this.pizzasAppliedTo = pizzasAppliedTo;
     this.discountRatio = discountRatio;
     this.name = name;
     this.freeIngredients = freeIngredients;
     this.ingredientCost = ingredientCost;
+  }
+
+  public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {
+    if (numToppings <= DEFAULT_FREE_INGREDIENTS) {
+      return size.getValue();
+    }
+    return size.getValue() + (numToppings - DEFAULT_FREE_INGREDIENTS) * DEFAULT_INGREDIENT_COST;
   }
 
   private Double calculatePizzaPrice(Pizza pizza) {
@@ -113,12 +122,5 @@ public class PriceCalculator {
       price += calculatePizzaPrice(sortedPizzas.get(i));
     }
     return price;
-  }
-
-  public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {
-    if (numToppings <= DEFAULT_FREE_INGREDIENTS) {
-      return size.getValue();
-    }
-    return size.getValue() + (numToppings - DEFAULT_FREE_INGREDIENTS) * DEFAULT_INGREDIENT_COST;
   }
 }

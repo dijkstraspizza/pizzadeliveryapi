@@ -1,5 +1,16 @@
 package edu.neu.khoury.cs5500.dijkstraspizza.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
 import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
@@ -8,6 +19,11 @@ import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.IngredientRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaRepository;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.PizzaSizeRepository;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,39 +40,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(PizzaController.class)
 @ContextConfiguration(classes =
     {TestContext.class, WebApplicationContext.class, PizzaController.class})
 @WebAppConfiguration
 public class PizzaControllerTest {
-
-  @Autowired
-  private WebApplicationContext context;
-
-  @Autowired
-  private MockMvc mvc;
-
-  @MockBean
-  private PizzaRepository pizzaRepository;
-
-  @MockBean
-  private PizzaSizeRepository pizzaSizeRepository;
-
-  @MockBean
-  private IngredientRepository ingredientRepository;
-
-  @MockBean
-  private Validator<Pizza> validator;
-
-  @Autowired
-  private ObjectMapper mapper;
 
   // Set up pizzas and behavior here ===============
   private final Ingredient mushrooms = new Ingredient("mushroom", "vegetable", true);
@@ -67,6 +56,20 @@ public class PizzaControllerTest {
   private final Pizza meat = new Pizza();
   private final Pizza veggie = new Pizza();
   PizzaSize size;
+  @Autowired
+  private WebApplicationContext context;
+  @Autowired
+  private MockMvc mvc;
+  @MockBean
+  private PizzaRepository pizzaRepository;
+  @MockBean
+  private PizzaSizeRepository pizzaSizeRepository;
+  @MockBean
+  private IngredientRepository ingredientRepository;
+  @MockBean
+  private Validator<Pizza> validator;
+  @Autowired
+  private ObjectMapper mapper;
 
   @Before
   public void setup() {
@@ -87,116 +90,6 @@ public class PizzaControllerTest {
 
   }
 
-  private static class Behavior {
-    PizzaRepository pizzaRepository;
-    IngredientRepository ingredientRepository;
-    PizzaSizeRepository pizzaSizeRepository;
-    private Validator<Pizza> validator;
-
-    public static Behavior set(PizzaRepository pizzaRepository) {
-      Behavior behavior = new Behavior();
-      behavior.pizzaRepository = pizzaRepository;
-      return behavior;
-    }
-
-    public static Behavior set(PizzaRepository pizzaRepository,
-                               IngredientRepository ingredientRepository,
-                               PizzaSizeRepository pizzaSizeRepository,
-                               Validator validator) {
-      Behavior behavior = new Behavior();
-      behavior.pizzaRepository = pizzaRepository;
-      behavior.ingredientRepository = ingredientRepository;
-      behavior.pizzaSizeRepository = pizzaSizeRepository;
-      behavior.validator = validator;
-      return behavior;
-    }
-
-    public Behavior hasNoIngredients() {
-      when(ingredientRepository.existsById(anyString())).thenReturn(false);
-      when(validator.validate(any())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior hasNoSizes() {
-      when(pizzaSizeRepository.existsById(any())).thenReturn(false);
-      when(validator.validate(any())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior returnIngredients(Ingredient... ingredients) {
-      when(ingredientRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Ingredient ingredient : ingredients) {
-          if (ingredient.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      return this;
-    }
-
-    public Behavior returnSizes(PizzaSize... sizes) {
-      when(pizzaSizeRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (PizzaSize size: sizes) {
-          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      return this;
-    }
-
-    public Behavior isValid() {
-      when(validator.validate(any())).thenReturn(true);
-      return this;
-    }
-
-    public Behavior isNotValid() {
-      when(validator.validate(any())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior hasNoPizzas() {
-      when(pizzaRepository.findAll()).thenReturn(Collections.emptyList());
-      // when(pizzaRepository.findByCategory(anyString())).thenReturn(Collections.emptyList());
-      when(pizzaRepository.findById(anyString())).thenReturn(Optional.empty());
-      when(pizzaRepository.existsById(anyString())).thenReturn(false);
-      return this;
-    }
-
-    public Behavior returnSame() {
-      when(pizzaRepository.save(any()))
-          .thenAnswer(invocation -> invocation.getArguments()[0]);
-      return this;
-    }
-
-    public Behavior returnPizzas(Pizza... pizzas) {
-      when(pizzaRepository.findAll()).thenReturn(Arrays.asList(pizzas));
-      when(pizzaRepository.findById(any()))
-          .thenAnswer(invocationOnMock -> {
-            for (Pizza p : pizzas) {
-              if (p.getId().equals(invocationOnMock.getArguments()[0])) {
-                return Optional.of(p);
-              }
-            }
-            return Optional.empty();
-          });
-
-      when(pizzaRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
-        for (Pizza p : pizzas) {
-          if (p.getId().equals(invocationOnMock.getArguments()[0])) {
-            return true;
-          }
-        }
-        return false;
-      });
-      return this;
-    }
-  }
-
-  // End setup Pizzas and behavior here======================
-
   @Test
   public void testGetAllPizzasHasNoPizzas() throws Exception {
     Behavior.set(pizzaRepository).hasNoPizzas();
@@ -205,6 +98,8 @@ public class PizzaControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json("[]"));
   }
+
+  // End setup Pizzas and behavior here======================
 
   @Test
   public void testGetAllPizzasHasSomePizzas() throws Exception {
@@ -344,6 +239,115 @@ public class PizzaControllerTest {
     mvc.perform(delete("/pizzas/meatId"))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$").doesNotExist());
+  }
+
+  private static class Behavior {
+
+    PizzaRepository pizzaRepository;
+    IngredientRepository ingredientRepository;
+    PizzaSizeRepository pizzaSizeRepository;
+    private Validator<Pizza> validator;
+
+    public static Behavior set(PizzaRepository pizzaRepository) {
+      Behavior behavior = new Behavior();
+      behavior.pizzaRepository = pizzaRepository;
+      return behavior;
+    }
+
+    public static Behavior set(PizzaRepository pizzaRepository,
+        IngredientRepository ingredientRepository,
+        PizzaSizeRepository pizzaSizeRepository,
+        Validator validator) {
+      Behavior behavior = new Behavior();
+      behavior.pizzaRepository = pizzaRepository;
+      behavior.ingredientRepository = ingredientRepository;
+      behavior.pizzaSizeRepository = pizzaSizeRepository;
+      behavior.validator = validator;
+      return behavior;
+    }
+
+    public Behavior hasNoIngredients() {
+      when(ingredientRepository.existsById(anyString())).thenReturn(false);
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoSizes() {
+      when(pizzaSizeRepository.existsById(any())).thenReturn(false);
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnIngredients(Ingredient... ingredients) {
+      when(ingredientRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (Ingredient ingredient : ingredients) {
+          if (ingredient.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      return this;
+    }
+
+    public Behavior returnSizes(PizzaSize... sizes) {
+      when(pizzaSizeRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (PizzaSize size : sizes) {
+          if (size.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      return this;
+    }
+
+    public Behavior isValid() {
+      when(validator.validate(any())).thenReturn(true);
+      return this;
+    }
+
+    public Behavior isNotValid() {
+      when(validator.validate(any())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior hasNoPizzas() {
+      when(pizzaRepository.findAll()).thenReturn(Collections.emptyList());
+      // when(pizzaRepository.findByCategory(anyString())).thenReturn(Collections.emptyList());
+      when(pizzaRepository.findById(anyString())).thenReturn(Optional.empty());
+      when(pizzaRepository.existsById(anyString())).thenReturn(false);
+      return this;
+    }
+
+    public Behavior returnSame() {
+      when(pizzaRepository.save(any()))
+          .thenAnswer(invocation -> invocation.getArguments()[0]);
+      return this;
+    }
+
+    public Behavior returnPizzas(Pizza... pizzas) {
+      when(pizzaRepository.findAll()).thenReturn(Arrays.asList(pizzas));
+      when(pizzaRepository.findById(any()))
+          .thenAnswer(invocationOnMock -> {
+            for (Pizza p : pizzas) {
+              if (p.getId().equals(invocationOnMock.getArguments()[0])) {
+                return Optional.of(p);
+              }
+            }
+            return Optional.empty();
+          });
+
+      when(pizzaRepository.existsById(anyString())).thenAnswer(invocationOnMock -> {
+        for (Pizza p : pizzas) {
+          if (p.getId().equals(invocationOnMock.getArguments()[0])) {
+            return true;
+          }
+        }
+        return false;
+      });
+      return this;
+    }
   }
 
 
