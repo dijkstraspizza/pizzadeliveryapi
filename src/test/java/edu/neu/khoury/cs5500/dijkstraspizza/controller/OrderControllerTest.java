@@ -96,13 +96,13 @@ public class OrderControllerTest {
 
     when(priceCalculatorController.getOrderPrice(eq(Optional.empty()), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            generic.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            generic.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("half-off")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            halfOffAll.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            halfOffAll.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("bogo")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            bogo.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            bogo.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
   }
 
   private static class Behavior {

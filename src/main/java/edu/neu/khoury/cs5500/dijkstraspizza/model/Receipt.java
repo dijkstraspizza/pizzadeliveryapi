@@ -8,7 +8,7 @@ import java.util.Map;
 public class Receipt {
 
   private Map<String, Double> pizzaPrices;
-  private Map<String, Double> discount;
+  private Map<String, Double> discount = Map.of("No discount", 0.0);
   private Double tax;
   private Double total;
 

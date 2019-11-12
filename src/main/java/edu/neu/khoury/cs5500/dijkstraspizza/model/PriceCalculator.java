@@ -95,13 +95,34 @@ public class PriceCalculator {
     return pizzas.stream().mapToDouble(this::calculatePizzaPrice).sum();
   }
 
-  public Double calculate(List<Pizza> pizzas) {
+  public Double calculateTax(Double noTaxPrice) {
+    return SEATTLE_SALES_TAX * noTaxPrice;
+  }
+
+  public Double calculateDiscount(Order order) {
+    if (order.getPizzas().size() < requiredPizzas) {
+      return 0.0;
+    }
+    if (pizzasAppliedTo < 0) { // -1 represents all pizzas
+      double price = calculateBasePrice(order.getPizzas());
+      return price * discountRatio;
+    }
+    List<Pizza> sortedPizzas = new ArrayList<>(order.getPizzas());
+    sortedPizzas.sort(Comparator.comparing(this::calculatePizzaPrice));
+    double price = 0;
+    for (int i = 0; i < pizzasAppliedTo; i++) {
+      price += discountRatio * calculatePizzaPrice(sortedPizzas.get(i));
+    }
+    return price;
+  }
+
+  public Double calculateNoTaxPrice(List<Pizza> pizzas) {
     if (pizzas.size() < requiredPizzas) {
-      return calculateBasePrice(pizzas) * (1 + SEATTLE_SALES_TAX);
+      return calculateBasePrice(pizzas);
     }
     if (pizzasAppliedTo < 0) { // -1 represents all pizzas
       double price = calculateBasePrice(pizzas);
-      return (price - price * discountRatio) * (1 + SEATTLE_SALES_TAX);
+      return (price - price * discountRatio);
     }
     List<Pizza> sortedPizzas = new ArrayList<>(pizzas);
     sortedPizzas.sort(Comparator.comparing(this::calculatePizzaPrice));
@@ -113,7 +134,12 @@ public class PriceCalculator {
     for (int i = pizzasAppliedTo; i < pizzas.size(); i++) {
       price += calculatePizzaPrice(sortedPizzas.get(i));
     }
-    return price * (1 + SEATTLE_SALES_TAX);
+    return price;
+  }
+
+  public Double calculatePrice(List<Pizza> pizzas) {
+    double price = calculateNoTaxPrice(pizzas);
+    return price + calculateTax(price);
   }
 
   public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {

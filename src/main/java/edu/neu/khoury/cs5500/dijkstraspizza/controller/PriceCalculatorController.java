@@ -72,10 +72,10 @@ public class PriceCalculatorController {
     }
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return new Price(priceCalculator.calculate(pizzas));
+      return new Price(priceCalculator.calculatePrice(pizzas));
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return new Price(priceCalculator.calculate(pizzas));
+    return new Price(priceCalculator.calculatePrice(pizzas));
   }
 
   @ApiOperation(
@@ -141,7 +141,7 @@ public class PriceCalculatorController {
   }
 
   /*===== Non-Http Methods =====*/
-  private PriceCalculator getPriceCalculatorById(String id) {
+  PriceCalculator getPriceCalculatorById(String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Price Calculator with id=" + id + " not found."
@@ -153,9 +153,9 @@ public class PriceCalculatorController {
   Double getOrderPrice(Optional<String> specialId, Order order) {
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return priceCalculator.calculate(order.getPizzas());
+      return priceCalculator.calculatePrice(order.getPizzas());
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return priceCalculator.calculate(order.getPizzas());
+    return priceCalculator.calculatePrice(order.getPizzas());
   }
 }
