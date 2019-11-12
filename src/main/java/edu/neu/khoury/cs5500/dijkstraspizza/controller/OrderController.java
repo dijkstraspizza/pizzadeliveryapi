@@ -42,7 +42,7 @@ public class OrderController {
       response = Receipt.class,
       produces = "application/json"
   )
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/receipt/{id}", method = RequestMethod.GET)
   public Receipt getReceiptById(
       @ApiParam(value = "ID of the order to create a receipt for", required = true)
       @PathVariable("id") String id) {
@@ -51,9 +51,7 @@ public class OrderController {
           HttpStatus.NOT_FOUND, "Order with id=" + " not found."
       );
     }
-
     Order order = repository.findById(id).get();
-
     return getReceipt(order);
   }
 

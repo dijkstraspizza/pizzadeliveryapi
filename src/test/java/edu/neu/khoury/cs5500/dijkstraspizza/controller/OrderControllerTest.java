@@ -187,7 +187,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30 * .5);
+    newOrder.setPrice(30 * .5 * 1.101);
 
     bigOrder.setId(null);
     String requestContent = mapper.writeValueAsString(bigOrder);
@@ -229,7 +229,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30);
+    newOrder.setPrice(30 * 1.101);
 
     Behavior.set(repository, validator).isValid();
 
@@ -250,7 +250,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30);
+    newOrder.setPrice(30 * 1.101);
 
     Behavior.set(repository, validator).isValid();
     String requestContent = mapper.writeValueAsString(bigOrder);
