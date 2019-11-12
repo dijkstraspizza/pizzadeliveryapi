@@ -13,8 +13,8 @@ public class CreditCardValidator implements Validator<CreditCardInfo> {
 
   @Override
   public boolean validate(CreditCardInfo entity) {
-    return entity.getCardNumber().length() < MAX_NUMBER_LENGTH &&
-        entity.getCardNumber().length() > MIN_NUMBER_LENGTH &&
+    return entity.getCardNumber().length() <= MAX_NUMBER_LENGTH &&
+        entity.getCardNumber().length() >= MIN_NUMBER_LENGTH &&
         entity.getSecurityCode().matches("\\d{3}") &&
         entity.getExpirationDate().after(new Date());
   }

@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
@@ -25,6 +27,9 @@ public class OrderValidatorTest {
 
   @MockBean
   PizzaValidator pizzaValidator;
+
+  @MockBean
+  CreditCardValidator creditCardValidator;
 
   @Autowired
   OrderValidator orderValidator;
@@ -45,6 +50,8 @@ public class OrderValidatorTest {
 
     order = new Order(address, address);
     order.setPizzas(Collections.singletonList(meatPizza));
+    order.setCardInfo(new CreditCardInfo("1234567890123456", "123",
+        Date.from(Calendar.getInstance().toInstant())));
   }
 
   @Configuration
@@ -55,12 +62,14 @@ public class OrderValidatorTest {
   @Test
   public void validateValid() {
     when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
     assertTrue(orderValidator.validate(order));
   }
 
   @Test
   public void validateInvalid() {
     when(pizzaValidator.validate(any())).thenReturn(false);
+    when(creditCardValidator.validate(any())).thenReturn(false);
     assertFalse(orderValidator.validate(order));
   }
 }
