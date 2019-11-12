@@ -63,62 +63,62 @@ public class PriceCalculatorTest {
   public void calculatePizzaPriceBase() {
     assertEquals(8.0,
         PriceCalculator.calculatePizzaPrice(cheesePizza.getSizeDesc(),
-            cheesePizza.getIngredients().size()), 0);
+            cheesePizza.getIngredients().size()), 0.01);
   }
 
   @Test
   public void calculatePizzaPriceExtraIngredients() {
     assertEquals(14.0,
         PriceCalculator.calculatePizzaPrice(hugePizza.getSizeDesc(),
-            hugePizza.getIngredients().size()), 0);
+            hugePizza.getIngredients().size()), 0.01);
   }
 
   @Test
   public void calculateGeneric() {
-    assertEquals(32 * 1.101, genericNoFreeIngredients.calculatePrice(order.getPizzas()), 0);
+    assertEquals(32 * 1.101, genericNoFreeIngredients.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateHalfOffAll() {
-    assertEquals(16 * 1.101, halfOffAll.calculatePrice(order.getPizzas()), 0);
+    assertEquals(16 * 1.101, halfOffAll.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBogo() {
-    assertEquals(24 * 1.101, bogo.calculatePrice(order.getPizzas()), 0);
+    assertEquals(24 * 1.101, bogo.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBogoOnlyOne() {
     order.setPizzas(Collections.singletonList(cheesePizza));
-    assertEquals(cheesePizza.getPrice() * 1.101, bogo.calculatePrice(order.getPizzas()), 0);
+    assertEquals(cheesePizza.getPrice() * 1.101, bogo.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBuyOneGetTwo() {
-    assertEquals(14 * 1.101, buyOneGetTwoFree.calculatePrice(order.getPizzas()), 0);
+    assertEquals(14 * 1.101, buyOneGetTwoFree.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBuyOneGetTwoOnlyTwo() {
     order.setPizzas(Arrays.asList(cheesePizza, pepperoniPizza));
-    assertEquals(18 * 1.101, buyOneGetTwoFree.calculatePrice(order.getPizzas()), 0);
+    assertEquals(18 * 1.101, buyOneGetTwoFree.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateTwoGetHalf() {
-    assertEquals(28 * 1.101, buyTwoGetOneHalfOff.calculatePrice(order.getPizzas()), 0);
+    assertEquals(28 * 1.101, buyTwoGetOneHalfOff.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBuyThreeGet25Off() {
     assertEquals(32 * .75 * 1.101,
-        buyThreeGet25OffAll.calculatePrice(order.getPizzas()), 0);
+        buyThreeGet25OffAll.calculatePrice(order.getPizzas()), 0.01);
   }
 
   @Test
   public void calculateBuyThreeGet25OffNotSatisfied() {
     order.setPizzas(Arrays.asList(pepperoniPizza, hugePizza));
-    assertEquals(24 * 1.101, buyThreeGet25OffAll.calculatePrice(order.getPizzas()), 0);
+    assertEquals(24 * 1.101, buyThreeGet25OffAll.calculatePrice(order.getPizzas()), 0.01);
   }
 }
