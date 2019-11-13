@@ -27,6 +27,9 @@ public class PriceCalculator {
   private Integer freeIngredients;
   private Double ingredientCost;
 
+  /**
+   * Default constructor for PriceCalculator.
+   */
   public PriceCalculator() {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
@@ -36,6 +39,13 @@ public class PriceCalculator {
     this.ingredientCost = DEFAULT_INGREDIENT_COST;
   }
 
+  /**
+   * Constructor with ingredient and name info.
+   *
+   * @param freeIngredients the number of free ingredients
+   * @param ingredientCost  the cost of one ingredient
+   * @param name            the name
+   */
   public PriceCalculator(Integer freeIngredients, Double ingredientCost, String name) {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
@@ -45,6 +55,12 @@ public class PriceCalculator {
     this.ingredientCost = ingredientCost;
   }
 
+  /**
+   * Constructor with discount and name info.
+   *
+   * @param discountRatio the discount ratio
+   * @param name          the name
+   */
   public PriceCalculator(Double discountRatio, String name) {
     this.requiredPizzas = 0;
     this.pizzasAppliedTo = -1;
@@ -54,6 +70,14 @@ public class PriceCalculator {
     this.ingredientCost = DEFAULT_INGREDIENT_COST;
   }
 
+  /**
+   * Constructor with ingredient, discount and name info.
+   *
+   * @param freeIngredients number of free ingredients
+   * @param ingredientCost  cost of one ingredient
+   * @param discountRatio   the discount ratio
+   * @param name            the name
+   */
   public PriceCalculator(Integer freeIngredients, Double ingredientCost,
       Double discountRatio, String name) {
     this.requiredPizzas = 0;
@@ -64,6 +88,14 @@ public class PriceCalculator {
     this.ingredientCost = ingredientCost;
   }
 
+  /**
+   * Constructor with Pizza info and name.
+   *
+   * @param requiredPizzas  number of required pizzas
+   * @param pizzasAppliedTo how many pizzas the discount is applied to
+   * @param discountRatio   the discount ratio
+   * @param name            the name
+   */
   public PriceCalculator(Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
       String name) {
     this.requiredPizzas = requiredPizzas;
@@ -74,6 +106,16 @@ public class PriceCalculator {
     this.ingredientCost = DEFAULT_INGREDIENT_COST;
   }
 
+  /**
+   * Full constructor.
+   *
+   * @param freeIngredients number of free ingredients
+   * @param ingredientCost  the cost of one ingredient
+   * @param requiredPizzas  the number of required pizzas
+   * @param pizzasAppliedTo the number of pizzas that get the discount
+   * @param discountRatio   the discount ratio
+   * @param name            the name
+   */
   public PriceCalculator(Integer freeIngredients, Double ingredientCost,
       Integer requiredPizzas, Integer pizzasAppliedTo, Double discountRatio,
       String name) {
@@ -85,6 +127,13 @@ public class PriceCalculator {
     this.ingredientCost = ingredientCost;
   }
 
+  /**
+   * Calculates the price of a pizza.
+   *
+   * @param size        size of the pizza
+   * @param numToppings the number of toppings on the pizza
+   * @return the price
+   */
   public static double calculatePizzaPrice(PizzaSize size, Integer numToppings) {
     if (numToppings <= DEFAULT_FREE_INGREDIENTS) {
       return size.getValue();
@@ -92,6 +141,12 @@ public class PriceCalculator {
     return size.getValue() + (numToppings - DEFAULT_FREE_INGREDIENTS) * DEFAULT_INGREDIENT_COST;
   }
 
+  /**
+   * Calculates the price of a pizza.
+   *
+   * @param pizza a pizza
+   * @return the price
+   */
   private Double calculatePizzaPrice(Pizza pizza) {
     double price = pizza.getPrice();
     for (int i = freeIngredients; i < pizza.getIngredients().size(); i++) {
@@ -100,14 +155,32 @@ public class PriceCalculator {
     return price;
   }
 
+  /**
+   * Calculates the base price of an order.
+   *
+   * @param pizzas a list of pizzas
+   * @return the price
+   */
   private Double calculateBasePrice(List<Pizza> pizzas) {
     return pizzas.stream().mapToDouble(this::calculatePizzaPrice).sum();
   }
 
+  /**
+   * Calculates the tax of an order.
+   *
+   * @param noTaxPrice the pre-tax price
+   * @return the final price
+   */
   public Double calculateTax(Double noTaxPrice) {
     return SEATTLE_SALES_TAX * noTaxPrice;
   }
 
+  /**
+   * Calculates a discount for an order
+   *
+   * @param order the order
+   * @return the discount price
+   */
   public Double calculateDiscount(Order order) {
     if (order.getPizzas().size() < requiredPizzas) {
       return 0.0;
@@ -125,6 +198,12 @@ public class PriceCalculator {
     return price;
   }
 
+  /**
+   * Calculate the price without tax, including discounts.
+   *
+   * @param pizzas a list of pizzas
+   * @return the pre-tax price
+   */
   public Double calculateNoTaxPrice(List<Pizza> pizzas) {
     if (pizzas.size() < requiredPizzas) {
       return calculateBasePrice(pizzas);
@@ -146,6 +225,12 @@ public class PriceCalculator {
     return price;
   }
 
+  /**
+   * Calculates the full price of an order.
+   *
+   * @param pizzas a list of pizzas
+   * @return the final price
+   */
   public Double calculatePrice(List<Pizza> pizzas) {
     double price = calculateNoTaxPrice(pizzas);
     return price + calculateTax(price);

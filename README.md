@@ -1,28 +1,66 @@
 # Dijkstra's Pizza API
-To run this project locally, first download and install MongoDB.
-Once Mongo is working on the terminal, set up your editor/project with the environment variable MONGODB_URI=mongodb://localhost.
 
-# To open mongolab from the terminal, inside the folder that is the heroku repo run the following command in project root.
-~$heroku addons:open mongolab
+*Created By*
+* Josh Baron, <baron.jos@husky.neu.edu>, GitHub: [jsbaron](https://github.com/jsbaron)
+* Evan Douglass, <douglass.ev@husky.neu.edu>, GitHub: [EvanLDouglass](https://github.com/EvanLDouglass)
+* Eric Egan, <egan.er@husky.neu.edu>, GitHub: [okapetanios](https://github.com/okapetanios)
 
-# To run application -
-~$mvn spring-boot:run
+## Use the API
+To explore our API and view interactive [Swagger](https://swagger.io/) documentation, visit <https://dijkstras.herokuapp.com>. This will also be the root end point for any API calls in client programs. Please view the official API documentation at the given URL for the most up-to-date information on specific end points available.
 
+## Contribute to or Modify the Code
 
-# To run Jacoco. Run following command in project root folder, find jacoco index under project-root/target/site/jacoco/index.html then open in browser.
-~$mvn jacoco:report
+You can modify or contribute to this project by following the steps below:
 
-# The following command may come in handy if jacoco doesn't seem to be working.
-~$mvn clean install jacoco:prepare-agent jacoco:report
+1. [Clone the repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to a location on your personal machine.
+2. To run this project locally, you will need MongoDB. Download and install [MongoDB](https://www.mongodb.com/download-center/community) if you do not already have it. More information on how to install MongoDB can be found by reading the Mondo [documentation](https://docs.mongodb.com/manual/administration/install-community/).
+3. Once Mongo is installed and running, you will need to set up two environment variables to connect to the database. Instructions on how to do this will vary between operating system and editor.
+    * MONGODB_URI=mongodb://localhost
+    * MONGODB_DBNAME=\<any-valid-db-name\>
 
-# =========LOMBOK TESTING EXCLUSION========
-Make lombok.config in project root folder and add line -
-lombok.addLombokGeneratedAnnotation = true
+This should be enough to run the server locally. If you saved the environment variables above in your terminal environment (such as in a .bashrc file), run the command
 
-import lombok.Data; in model class and annotate @Data.
+    ~$ mvn spring-boot:run
 
-Should be it!
+If you saved the variables in your editor environment (i.e. the IntelliJ Run/Debug Configurations), run the main application using the appropriate process for your set-up.
 
-# ==========================================
+Once the server is up and running, visit <http://localhost:8080/> to ensure everything is working correctly. After a few moments you should see our documentation appear in your browser via the [Swagger UI](https://swagger.io/tools/swagger-ui/).
 
+***Note to IntelliJ Users***
 
+This project uses the lombok library in some of the model classes to cut down on boiler plate code. IntelliJ requires that you enable annotation processing to prevent it showing errors from unimplemented methods. You can find this in Settings->Build, Execution, Deployment->Compiler->Annotation Processors - Or simply search for "enable annotation processing" in the settings search bar.
+
+## Testing
+
+We use maven as our build tool for this project. Once you have your dev environment set up, you can run tests on the terminal with
+
+    ~$ mvn verify
+
+or another maven test command. `mvn validate` and `mvn test` also seem to work.
+
+We also use Jacoco to measure our test coverage. The above command should run the Jacoco report, but if you prefer to only run the report use the following command:
+
+    ~$ mvn jacoco:report
+
+Open the report by finding the jacoco HTML under project-root/target/site/jacoco/index.html, then open in your browser.
+
+The following commands may come in handy if Jacoco doesn't seem to be working.
+
+    ~$ mvn clean install
+    ~$ jacoco:prepare-agent jacoco:report
+
+## Creating a Heroku App
+
+Should you want to host this API yourself, the easiest way is with Heroku.
+
+Heroku has extensive documentation on how to create apps on their platform. Start [here](https://devcenter.heroku.com/) to learn more.
+
+Once your app is set-up you will have to connect it with the Heroku managed [mLab MongoDB](https://elements.heroku.com/addons/mongolab) add-on. Once installed this will automatically set-up your config (i.e. environment) variable for your mongodb uri. Be sure to confirm that the variable is MONGODB_URI. You can find this under the settings tab in your app's dashboard. You will also have to create the the MONGODB_DBNAME variable using the database name that mLab gives you. You can retrieve this by visiting the mLab environment. From the terminal (in the project's root directory):
+
+    ~$ heroku addons:open mongolab
+
+Visit your app's Heroku URI to confirm that the code is working.
+
+---
+
+That should be it!
