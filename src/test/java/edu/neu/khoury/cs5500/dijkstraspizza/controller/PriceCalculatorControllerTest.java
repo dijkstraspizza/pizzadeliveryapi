@@ -67,6 +67,7 @@ public class PriceCalculatorControllerTest {
 
   private PriceCalculator generic;
   private PriceCalculator halfOffAll;
+  private PriceCalculator halfOffAllNoId;
   private PriceCalculator bogo;
   private Order order;
   private Pizza cheesePizza;
@@ -99,6 +100,8 @@ public class PriceCalculatorControllerTest {
 
     halfOffAll = new PriceCalculator(.5, "halfOff");
     halfOffAll.setId("half-off");
+
+    halfOffAllNoId = new PriceCalculator(.5, "halfOff2");
 
     bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
@@ -179,7 +182,7 @@ public class PriceCalculatorControllerTest {
   @Test
   public void newPriceCalculator() throws Exception {
     Behavior.set(repository).returnSame();
-    String content = mapper.writeValueAsString(halfOffAll);
+    String content = mapper.writeValueAsString(halfOffAllNoId);
     mockMvc.perform(post("/prices/")
         .contentType(MediaType.APPLICATION_JSON_UTF8)
         .content(content))
