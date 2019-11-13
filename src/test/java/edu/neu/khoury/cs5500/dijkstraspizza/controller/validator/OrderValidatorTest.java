@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 
+import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 public class OrderValidatorTest {
@@ -67,6 +69,23 @@ public class OrderValidatorTest {
   public void validateInvalid() {
     when(pizzaValidator.validate(any())).thenReturn(false);
     when(creditCardValidator.validate(any())).thenReturn(false);
+    assertFalse(orderValidator.validate(order));
+  }
+
+  @Test
+  public void validateNullCreditCard() {
+    when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
+    order.setCardInfo(null);
+    assertFalse(orderValidator.validate(order));
+  }
+
+  @Test
+  public void validateNullPizza() {
+    when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
+    List<Pizza> newPizzas = Arrays.asList(meatPizza, null);
+    order.setPizzas(newPizzas);
     assertFalse(orderValidator.validate(order));
   }
 

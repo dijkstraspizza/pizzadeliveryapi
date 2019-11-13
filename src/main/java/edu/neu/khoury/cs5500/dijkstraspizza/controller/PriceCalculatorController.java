@@ -117,7 +117,6 @@ public class PriceCalculatorController {
 
   /*===== POST Methods =====*/
 
-  // TODO: Prevent POST methods from allowing an ID field
   @ApiOperation(
       value = "Creates a new price calculator in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
@@ -130,6 +129,11 @@ public class PriceCalculatorController {
   public PriceCalculator newPriceCalculator(
       @ApiParam(value = "JSON Price Calculator object without an id field", required = true)
       @Valid @RequestBody PriceCalculator priceCalculator) {
+    if (priceCalculator.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID field must be null."
+      );
+    }
     repository.save(priceCalculator);
     return priceCalculator;
   }

@@ -60,6 +60,24 @@ public class PriceCalculatorTest {
   }
 
   @Test
+  public void calculateDiscountGeneric() {
+    assertEquals(0.0,
+        genericNoFreeIngredients.calculateDiscount(order), 0.01);
+  }
+
+  @Test
+  public void calculateDiscountBogo() {
+    assertEquals(8.0,
+        bogo.calculateDiscount(order), 0.01);
+  }
+
+  @Test
+  public void calculateDiscountHalfOffAll() {
+    assertEquals(16.0,
+        halfOffAll.calculateDiscount(order), 0.01);
+  }
+
+  @Test
   public void calculatePizzaPriceBase() {
     assertEquals(8.0,
         PriceCalculator.calculatePizzaPrice(cheesePizza.getSizeDesc(),
