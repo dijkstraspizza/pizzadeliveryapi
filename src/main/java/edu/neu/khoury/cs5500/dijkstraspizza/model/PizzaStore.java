@@ -19,13 +19,27 @@ public class PizzaStore {
   private Address address;
   private Menu menu;
 
+  /**
+   * Default constructor for PizzaStore.
+   */
   public PizzaStore() {
   }
 
+  /**
+   * Constructor with address.
+   *
+   * @param address the store address
+   */
   public PizzaStore(Address address) {
     this.address = address;
   }
 
+  /**
+   * Constructor with address and menu.
+   *
+   * @param address the store address
+   * @param menu    the menu at the store
+   */
   public PizzaStore(Address address, Menu menu) {
     this.address = address;
     this.menu = menu;
