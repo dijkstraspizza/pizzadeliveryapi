@@ -5,11 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Ingredient;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
+
+import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +18,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 public class OrderValidatorTest {
 
   @MockBean
   PizzaValidator pizzaValidator;
+
+  @MockBean
+  CreditCardValidator creditCardValidator;
+
   @Autowired
   OrderValidator orderValidator;
   private Pizza meatPizza;
@@ -48,17 +54,38 @@ public class OrderValidatorTest {
 
     order = new Order(address, address);
     order.setPizzas(Collections.singletonList(meatPizza));
+    order.setCardInfo(new CreditCardInfo("1234567890123456", "123",
+        Date.from(Calendar.getInstance().toInstant())));
   }
 
   @Test
   public void validateValid() {
     when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
     assertTrue(orderValidator.validate(order));
   }
 
   @Test
   public void validateInvalid() {
     when(pizzaValidator.validate(any())).thenReturn(false);
+    when(creditCardValidator.validate(any())).thenReturn(false);
+    assertFalse(orderValidator.validate(order));
+  }
+
+  @Test
+  public void validateNullCreditCard() {
+    when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
+    order.setCardInfo(null);
+    assertFalse(orderValidator.validate(order));
+  }
+
+  @Test
+  public void validateNullPizza() {
+    when(pizzaValidator.validate(any())).thenReturn(true);
+    when(creditCardValidator.validate(any())).thenReturn(true);
+    List<Pizza> newPizzas = Arrays.asList(meatPizza, null);
+    order.setPizzas(newPizzas);
     assertFalse(orderValidator.validate(order));
   }
 

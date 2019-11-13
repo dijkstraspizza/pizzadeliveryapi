@@ -20,6 +20,7 @@ public class Order {
   // NonNull tags are for lombok -> creates a constructor that includes them
   private @NonNull Address storeAddr;
   private @NonNull Address custAddr;
+  private CreditCardInfo cardInfo;
   private List<Pizza> pizzas = new ArrayList<>();
   private double price;
   private String specialId;

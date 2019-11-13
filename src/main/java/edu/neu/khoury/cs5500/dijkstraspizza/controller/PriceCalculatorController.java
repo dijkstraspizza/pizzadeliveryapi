@@ -82,10 +82,10 @@ public class PriceCalculatorController {
     }
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return new Price(priceCalculator.calculate(pizzas));
+      return new Price(priceCalculator.calculatePrice(pizzas));
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return new Price(priceCalculator.calculate(pizzas));
+    return new Price(priceCalculator.calculatePrice(pizzas));
   }
 
   @ApiOperation(
@@ -117,7 +117,6 @@ public class PriceCalculatorController {
 
   /*===== POST Methods =====*/
 
-  // TODO: Prevent POST methods from allowing an ID field
   @ApiOperation(
       value = "Creates a new price calculator in the database",
       notes = "ID is assigned by the database and returned to the caller for further reference. Do not include ID in request.",
@@ -130,6 +129,11 @@ public class PriceCalculatorController {
   public PriceCalculator newPriceCalculator(
       @ApiParam(value = "JSON Price Calculator object without an id field", required = true)
       @Valid @RequestBody PriceCalculator priceCalculator) {
+    if (priceCalculator.getId() != null) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "ID field must be null."
+      );
+    }
     repository.save(priceCalculator);
     return priceCalculator;
   }
@@ -152,7 +156,7 @@ public class PriceCalculatorController {
 
   /*===== Non-Http Methods =====*/
 
-  private PriceCalculator getPriceCalculatorById(String id) {
+  public PriceCalculator getPriceCalculatorById(String id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "Price Calculator with id=" + id + " not found."
@@ -164,9 +168,9 @@ public class PriceCalculatorController {
   Double getOrderPrice(Optional<String> specialId, Order order) {
     if (specialId.isEmpty()) {
       PriceCalculator priceCalculator = new PriceCalculator();
-      return priceCalculator.calculate(order.getPizzas());
+      return priceCalculator.calculatePrice(order.getPizzas());
     }
     PriceCalculator priceCalculator = getPriceCalculatorById(specialId.get());
-    return priceCalculator.calculate(order.getPizzas());
+    return priceCalculator.calculatePrice(order.getPizzas());
   }
 }
