@@ -13,11 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.khoury.cs5500.dijkstraspizza.controller.validator.Validator;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Address;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Order;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.Pizza;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PizzaSize;
-import edu.neu.khoury.cs5500.dijkstraspizza.model.PriceCalculator;
+import edu.neu.khoury.cs5500.dijkstraspizza.model.*;
 import edu.neu.khoury.cs5500.dijkstraspizza.repository.OrderRepository;
 import java.util.Arrays;
 import java.util.Optional;
@@ -35,6 +31,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
@@ -76,10 +75,13 @@ public class OrderControllerTest {
     customer = new Address("abc", "Seattle", "WA", "98117");
 
     cheesePizza = new Pizza(PizzaSize.small(8));
+    cheesePizza.setName("cheese pizza");
 
     pepperoniPizza = new Pizza(PizzaSize.medium(10));
+    pepperoniPizza.setName("pepperoni pizza");
 
     hugePizza = new Pizza(PizzaSize.large(12));
+    hugePizza.setName("huge pizza");
 
     bigOrder = new Order(store, customer);
     bigOrder.setPizzas(Arrays.asList(pepperoniPizza, cheesePizza, hugePizza));
@@ -97,16 +99,26 @@ public class OrderControllerTest {
 
     bogo = new PriceCalculator(2, 1, 1.0, "bogo");
     bogo.setId("bogo");
+    bogo.setName("bogo");
 
     when(priceCalculatorController.getOrderPrice(eq(Optional.empty()), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            generic.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            generic.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("half-off")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            halfOffAll.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            halfOffAll.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
     when(priceCalculatorController.getOrderPrice(eq(Optional.of("bogo")), any(Order.class)))
         .thenAnswer(invocationOnMock ->
-            bogo.calculate(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+            bogo.calculatePrice(((Order) invocationOnMock.getArguments()[1]).getPizzas()));
+    when(priceCalculatorController.getPriceCalculatorById(eq("bogo"))).thenReturn(bogo);
+  }
+
+  @Test
+  public void getReceiptByIdNoMatch() throws Exception {
+    Behavior.set(repository).hasNoData();
+    mockMvc.perform(get("/orders/receipt/anId"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$").doesNotExist());
   }
 
   @Test
@@ -128,6 +140,47 @@ public class OrderControllerTest {
   }
 
   @Test
+  public void getReceiptByIdHasMatch() throws Exception {
+    Behavior.set(repository).returnOrders(bigOrder, smallOrder);
+    Receipt receipt = new Receipt();
+    Map<String, Double> pizzaPrices = new HashMap<>();
+    for (Pizza pizza : bigOrder.getPizzas()) {
+      pizzaPrices.put(pizza.getName(), PriceCalculator.calculatePizzaPrice(pizza.getSizeDesc(),
+          pizza.getIngredients().size()));
+    }
+    receipt.setPizzaPrices(pizzaPrices);
+    receipt.setDiscount(Map.of("No discount", 0.0));
+    receipt.setTax(generic.calculateTax(generic.calculateNoTaxPrice(bigOrder.getPizzas())));
+    receipt.setTotal(generic.calculatePrice(bigOrder.getPizzas()));
+    String content = mapper.writeValueAsString(receipt);
+    mockMvc.perform(get("/orders/receipt/" + bigOrder.getId()))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
+  }
+
+  @Test
+  public void getReceiptByIdHasMatchWithDiscount() throws Exception {
+    Behavior.set(repository).returnOrders(bigOrder, smallOrder);
+    bigOrder.setSpecialId(bogo.getId());
+    Receipt receipt = new Receipt();
+    Map<String, Double> pizzaPrices = new HashMap<>();
+    for (Pizza pizza : bigOrder.getPizzas()) {
+      pizzaPrices.put(pizza.getName(), PriceCalculator.calculatePizzaPrice(pizza.getSizeDesc(),
+          pizza.getIngredients().size()));
+    }
+    receipt.setPizzaPrices(pizzaPrices);
+    receipt.setDiscount(Map.of(bogo.getName(), bogo.calculateDiscount(bigOrder)));
+    receipt.setTax(bogo.calculateTax(bogo.calculateNoTaxPrice(bigOrder.getPizzas())));
+    receipt.setTotal(bogo.calculatePrice(bigOrder.getPizzas()));
+    String content = mapper.writeValueAsString(receipt);
+    mockMvc.perform(get("/orders/receipt/" + bigOrder.getId()))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().json(content));
+  }
+
+  @Test
   public void newOrderHalfOffValid() throws Exception {
     bigOrder.setSpecialId(halfOffAll.getId());
 
@@ -136,7 +189,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30 * .5);
+    newOrder.setPrice(30 * .5 * 1.101);
 
     bigOrder.setId(null);
     String requestContent = mapper.writeValueAsString(bigOrder);
@@ -178,7 +231,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30);
+    newOrder.setPrice(30 * 1.101);
 
     Behavior.set(repository, validator).isValid();
 
@@ -199,7 +252,7 @@ public class OrderControllerTest {
     Order newOrder = new Order(store, customer);
     newOrder.setPizzas(bigOrder.getPizzas());
     newOrder.setSpecialId(bigOrder.getSpecialId());
-    newOrder.setPrice(30);
+    newOrder.setPrice(30 * 1.101);
 
     Behavior.set(repository, validator).isValid();
     String requestContent = mapper.writeValueAsString(bigOrder);
