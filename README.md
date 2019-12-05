@@ -69,6 +69,7 @@ Visit your app's Heroku URI to confirm that the code is working.
    * Note that it may take several minutes to wake up if the app went to sleep
 * [Final Report](https://docs.google.com/document/d/1cCOTvZzgRdxYNTtBPZxlpfJgtCa6RhCOX9BkwrWvoPg/edit?usp=sharing)
 * [Final Video Presentation](https://www.youtube.com/watch?v=HArcqHPqX6o&feature=youtu.be)
+* [Trello Board](https://trello.com/b/SfyH7Dce/dijkstras-pizza-scrum-board)
 
 ---
 
